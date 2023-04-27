@@ -39,6 +39,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OMSBlazor.Blazor", "src\OMS
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{F1FA4DBD-C363-4389-8600-CA992A085034}"
 	ProjectSection(SolutionItems) = preProject
+		LICENSE.txt = LICENSE.txt
 		NorthwindSQLite.db = NorthwindSQLite.db
 		README.md = README.md
 	EndProjectSection
