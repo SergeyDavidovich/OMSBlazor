@@ -15,12 +15,10 @@ using Volo.Abp.TenantManagement.EntityFrameworkCore;
 
 namespace OMSBlazor.EntityFrameworkCore;
 
-[ReplaceDbContext(typeof(IIdentityDbContext))]
 [ReplaceDbContext(typeof(ITenantManagementDbContext))]
 [ConnectionStringName("Default")]
 public class OMSBlazorDbContext :
     AbpDbContext<OMSBlazorDbContext>,
-    IIdentityDbContext,
     ITenantManagementDbContext
 {
     /* Add DbSet properties for your Aggregate Roots / Entities here. */
@@ -37,14 +35,6 @@ public class OMSBlazorDbContext :
      * More info: Replacing a DbContext of a module ensures that the related module
      * uses this DbContext on runtime. Otherwise, it will use its own DbContext class.
      */
-
-    //Identity
-    public DbSet<IdentityUser> Users { get; set; }
-    public DbSet<IdentityRole> Roles { get; set; }
-    public DbSet<IdentityClaimType> ClaimTypes { get; set; }
-    public DbSet<OrganizationUnit> OrganizationUnits { get; set; }
-    public DbSet<IdentitySecurityLog> SecurityLogs { get; set; }
-    public DbSet<IdentityLinkUser> LinkUsers { get; set; }
 
     // Tenant Management
     public DbSet<Tenant> Tenants { get; set; }
@@ -67,10 +57,7 @@ public class OMSBlazorDbContext :
         builder.ConfigurePermissionManagement();
         builder.ConfigureSettingManagement();
         builder.ConfigureBackgroundJobs();
-        builder.ConfigureAuditLogging();
-        builder.ConfigureIdentity();
         builder.ConfigureOpenIddict();
-        builder.ConfigureFeatureManagement();
         builder.ConfigureTenantManagement();
 
         /* Configure your own tables/entities inside here */
