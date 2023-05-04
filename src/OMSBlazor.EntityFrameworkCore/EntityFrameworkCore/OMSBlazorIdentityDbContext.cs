@@ -6,6 +6,7 @@ using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
 using Volo.Abp.AuditLogging.EntityFrameworkCore;
+using Volo.Abp.Data;
 using Volo.Abp.DependencyInjection;
 using Volo.Abp.EntityFrameworkCore;
 using Volo.Abp.FeatureManagement.EntityFrameworkCore;
@@ -16,6 +17,7 @@ using Volo.Abp.MultiTenancy;
 namespace OMSBlazor.EntityFrameworkCore;
 
 [ReplaceDbContext(typeof(IIdentityDbContext))]
+[ConnectionStringName("AbpIdentity")]
 public class OMSBlazorIdentityDbContext :
     AbpDbContext<OMSBlazorIdentityDbContext>,
     IIdentityDbContext
