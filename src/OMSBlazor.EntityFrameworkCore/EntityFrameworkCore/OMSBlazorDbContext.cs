@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using OMSBlazor.HostModels;
 using Volo.Abp.AuditLogging.EntityFrameworkCore;
 using Volo.Abp.BackgroundJobs.EntityFrameworkCore;
 using Volo.Abp.Data;
@@ -22,6 +23,8 @@ public class OMSBlazorDbContext :
     ITenantManagementDbContext
 {
     /* Add DbSet properties for your Aggregate Roots / Entities here. */
+
+    public DbSet<CustomerDemographics> CustomerDemographics { get; set; }
 
     #region Entities from the modules
 
@@ -54,6 +57,14 @@ public class OMSBlazorDbContext :
 
         /* Include modules to your migration db context */
 
+        builder.Entity<CustomerDemographics>(b =>
+        {
+            b.ToTable("CustomerDemographics");
+
+            b.HasKey(x => x.CustomerTypeId);
+
+            b.HasData(new CustomerDemographics() { CustomerTypeId = 1, CustomerDescription = "Lorem ipsum" });
+        });
         builder.ConfigurePermissionManagement();
         builder.ConfigureSettingManagement();
         builder.ConfigureBackgroundJobs();
