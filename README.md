@@ -2,6 +2,8 @@
 ------------------------
 <b>1. Switch to EF Core SQLite Provider:</b>  
 https://docs.abp.io/en/abp/latest/Entity-Framework-Core-SQLite
+> For SQLite connection string use this pattern: "Filename=./MyDatabaseName.db",
+this pattern will create databases in `bin` folder of the project where migrations are executed
 
 <b>2. Separate host and identity data bases-</b>
 
