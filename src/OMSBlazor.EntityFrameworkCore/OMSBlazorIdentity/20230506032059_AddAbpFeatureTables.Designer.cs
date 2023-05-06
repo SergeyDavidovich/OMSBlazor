@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using OMSBlazor.EntityFrameworkCore;
 using Volo.Abp.EntityFrameworkCore;
@@ -12,9 +13,11 @@ using Volo.Abp.MultiTenancy;
 namespace OMSBlazor.OMSBlazorIdentity
 {
     [DbContext(typeof(OMSBlazorIdentityDbContext))]
-    partial class OMSBlazorIdentityDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230506032059_AddAbpFeatureTables")]
+    partial class AddAbpFeatureTables
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
