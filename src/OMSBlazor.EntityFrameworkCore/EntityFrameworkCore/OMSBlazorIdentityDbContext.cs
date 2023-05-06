@@ -40,12 +40,12 @@ public class OMSBlazorIdentityDbContext :
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
-        builder.SetMultiTenancySide(MultiTenancySides.Tenant);
+        builder.SetMultiTenancySide(MultiTenancySides.Host);
 
         base.OnModelCreating(builder);
 
         builder.ConfigureIdentity();
-        builder.ConfigureAuditLogging();
         builder.ConfigureFeatureManagement();
+        builder.ConfigureAuditLogging();
     }
 }
