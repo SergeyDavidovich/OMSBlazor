@@ -50,3 +50,7 @@ dotnet ef migrations add AddCustomerDemographics --context OMSBlazorDbContext
 - Run db migrator
 
 - Now you can check changes in your host database
+
+<b>4. Add configuration for SQLite</b>
+
+In the 
