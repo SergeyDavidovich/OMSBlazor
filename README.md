@@ -53,4 +53,29 @@ dotnet ef migrations add AddCustomerDemographics --context OMSBlazorDbContext
 
 <b>4. Add configuration for SQLite</b>
 
-In the 
+In the `OMSBlazorEntityFrameworkCoreModule` class of the `.EntityFrameworkCore` project add this lines of code:
+```
+//This configuration is needed for sqlite
+//https://github.com/abpframework/abp/issues/5661?ysclid=lhfcwt9oqb875559031
+Configure<AbpUnitOfWorkDefaultOptions>(options =>
+{
+    options.TransactionBehavior = UnitOfWorkTransactionBehavior.Disabled;
+});
+```
+
+<b>5. Add required connection strings</b>
+
+In `appsettings.json` file of the `.HttpApi.Host` project add this connection strings:
+```
+"Default": "Filename=./NorthwindSQLite.db",
+"AbpIdentity": "Filename=./NorthwindIdentitySQLite.db",
+"AbpFeatureManagement": "Filename=./NorthwindIdentitySQLite.db",
+"AbpAuditLogging": "Filename=./NorthwindIdentitySQLite.db"
+```
+
+`Default` - connection string is needed for connecting to the database where you store your Northwind
+Why do we need other three connection strings(`AbpIdentity`, `AbpFeatureManagement`, `AbpAuditLogging`)? 
+So this three connection strings are pointing to the database where tables for related module stored. 
+So for example in this current case tables for Identity, Feature, and Audit logging modules are stored in
+`NorthwindIdentitySQLite` database. If you don't write this connection strings ABP will try to find this tables
+in the `Default` connection string(this is how Abp works)
