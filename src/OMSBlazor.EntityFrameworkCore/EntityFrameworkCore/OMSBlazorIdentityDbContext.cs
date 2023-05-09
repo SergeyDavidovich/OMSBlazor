@@ -5,22 +5,30 @@ using System.Linq;
 using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
+using Volo.Abp.AuditLogging;
 using Volo.Abp.AuditLogging.EntityFrameworkCore;
 using Volo.Abp.Data;
 using Volo.Abp.DependencyInjection;
 using Volo.Abp.EntityFrameworkCore;
+using Volo.Abp.FeatureManagement;
 using Volo.Abp.FeatureManagement.EntityFrameworkCore;
 using Volo.Abp.Identity;
 using Volo.Abp.Identity.EntityFrameworkCore;
+using Volo.Abp.Modularity;
 using Volo.Abp.MultiTenancy;
+using Volo.Abp.TenantManagement.EntityFrameworkCore;
 
 namespace OMSBlazor.EntityFrameworkCore;
 
 [ReplaceDbContext(typeof(IIdentityDbContext))]
+[ReplaceDbContext(typeof(IFeatureManagementDbContext))]
+[ReplaceDbContext(typeof(IAuditLoggingDbContext))]
 [ConnectionStringName("AbpIdentity")]
 public class OMSBlazorIdentityDbContext :
     AbpDbContext<OMSBlazorIdentityDbContext>,
-    IIdentityDbContext
+    IIdentityDbContext,
+    IFeatureManagementDbContext,
+    IAuditLoggingDbContext
 {
     public OMSBlazorIdentityDbContext(DbContextOptions<OMSBlazorIdentityDbContext> options) : base(options)
     {
@@ -37,6 +45,14 @@ public class OMSBlazorIdentityDbContext :
     public DbSet<IdentitySecurityLog> SecurityLogs { get; set; }
 
     public DbSet<IdentityLinkUser> LinkUsers { get; set; }
+
+    public DbSet<FeatureGroupDefinitionRecord> FeatureGroups { get; set; }
+
+    public DbSet<FeatureDefinitionRecord> Features { get; set; }
+
+    public DbSet<FeatureValue> FeatureValues { get; set; }
+
+    public DbSet<AuditLog> AuditLogs { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {

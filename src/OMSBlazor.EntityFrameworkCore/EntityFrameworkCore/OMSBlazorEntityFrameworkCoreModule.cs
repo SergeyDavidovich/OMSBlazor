@@ -46,6 +46,13 @@ public class OMSBlazorEntityFrameworkCoreModule : AbpModule
 
         context.Services.AddAbpDbContext<OMSBlazorIdentityDbContext>();
 
+        //This configuration is needed for sqlite
+        //https://github.com/abpframework/abp/issues/5661?ysclid=lhfcwt9oqb875559031
+        Configure<AbpUnitOfWorkDefaultOptions>(options =>
+        {
+            options.TransactionBehavior = UnitOfWorkTransactionBehavior.Disabled;
+        });
+
         Configure<AbpDbContextOptions>(options =>
         {
                 /* The main point to change your DBMS.
