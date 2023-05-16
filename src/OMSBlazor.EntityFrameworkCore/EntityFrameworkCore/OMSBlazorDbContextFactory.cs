@@ -17,7 +17,7 @@ public class OMSBlazorDbContextFactory : IDesignTimeDbContextFactory<OMSBlazorDb
         var configuration = BuildConfiguration();
 
         var builder = new DbContextOptionsBuilder<OMSBlazorDbContext>()
-            .UseSqlServer(configuration.GetConnectionString("Default"));
+            .UseSqlite(configuration.GetConnectionString("Default"));
 
         return new OMSBlazorDbContext(builder.Options);
     }

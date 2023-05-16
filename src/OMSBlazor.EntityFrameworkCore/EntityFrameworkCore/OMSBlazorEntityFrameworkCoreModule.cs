@@ -12,6 +12,7 @@ using Volo.Abp.OpenIddict.EntityFrameworkCore;
 using Volo.Abp.PermissionManagement.EntityFrameworkCore;
 using Volo.Abp.SettingManagement.EntityFrameworkCore;
 using Volo.Abp.TenantManagement.EntityFrameworkCore;
+using Volo.Abp.EntityFrameworkCore.Sqlite;
 
 namespace OMSBlazor.EntityFrameworkCore;
 
@@ -21,7 +22,7 @@ namespace OMSBlazor.EntityFrameworkCore;
     typeof(AbpOpenIddictEntityFrameworkCoreModule),
     typeof(AbpPermissionManagementEntityFrameworkCoreModule),
     typeof(AbpSettingManagementEntityFrameworkCoreModule),
-    typeof(AbpEntityFrameworkCoreSqlServerModule),
+    typeof(AbpEntityFrameworkCoreSqliteModule),
     typeof(AbpBackgroundJobsEntityFrameworkCoreModule),
     typeof(AbpAuditLoggingEntityFrameworkCoreModule),
     typeof(AbpTenantManagementEntityFrameworkCoreModule),
@@ -43,11 +44,20 @@ public class OMSBlazorEntityFrameworkCoreModule : AbpModule
             options.AddDefaultRepositories(includeAllEntities: true);
         });
 
+        context.Services.AddAbpDbContext<OMSBlazorIdentityDbContext>();
+
+        //This configuration is needed for sqlite
+        //https://github.com/abpframework/abp/issues/5661?ysclid=lhfcwt9oqb875559031
+        Configure<AbpUnitOfWorkDefaultOptions>(options =>
+        {
+            options.TransactionBehavior = UnitOfWorkTransactionBehavior.Disabled;
+        });
+
         Configure<AbpDbContextOptions>(options =>
         {
                 /* The main point to change your DBMS.
                  * See also OMSBlazorMigrationsDbContextFactory for EF Core tooling. */
-            options.UseSqlServer();
+            options.UseSqlite();
         });
 
     }
