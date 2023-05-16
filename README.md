@@ -1,4 +1,5 @@
-### OMSBlazor
+## OMSBlazor
+Real-time Order Management System
 ------------------------
 #### How start your application
 In order to start application you should start `HttpApi.Host` project first, then start `.Blazor` project
