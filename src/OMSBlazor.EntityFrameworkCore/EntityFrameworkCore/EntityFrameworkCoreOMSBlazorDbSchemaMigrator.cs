@@ -30,5 +30,10 @@ public class EntityFrameworkCoreOMSBlazorDbSchemaMigrator
             .GetRequiredService<OMSBlazorDbContext>()
             .Database
             .MigrateAsync();
+
+        await _serviceProvider
+            .GetRequiredService<OMSBlazorIdentityDbContext>()
+            .Database
+            .MigrateAsync();
     }
 }
