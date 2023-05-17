@@ -7,7 +7,7 @@
 *.userosscache
 *.sln.docstates
 
-#Sqlite databaase files
+#Sqlite database files
 *.sqlite*
 *.db
 
