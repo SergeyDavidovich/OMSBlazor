@@ -4,13 +4,11 @@
 @inject AuthenticationStateProvider AuthenticationStateProvider
 <div class="container">
     <div class="p-5 text-center">
-       @* <Badge Color="Color.Success" class="mb-4">
-            <h5 class="m-1"> <i class="fas fa-rocket"></i> Congratulations, <strong>OMSBlazor</strong> is successfully running!</h5>
-        </Badge>*@
-
-        <h1>Welcome to the Order Management System</h1>
-
-        <p class="lead px-lg-5 mx-lg-5">@L["LongWelcomeMessage"]</p>
+        <h1>Order Management System</h1>
+        <h4 class="my-4">@L["LongWelcomeMessage"]</h4>
+      <hr />
+        <img src="assets/oms2.jpg" style="width:60%;" />
+        <hr />
 
         @if ( !CurrentUser.IsAuthenticated )
         {
@@ -19,32 +17,6 @@
             </a>
         }
     </div>
-@*    
-    <div class="card">
-        <div class="card-body">
-            <div class="row">
-                <div class="col-md-auto text-center">
-                    <img src="https://abp.io/assets/png/mastering-abp-framework.webp" style="max-width: 400px;" class="w-100 mb-5 my-md-3">
-                </div>
-                <div class="col-md d-flex align-items-center">
-                    <div class="pe-0 pe-md-4">
-                        <small class="text-uppercase text-muted">THE OFFICIAL GUIDE</small>
-                        <h2 class="mb-4">Mastering ABP Framework</h2>
-                        <p class="mb-4">Written by the creator of the ABP Framework, this book will help you gain a complete understanding of the framework and modern web application development techniques.</p>
-                        <div class="mb-4">
-                            <a href="https://www.amazon.com/gp/product/B097Z2DM8Q/ref=dbs_a_def_rwt_hsch_vapi_tkin_p1_i0" class="btn btn-success mb-1">
-                                Buy on Amazon US
-                            </a>
-                            <a href="https://www.packtpub.com/product/mastering-abp-framework/9781801079242" class="btn btn-primary mb-1">
-                                Buy on PACKT
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-*@
     <div class="my-3 text-center">
         <h3>Let's improve your application!</h3>
         <p>Here are some links to help you get started:</p>
@@ -104,13 +76,7 @@
             </div>
         </div>
     </div>
-@*    
-    <div class="mt-5 my-3 text-center">
-        <h3>Meet the ABP Commercial</h3>
-        <p>A Complete Web Application Platform Built on the ABP Framework</p>
-    </div>
-*@
-@*
+
     <div class="card mt-4 mb-5">
         <div class="card-body">
             <p class="px-lg-5 mx-lg-5 py-3 text-center">
@@ -170,7 +136,7 @@
             </div>
         </div>
     </div>
-*@    
+    
 <div class="mb-5 text-center">
         <p class="align-middle">
             <a href="https://twitter.com/abpframework" target="_blank" class="mx-2"><i class="fab fa-twitter"></i><span class="text-secondary"> Abp Framework</span></a>
