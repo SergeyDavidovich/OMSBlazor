@@ -60,7 +60,7 @@ public class OMSBlazorHttpApiHostModule : AbpModule
     public override void ConfigureServices(ServiceConfigurationContext context)
     {
         var configuration = context.Services.GetConfiguration();
-        var hostingEnvironment = context.Services.GetHostingEnvironment();
+        //var hostingEnvironment = context.Services.GetHostingEnvironment();
 
         ConfigureAuthentication(context);
         ConfigureBundles();
