@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OMSBlazor.Northwind.OrderAggregate.Exceptions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,6 +20,8 @@ namespace OMSBlazor.Northwind.OrderAggregate
         {
             EmployeeId = employeeId;
             CustomerId = customerId;
+
+            OrderDate = DateTime.Now;
         }
 
         public Guid EmployeeId { get; private set; }
@@ -30,10 +33,29 @@ namespace OMSBlazor.Northwind.OrderAggregate
         /// </summary>
         public Guid ShipVia { get; private set; }
 
+        public double Freight { get; }
+
         public DateTime OrderDate { get; private set; }
 
-        public DateTime RequiredDate { get; private set; }
+        public DateTime RequiredDate { get; set; }
 
-        public ShipData ShipData { get; private set; }
+        public ShipData? ShipData { get; private set; }
+
+        public List<OrderDetail> OrderDetails { get; } = new();
+
+        public void AddOrderDetail(Guid productId, int quantity, double unitPrice, float discount)
+        {
+            if (OrderDetails.Any(x => x.ProductId == productId))
+            {
+                throw new DuplicateProductException();
+            }
+
+            var orderDetail = new OrderDetail(Id, productId);
+            orderDetail.Quantity = quantity;
+            orderDetail.UnitPrice = unitPrice;
+            orderDetail.Discount = discount;
+
+            OrderDetails.Add(orderDetail);
+        }
     }
 }
