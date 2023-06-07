@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OMSBlazor.Northwind.ProductAggregate.Exceptions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,10 +10,37 @@ namespace OMSBlazor.Northwind.ProductAggregate
 {
     public class Product : AggregateRoot<Guid>
     {
-        public Product(Guid id) :
+        public Product(Guid id, string name, Category category) :
             base(id)
         {
+            ProductName = name;
+            Category = category;
+        }
 
+        public string ProductName { get; private set; }
+
+        public Category Category { get; private set; }
+
+        public string QuantityPerUnit { get; set; }
+
+        public double UnitPrice { get; set; }
+
+        public int UnitsInStock { get; set; }
+
+        public int UnitsOnOrder { get; set; }
+
+        public int ReorderLevel { get; set; }
+
+        public bool Discontinued { get; set; }
+
+        public void SetProductName(string name)
+        {
+            if (string.IsNullOrEmpty(name))
+            {
+                throw new EmptyProductNameException();
+            }
+
+            ProductName = name;
         }
     }
 }
