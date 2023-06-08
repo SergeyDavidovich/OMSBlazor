@@ -8,9 +8,9 @@ using Volo.Abp.Domain.Entities;
 
 namespace OMSBlazor.Northwind.ProductAggregate
 {
-    public class Category : Entity<Guid>
+    public class Category : Entity<int>
     {
-        public Category(Guid id, string name)
+        public Category(int id, string name)
             : base(id) 
         {
             SetCategoryName(name);

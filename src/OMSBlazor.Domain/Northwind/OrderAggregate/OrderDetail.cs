@@ -11,16 +11,16 @@ namespace OMSBlazor.Northwind.OrderAggregate
     public class OrderDetail : Entity
     {
         public OrderDetail(
-            Guid orderId, 
-            Guid productId)
+            int orderId, 
+            int productId)
         {
             OrderId = orderId;
             ProductId = productId;
         }
 
-        public Guid OrderId { get; private set; }
+        public int OrderId { get; private set; }
 
-        public Guid ProductId { get; private set; }
+        public int ProductId { get; private set; }
 
         public double UnitPrice { get; internal set; }
 

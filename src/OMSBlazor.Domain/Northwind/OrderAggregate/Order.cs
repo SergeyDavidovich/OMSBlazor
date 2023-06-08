@@ -8,12 +8,12 @@ using Volo.Abp.Domain.Entities;
 
 namespace OMSBlazor.Northwind.OrderAggregate
 {
-    public class Order : AggregateRoot<Guid>
+    public class Order : AggregateRoot<int>
     {
         private Order() { }
 
         public Order(
-            Guid id, 
+            int id, 
             Guid employeeId, 
             Guid customerId) :
             base(id)
@@ -43,7 +43,7 @@ namespace OMSBlazor.Northwind.OrderAggregate
 
         public List<OrderDetail> OrderDetails { get; } = new();
 
-        public void AddOrderDetail(Guid productId, int quantity, double unitPrice, float discount)
+        public void AddOrderDetail(int productId, int quantity, double unitPrice, float discount)
         {
             if (OrderDetails.Any(x => x.ProductId == productId))
             {
