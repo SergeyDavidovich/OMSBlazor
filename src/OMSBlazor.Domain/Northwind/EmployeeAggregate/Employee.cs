@@ -1,4 +1,5 @@
 ﻿using OMSBlazor.Northwind.Common;
+using OMSBlazor.Northwind.EmployeeAggregate.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -37,7 +38,7 @@ namespace OMSBlazor.Northwind.EmployeeAggregate
 
         public string Notes { get; set; }
 
-        public Guid ReportsTo { get; set; }
+        public int ReportsTo { get; set; }
 
         public string PhotoPath { get; set; }
 
@@ -45,7 +46,7 @@ namespace OMSBlazor.Northwind.EmployeeAggregate
         {
             if (lastName == null) 
             { 
-                throw new ArgumentNullException(); 
+                throw new EmptyLastNameException(); 
             }
 
             LastName = lastName;
@@ -55,7 +56,7 @@ namespace OMSBlazor.Northwind.EmployeeAggregate
         {
             if (firstName == null)
             {
-                throw new ArgumentNullException();
+                throw new EmptyFirstNameException();
             }
 
             FirstName = firstName;
