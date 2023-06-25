@@ -7,9 +7,9 @@ using Volo.Abp;
 
 namespace OMSBlazor.Northwind.ProductAggregate.Exceptions
 {
-    public class CategoryNameDuplication : BusinessException
+    public class CategoryNameDuplicationException : BusinessException
     {
-        public CategoryNameDuplication()
+        public CategoryNameDuplicationException()
             :base(message:"Current name already exist. Try another one")
         {
         }
