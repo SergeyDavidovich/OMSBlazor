@@ -22,12 +22,15 @@ namespace OMSBlazor.DomainManagers.Category
             var categories = await categoryRepository.GetListAsync();
             if (categories.Any(x => x.CategoryName == name))
             {
-                throw new CategoryNameDuplication();
+                throw new CategoryNameDuplicationException();
             }
 
             var key = categories.Last().Id + 1;
 
             var category = new Northwind.ProductAggregate.Category(key, name);
+
+            await categoryRepository.InsertAsync(category);
+
             return category;
         }
     }
