@@ -14,8 +14,8 @@ namespace OMSBlazor.Northwind.OrderAggregate
 
         public Order(
             int id, 
-            Guid employeeId, 
-            Guid customerId) :
+            int employeeId, 
+            int customerId) :
             base(id)
         {
             EmployeeId = employeeId;
@@ -24,14 +24,14 @@ namespace OMSBlazor.Northwind.OrderAggregate
             OrderDate = DateTime.Now;
         }
 
-        public Guid EmployeeId { get; private set; }
+        public int EmployeeId { get; private set; }
 
-        public Guid CustomerId { get; private set; }
+        public int CustomerId { get; private set; }
 
         /// <summary>
         /// You can treat this as ShipperId. Don't change name of this property it should match with db column name
         /// </summary>
-        public Guid ShipVia { get; private set; }
+        public int ShipVia { get; private set; }
 
         public double Freight { get; }
 
