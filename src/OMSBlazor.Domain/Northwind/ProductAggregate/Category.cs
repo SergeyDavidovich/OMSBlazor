@@ -10,7 +10,7 @@ namespace OMSBlazor.Northwind.ProductAggregate
 {
     public class Category : Entity<int>
     {
-        public Category(int id, string name)
+        internal Category(int id, string name)
             : base(id) 
         {
             SetCategoryName(name);
