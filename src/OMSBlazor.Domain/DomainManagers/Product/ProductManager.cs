@@ -17,7 +17,7 @@ namespace OMSBlazor.DomainManagers.Product
             this.productRepository = productRepository;
         }
 
-        public async Task<Northwind.ProductAggregate.Product> Create(string name, Northwind.ProductAggregate.Category category)
+        public async Task<Northwind.ProductAggregate.Product> CreateAsync(string name, Northwind.ProductAggregate.Category category)
         {
             var products = await productRepository.GetListAsync();
             if (products.Any(x => x.ProductName == name))
