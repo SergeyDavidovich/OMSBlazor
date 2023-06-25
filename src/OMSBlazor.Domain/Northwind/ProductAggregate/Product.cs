@@ -10,7 +10,7 @@ namespace OMSBlazor.Northwind.ProductAggregate
 {
     public class Product : AggregateRoot<int>
     {
-        public Product(int id, string name, Category category) :
+        internal Product(int id, string name, Category category) :
             base(id)
         {
             ProductName = name;
