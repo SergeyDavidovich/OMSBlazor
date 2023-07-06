@@ -1,22 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 
 namespace OMSBlazor.Dto.Order
 {
     public class CreateOrderDto
     {
-        public CreateOrderDto(int customerId, int employeeId, List<OrderDetailDto> orderDetails)
-        {
-            CustomerId = customerId;
-            EmployeeId = employeeId;
-            OrderDetails = orderDetails;
-        }
-
+        [Required]
         public int CustomerId { get; }
 
+        [Required]
         public int EmployeeId { get; }
 
+        [Required]
         public List<OrderDetailDto> OrderDetails { get; }
     }
 }
