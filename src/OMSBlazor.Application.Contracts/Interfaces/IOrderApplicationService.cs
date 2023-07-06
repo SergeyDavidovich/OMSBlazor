@@ -1,10 +1,13 @@
-﻿using System;
+﻿using OMSBlazor.Dto;
+using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace OMSBlazor.Interfaces
 {
-    internal interface IOrderApplicationService
+    public interface IOrderApplicationService
     {
+        public Task SaveOrderAsync(CreateOrderDto createOrderDto);
     }
 }
