@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace OMSBlazor.Dto
+namespace OMSBlazor.Dto.Order
 {
     public class CreateOrderDto
     {

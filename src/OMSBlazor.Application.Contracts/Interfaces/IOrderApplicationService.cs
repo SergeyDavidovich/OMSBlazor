@@ -1,4 +1,4 @@
-﻿using OMSBlazor.Dto;
+﻿using OMSBlazor.Dto.Order;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -8,6 +8,6 @@ namespace OMSBlazor.Interfaces
 {
     public interface IOrderApplicationService
     {
-        public Task SaveOrderAsync(CreateOrderDto createOrderDto);
+        public Task<OrderDto> SaveOrderAsync(CreateOrderDto createOrderDto);
     }
 }
