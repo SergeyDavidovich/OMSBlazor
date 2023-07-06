@@ -1,10 +1,13 @@
-﻿using System;
+﻿using OMSBlazor.Dto.Employee;
+using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace OMSBlazor.Interfaces
 {
-    internal interface IEmployeeApplicationService
+    public interface IEmployeeApplicationService
     {
+        public Task<List<EmployeeDto>> GetEmployeesAsync();
     }
 }
