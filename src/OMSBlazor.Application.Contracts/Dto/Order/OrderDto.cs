@@ -6,6 +6,8 @@ namespace OMSBlazor.Dto.Order
 {
     public class OrderDto
     {
+        public int OrderId { get; set; }
+
         public int EmployeeId { get; set; }
 
         public int CustomerId { get; set; }

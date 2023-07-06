@@ -7,7 +7,9 @@ namespace OMSBlazor.Dto.Customer
 {
     public class CustomerDto
     {
-        public string CompanyName { get; private set; }
+        public int CustomerId { get; set; }
+
+        public string CompanyName { get; set; }
 
         public string ContactName { get; set; }
 
