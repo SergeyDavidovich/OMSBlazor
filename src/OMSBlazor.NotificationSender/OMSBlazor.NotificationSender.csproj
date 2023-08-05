@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Remove="C:\Users\User\.nuget\packages\volo.abp.aspnetcore.signalr\7.3.1\contentFiles\any\net7.0\Volo.Abp.AspNetCore.SignalR.abppkg.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Volo.Abp.Core" Version="7.1.1" />
+  </ItemGroup>
+
+</Project>
