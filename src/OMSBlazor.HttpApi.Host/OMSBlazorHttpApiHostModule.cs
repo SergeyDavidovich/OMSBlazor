@@ -36,6 +36,7 @@ using Volo.Abp.OpenIddict;
 using System.Security.Cryptography.X509Certificates;
 using System.Security.Cryptography;
 using Volo.Abp.AspNetCore.SignalR;
+using OMSBlazor.NotificationSender;
 
 namespace OMSBlazor;
 
@@ -49,7 +50,8 @@ namespace OMSBlazor;
     typeof(AbpAccountWebOpenIddictModule),
     typeof(AbpAspNetCoreSerilogModule),
     typeof(AbpSwashbuckleModule),
-    typeof(AbpAspNetCoreSignalRModule)
+    typeof(AbpAspNetCoreSignalRModule),
+    typeof(OMSBlazorNotificationSenderModule)
 )]
 public class OMSBlazorHttpApiHostModule : AbpModule
 {

@@ -29,6 +29,7 @@
     <ProjectReference Include="..\OMSBlazor.Application\OMSBlazor.Application.csproj" />
     <ProjectReference Include="..\OMSBlazor.EntityFrameworkCore\OMSBlazor.EntityFrameworkCore.csproj" />
     <ProjectReference Include="..\OMSBlazor.HttpApi\OMSBlazor.HttpApi.csproj" />
+    <ProjectReference Include="..\OMSBlazor.NotificationSender\OMSBlazor.NotificationSender.csproj" />
   </ItemGroup>
 
   <ItemGroup>
