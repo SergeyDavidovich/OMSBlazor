@@ -16,7 +16,7 @@ namespace OMSBlazor.Dto.Product
 
         public double UnitPrice { get; set; }
 
-        public int UnitsInStock { get; set; }
+        public virtual int UnitsInStock { get; set; }
 
         public int UnitsOnOrder { get; set; }
 
