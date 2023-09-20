@@ -1,5 +1,5 @@
 ﻿using OMSBlazor.Dto.Employee;
-using OMSBlazor.Interfaces;
+using OMSBlazor.Interfaces.Application.Contracts.Interfaces;
 using OMSBlazor.Northwind.EmployeeAggregate;
 using System;
 using System.Collections.Generic;

@@ -1,5 +1,5 @@
 ﻿using OMSBlazor.Dto.Order;
-using OMSBlazor.Interfaces;
+using OMSBlazor.Interfaces.Application.Contracts.Interfaces;
 using OMSBlazor.Northwind.OrderAggregate;
 using System;
 using System.Collections.Generic;
@@ -36,6 +36,15 @@ namespace OMSBlazor.ApplicationServices
             var orderDto = ObjectMapper.Map<Order, OrderDto>(order);
 
             return orderDto;
+        }
+
+        public async Task<List<OrderDto>> GetAllOrdersAsync()
+        {
+            var orders = await _orderRepository.GetListAsync();
+
+            var orderDtos = ObjectMapper.Map<List<Order>, List<OrderDto>>(orders);
+
+            return orderDtos;
         }
     }
 }

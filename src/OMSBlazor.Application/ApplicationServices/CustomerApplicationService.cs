@@ -1,5 +1,5 @@
 ﻿using OMSBlazor.Dto.Customer;
-using OMSBlazor.Interfaces;
+using OMSBlazor.Interfaces.Application.Contracts.Interfaces;
 using OMSBlazor.Northwind.CustomerAggregate;
 using System;
 using System.Collections.Generic;
