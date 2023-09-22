@@ -10,5 +10,7 @@ namespace OMSBlazor.Application.Contracts.Interfaces
     public interface IProductApplicationService : IApplicationService
     {
         public Task<List<ProductDto>> GetProductsAsync();
+
+        public Task<List<CategoryDto>> GetCategoriesAsync();
     }
 }
