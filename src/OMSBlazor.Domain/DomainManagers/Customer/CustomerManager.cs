@@ -5,14 +5,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Volo.Abp.Domain.Repositories;
+using Volo.Abp.Domain.Services;
 
 namespace OMSBlazor.DomainManagers.Customer
 {
-    public class CustomerManager : ICustomerManager
+    public class CustomerManager : DomainService, ICustomerManager
     {
-        private readonly IRepository<Northwind.CustomerAggregate.Customer, int> customerRepository;
+        private readonly IRepository<Northwind.CustomerAggregate.Customer, string> customerRepository;
 
-        public CustomerManager(IRepository<Northwind.CustomerAggregate.Customer, int> customerRepository)
+        public CustomerManager(IRepository<Northwind.CustomerAggregate.Customer, string> customerRepository)
         {
             this.customerRepository = customerRepository;
         }

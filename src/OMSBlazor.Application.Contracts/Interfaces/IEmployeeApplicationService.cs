@@ -3,10 +3,11 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using Volo.Abp.Application.Services;
 
-namespace OMSBlazor.Interfaces.Application.Contracts.Interfaces
+namespace OMSBlazor.Application.Contracts.Interfaces
 {
-    public interface IEmployeeApplicationService
+    public interface IEmployeeApplicationService : IApplicationService
     {
         public Task<List<EmployeeDto>> GetEmployeesAsync();
     }

@@ -1,5 +1,5 @@
 ﻿using OMSBlazor.Dto.Order;
-using OMSBlazor.Interfaces.Application.Contracts.Interfaces;
+using OMSBlazor.Application.Contracts.Interfaces;
 using OMSBlazor.Northwind.OrderAggregate;
 using System;
 using System.Collections.Generic;
@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using Volo.Abp.Application.Services;
 using Volo.Abp.Domain.Repositories;
 
-namespace OMSBlazor.ApplicationServices
+namespace OMSBlazor.Application.ApplicationServices
 {
     public class OrderApplicationService : ApplicationService, IOrderApplicationService
     {
@@ -38,7 +38,7 @@ namespace OMSBlazor.ApplicationServices
             return orderDto;
         }
 
-        public async Task<List<OrderDto>> GetAllOrdersAsync()
+        public async Task<List<OrderDto>> GetOrdersAsync()
         {
             var orders = await _orderRepository.GetListAsync();
 

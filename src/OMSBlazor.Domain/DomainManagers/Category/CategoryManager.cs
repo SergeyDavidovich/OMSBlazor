@@ -5,10 +5,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Volo.Abp.Domain.Repositories;
+using Volo.Abp.Domain.Services;
 
 namespace OMSBlazor.DomainManagers.Category
 {
-    public class CategoryManager : ICategoryManager
+    public class CategoryManager : DomainService, ICategoryManager
     {
         private readonly IRepository<Northwind.ProductAggregate.Category, int> categoryRepository;
 

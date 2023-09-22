@@ -5,10 +5,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Volo.Abp.Domain.Repositories;
+using Volo.Abp.Domain.Services;
 
 namespace OMSBlazor.DomainManagers.Product
 {
-    public class ProductManager : IProductManager
+    public class ProductManager : DomainService, IProductManager
     {
         private readonly IRepository<Northwind.ProductAggregate.Product, int> productRepository;
 

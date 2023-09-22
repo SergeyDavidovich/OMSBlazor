@@ -3,13 +3,14 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using Volo.Abp.Application.Services;
 
-namespace OMSBlazor.Interfaces.Application.Contracts.Interfaces
+namespace OMSBlazor.Application.Contracts.Interfaces
 {
-    public interface IOrderApplicationService
+    public interface IOrderApplicationService : IApplicationService
     {
         public Task<OrderDto> SaveOrderAsync(CreateOrderDto createOrderDto);
 
-        public Task<List<OrderDto>> GetAllOrdersAsync();
+        public Task<List<OrderDto>> GetOrdersAsync();
     }
 }

@@ -1,6 +1,8 @@
 ﻿@page "/"
+@using OMSBlazor.Application.Contracts.Interfaces;
 @inherits OMSBlazorComponentBase
-@inject IOrderApplicationService
+@inject IOrderApplicationService ordersApplicationService
+@inject ICustomerApplcationService customersApplicationService
 <Row>
     <Column>
         <Div Border="Border.Is1" Class="whole-column-stastics">
@@ -14,7 +16,7 @@
                         <Div Class="stastic">
                             <Span>Orders by countries(Top 10)</Span>
                             <Div>
-                                here will be chart
+                                <PieChart @ref="top10OrdersByCountriesChart" TItem="int"></PieChart>
                             </Div>
                         </Div>
                     </Column>
@@ -98,5 +100,56 @@
 </style>
 
 @code{
+    List<string> backgroundColors = new List<string> 
+    { 
+        ChartColor.FromRgba(255, 99, 132, 0.2f), 
+        ChartColor.FromRgba(54, 162, 235, 0.2f), 
+        ChartColor.FromRgba(255, 206, 86, 0.2f), 
+        ChartColor.FromRgba(75, 192, 192, 0.2f), 
+        ChartColor.FromRgba(153, 102, 255, 0.2f), 
+        ChartColor.FromRgba(255, 159, 64, 0.2f) 
+    };
+    List<string> borderColors = new List<string> { ChartColor.FromRgba(255, 99, 132, 1f), ChartColor.FromRgba(54, 162, 235, 1f), ChartColor.FromRgba(255, 206, 86, 1f), ChartColor.FromRgba(75, 192, 192, 1f), ChartColor.FromRgba(153, 102, 255, 1f), ChartColor.FromRgba(255, 159, 64, 1f) };
+    private PieChart<int>? top10OrdersByCountriesChart;
+    private PieChartOptions top10OrdersByCountriesChartOptions = new PieChartOptions() { AspectRatio = 3 };
 
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        var orders = await ordersApplicationService.GetOrdersAsync();
+        var customers = await customersApplicationService.GetCustomersAsync();
+        var customerAndCountryDictionary = customers.ToDictionary(x => x.CustomerId, y => y.Country);
+
+        var ordersByCountries = orders
+            .GroupBy(x => customerAndCountryDictionary[x.CustomerId!])
+            .Select(x => new OrdersByCountries
+            {
+                CountryName = x.Key,
+                OrdersCount = x.Count()
+            });
+
+        var top10OrdersByCountries = ordersByCountries.OrderByDescending(x => x.OrdersCount).Take(10).ToList();
+        var top10OrdersByCountriesChartDataSet = new PieChartDataset<int>()
+        {
+            Data = top10OrdersByCountries.Select(x => x.OrdersCount).ToList(),
+            BorderColor = borderColors,
+            BackgroundColor = backgroundColors,
+            BorderWidth = 1,
+        };
+
+        if (top10OrdersByCountriesChart is null)
+        {
+            throw new NullReferenceException();
+        }
+
+        await top10OrdersByCountriesChart.AddLabelsDatasetsAndUpdate(
+            top10OrdersByCountries.Select(x => x.CountryName).ToArray(), 
+            top10OrdersByCountriesChartDataSet);
+    }
+
+    public class OrdersByCountries
+    {
+        public string CountryName { get; set; }
+
+        public int OrdersCount { get; set; }
+    }
 }

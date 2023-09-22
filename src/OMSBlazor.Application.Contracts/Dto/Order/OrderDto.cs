@@ -10,7 +10,7 @@ namespace OMSBlazor.Dto.Order
 
         public int EmployeeId { get; set; }
 
-        public int CustomerId { get; set; }
+        public string? CustomerId { get; set; }
 
         /// <summary>
         /// You can treat this as ShipperId. Don't change name of this property it should match with db column name
@@ -23,7 +23,17 @@ namespace OMSBlazor.Dto.Order
 
         public DateTime RequiredDate { get; set; }
 
-        public ShipDataDto? ShipData { get; set; }
+        public string ShipName { get; internal set; }
+
+        public string ShipAddress { get; internal set; }
+
+        public string ShipRegion { get; internal set; }
+
+        public string ShipCity { get; internal set; }
+
+        public string ShipPostalCode { get; internal set; }
+
+        public string ShipCountry { get; internal set; }
 
         public List<OrderDetailDto> OrderDetails { get; set; }
     }

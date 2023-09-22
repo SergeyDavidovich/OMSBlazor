@@ -1,5 +1,5 @@
 ﻿using OMSBlazor.Dto.Product;
-using OMSBlazor.Interfaces;
+using OMSBlazor.Application.Contracts.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +10,7 @@ using OMSBlazor.Northwind.ProductAggregate;
 using AutoMapper.Internal.Mappers;
 using Volo.Abp.Application.Services;
 
-namespace OMSBlazor.ApplicationServices
+namespace OMSBlazor.Application.ApplicationServices
 {
     public class ProductApplicationService : ApplicationService, IProductApplicationService
     {

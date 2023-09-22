@@ -8,7 +8,7 @@ namespace OMSBlazor.Dto.Order
     public class CreateOrderDto
     {
         [Required]
-        public int CustomerId { get; }
+        public string CustomerId { get; }
 
         [Required]
         public int EmployeeId { get; }
