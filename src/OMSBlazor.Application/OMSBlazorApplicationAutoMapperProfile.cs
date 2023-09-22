@@ -18,6 +18,8 @@ public class OMSBlazorApplicationAutoMapperProfile : Profile
          * Alternatively, you can split your mapping configurations
          * into multiple profile classes for a better organization. */
 
+        CreateMap<Category, CategoryDto>();
+
         CreateMap<Product, ProductDto>();
 
         CreateMap<Customer, CustomerDto>()
