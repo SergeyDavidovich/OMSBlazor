@@ -1,5 +1,4 @@
-﻿using OMSBlazor.Northwind.Common;
-using OMSBlazor.Northwind.EmployeeAggregate.Exceptions;
+﻿using OMSBlazor.Northwind.EmployeeAggregate.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -20,7 +20,9 @@ public class OMSBlazorApplicationAutoMapperProfile : Profile
 
         CreateMap<Category, CategoryDto>();
 
-        CreateMap<Product, ProductDto>();
+        CreateMap<Product, ProductDto>()
+            .ForMember(
+                dest => dest.ProductId, src => src.MapFrom(x => x.Id));
 
         CreateMap<Customer, CustomerDto>()
             .ForMember(
@@ -29,5 +31,7 @@ public class OMSBlazorApplicationAutoMapperProfile : Profile
         CreateMap<Employee, EmployeeDto>();
 
         CreateMap<Order, OrderDto>();
+
+        CreateMap<OrderDetail, OrderDetailDto>();
     }
 }

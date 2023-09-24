@@ -28,11 +28,6 @@ namespace OMSBlazor.Northwind.OrderAggregate
 
         public string? CustomerId { get; private set; }
 
-        /// <summary>
-        /// You can treat this as ShipperId. Don't change name of this property it should match with db column name
-        /// </summary>
-        public int ShipVia { get; private set; }
-
         public double Freight { get; }
 
         public DateTime OrderDate { get; private set; }
@@ -51,7 +46,7 @@ namespace OMSBlazor.Northwind.OrderAggregate
 
         public string? ShipCountry { get; internal set; }
 
-        public List<OrderDetail> OrderDetails { get; } = new();
+        public virtual ICollection<OrderDetail> OrderDetails { get; private set; }
 
         public void AddOrderDetail(int productId, int quantity, double unitPrice, float discount)
         {

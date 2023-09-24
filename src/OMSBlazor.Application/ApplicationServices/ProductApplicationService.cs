@@ -27,7 +27,7 @@ namespace OMSBlazor.Application.ApplicationServices
         {
             var products = await _productRepository.GetListAsync();
 
-            var productsDto = products.Select(x => ObjectMapper.Map<Product, ProductDto>(x)).ToList();
+            var productsDto = ObjectMapper.Map<List<Product>, List<ProductDto>>(products);
 
             return productsDto;
         }

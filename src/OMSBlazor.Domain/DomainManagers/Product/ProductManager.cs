@@ -18,7 +18,7 @@ namespace OMSBlazor.DomainManagers.Product
             this.productRepository = productRepository;
         }
 
-        public async Task<Northwind.ProductAggregate.Product> CreateAsync(string name, Northwind.ProductAggregate.Category category)
+        public async Task<Northwind.ProductAggregate.Product> CreateAsync(string name, int categoryId)
         {
             var products = await productRepository.GetListAsync();
             if (products.Any(x => x.ProductName == name))
@@ -28,7 +28,7 @@ namespace OMSBlazor.DomainManagers.Product
 
             var key = products.Last().Id + 1;
 
-            var product = new Northwind.ProductAggregate.Product(key, name, category);
+            var product = new Northwind.ProductAggregate.Product(key, name, categoryId);
 
             await productRepository.InsertAsync(product);
 

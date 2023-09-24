@@ -40,7 +40,7 @@ namespace OMSBlazor.Application.ApplicationServices
 
         public async Task<List<OrderDto>> GetOrdersAsync()
         {
-            var orders = await _orderRepository.GetListAsync();
+            var orders = (await _orderRepository.WithDetailsAsync(x => x.OrderDetails)).ToList();
 
             var orderDtos = ObjectMapper.Map<List<Order>, List<OrderDto>>(orders);
 

@@ -1,4 +1,5 @@
-﻿using OMSBlazor.Northwind.ProductAggregate.Exceptions;
+﻿using OMSBlazor.Northwind.OrderAggregate;
+using OMSBlazor.Northwind.ProductAggregate.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,16 +16,16 @@ namespace OMSBlazor.Northwind.ProductAggregate
 
         }
 
-        internal Product(int id, string name, Category category) :
+        internal Product(int id, string name, int categoryId) :
             base(id)
         {
             ProductName = name;
-            Category = category;
+            CategoryId = categoryId;
         }
 
         public string ProductName { get; private set; }
 
-        public Category Category { get; private set; }
+        public int CategoryId { get; private set; }
 
         public string QuantityPerUnit { get; set; }
 

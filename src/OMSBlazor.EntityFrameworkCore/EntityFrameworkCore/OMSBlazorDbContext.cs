@@ -36,6 +36,8 @@ public class OMSBlazorDbContext :
 
     public DbSet<Category> Categories { get; set; }
 
+    public DbSet<OrderDetail> OrderDetails { get; set; }
+
     public DbSet<CustomerDemographics> CustomerDemographics { get; set; }
 
     #region Entities from the modules
@@ -80,8 +82,9 @@ public class OMSBlazorDbContext :
         //    b.ConfigureByConvention(); //auto configure for the base class props
         //    //...
         //});
+
         builder.Entity<OrderDetail>()
-            .HasKey(nameof(OrderDetail.ProductId), nameof(OrderDetail.OrderId));
+            .HasKey(x => new { x.OrderId, x.ProductId });
 
         builder.Entity<Order>()
             .Property(x => x.Id)
