@@ -1,4 +1,4 @@
-﻿using OMSBlazor.Northwind.ProductAggregate.Exceptions;
+﻿using OMSBlazor.Northwind.OrderAggregate.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Volo.Abp.Domain.Entities;
 
-namespace OMSBlazor.Northwind.ProductAggregate
+namespace OMSBlazor.Northwind.OrderAggregate
 {
     public class Category : Entity<int>
     {
@@ -16,7 +16,7 @@ namespace OMSBlazor.Northwind.ProductAggregate
         }
 
         internal Category(int id, string name)
-            : base(id) 
+            : base(id)
         {
             SetCategoryName(name);
         }

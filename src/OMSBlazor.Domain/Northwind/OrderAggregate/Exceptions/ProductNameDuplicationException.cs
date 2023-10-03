@@ -5,14 +5,14 @@ using System.Text;
 using System.Threading.Tasks;
 using Volo.Abp;
 
-namespace OMSBlazor.Northwind.ProductAggregate.Exceptions
+namespace OMSBlazor.Northwind.OrderAggregate.Exceptions
 {
     public class ProductNameDuplicationException : BusinessException
     {
         public ProductNameDuplicationException()
             : base("Current name duplicated. Try another please")
         {
-            
+
         }
     }
 }

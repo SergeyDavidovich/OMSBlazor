@@ -1,4 +1,4 @@
-﻿using OMSBlazor.Northwind.CustomerAggregate.Exceptions;
+﻿using OMSBlazor.Northwind.OrderAggregate.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,16 +6,16 @@ using System.Text;
 using System.Threading.Tasks;
 using Volo.Abp.Domain.Entities;
 
-namespace OMSBlazor.Northwind.CustomerAggregate
+namespace OMSBlazor.Northwind.OrderAggregate
 {
-    public class Customer: AggregateRoot<string>
+    public class Customer : Entity<string>
     {
         private Customer()
         {
 
         }
 
-        internal Customer(string id, string companyName):
+        internal Customer(string id, string companyName) :
             base(id)
         {
             SetCompanyName(companyName);
@@ -48,7 +48,7 @@ namespace OMSBlazor.Northwind.CustomerAggregate
                 throw new EmptyCustomerNameException();
             }
 
-            this.CompanyName = companyName;
+            CompanyName = companyName;
         }
     }
 }

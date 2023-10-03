@@ -1,4 +1,4 @@
-﻿using OMSBlazor.Northwind.EmployeeAggregate.Exceptions;
+﻿using OMSBlazor.Northwind.OrderAggregate.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,12 +6,12 @@ using System.Text;
 using System.Threading.Tasks;
 using Volo.Abp.Domain.Entities;
 
-namespace OMSBlazor.Northwind.EmployeeAggregate
+namespace OMSBlazor.Northwind.OrderAggregate
 {
-    public class Employee : AggregateRoot<int>
+    public class Employee : Entity<int>
     {
         public Employee(int id, string firstName, string lastName)
-            :base(id)
+            : base(id)
         {
             SetFirstName(firstName);
             SetLastName(lastName);
@@ -51,9 +51,9 @@ namespace OMSBlazor.Northwind.EmployeeAggregate
 
         public void SetLastName(string lastName)
         {
-            if (lastName == null) 
-            { 
-                throw new EmptyLastNameException(); 
+            if (lastName == null)
+            {
+                throw new EmptyLastNameException();
             }
 
             LastName = lastName;

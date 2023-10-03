@@ -1,9 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using OMSBlazor.HostModels;
-using OMSBlazor.Northwind.CustomerAggregate;
-using OMSBlazor.Northwind.EmployeeAggregate;
 using OMSBlazor.Northwind.OrderAggregate;
-using OMSBlazor.Northwind.ProductAggregate;
 using Volo.Abp.AuditLogging.EntityFrameworkCore;
 using Volo.Abp.BackgroundJobs.EntityFrameworkCore;
 using Volo.Abp.Data;
@@ -103,15 +100,6 @@ public class OMSBlazorDbContext :
             .HasColumnName("EmployeeId");
 
         builder.Entity<Order>()
-            .Ignore(x => x.ConcurrencyStamp)
-            .Ignore(x=>x.ExtraProperties);
-        builder.Entity<Product>()
-            .Ignore(x => x.ConcurrencyStamp)
-            .Ignore(x => x.ExtraProperties);
-        builder.Entity<Employee>()
-            .Ignore(x => x.ConcurrencyStamp)
-            .Ignore(x => x.ExtraProperties);
-        builder.Entity<Customer>()
             .Ignore(x => x.ConcurrencyStamp)
             .Ignore(x => x.ExtraProperties);
     }

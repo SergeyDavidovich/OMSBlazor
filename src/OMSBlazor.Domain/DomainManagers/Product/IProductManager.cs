@@ -8,6 +8,6 @@ namespace OMSBlazor.DomainManagers.Product
 {
     public interface IProductManager
     {
-        public Task<Northwind.ProductAggregate.Product> CreateAsync(string name, int categoryId);
+        public Task<Northwind.OrderAggregate.Product> CreateAsync(string name, int categoryId);
     }
 }

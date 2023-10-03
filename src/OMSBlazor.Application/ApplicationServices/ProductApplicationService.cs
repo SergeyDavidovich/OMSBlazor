@@ -6,9 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Volo.Abp.Domain.Repositories;
-using OMSBlazor.Northwind.ProductAggregate;
 using AutoMapper.Internal.Mappers;
 using Volo.Abp.Application.Services;
+using OMSBlazor.Northwind.OrderAggregate;
 
 namespace OMSBlazor.Application.ApplicationServices
 {

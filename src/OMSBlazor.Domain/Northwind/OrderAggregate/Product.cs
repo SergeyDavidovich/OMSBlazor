@@ -1,5 +1,4 @@
-﻿using OMSBlazor.Northwind.OrderAggregate;
-using OMSBlazor.Northwind.ProductAggregate.Exceptions;
+﻿using OMSBlazor.Northwind.OrderAggregate.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,9 +6,9 @@ using System.Text;
 using System.Threading.Tasks;
 using Volo.Abp.Domain.Entities;
 
-namespace OMSBlazor.Northwind.ProductAggregate
+namespace OMSBlazor.Northwind.OrderAggregate
 {
-    public class Product : AggregateRoot<int>
+    public class Product : Entity<int>
     {
         private Product()
         {

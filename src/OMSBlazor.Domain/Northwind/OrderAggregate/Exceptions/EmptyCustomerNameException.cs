@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Volo.Abp;
 
-namespace OMSBlazor.Northwind.CustomerAggregate.Exceptions
+namespace OMSBlazor.Northwind.OrderAggregate.Exceptions
 {
     public class EmptyCustomerNameException : BusinessException
     {

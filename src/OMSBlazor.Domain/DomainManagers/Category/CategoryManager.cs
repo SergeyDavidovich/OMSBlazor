@@ -1,4 +1,4 @@
-﻿using OMSBlazor.Northwind.ProductAggregate.Exceptions;
+﻿using OMSBlazor.Northwind.OrderAggregate.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,14 +11,14 @@ namespace OMSBlazor.DomainManagers.Category
 {
     public class CategoryManager : DomainService, ICategoryManager
     {
-        private readonly IRepository<Northwind.ProductAggregate.Category, int> categoryRepository;
+        private readonly IRepository<Northwind.OrderAggregate.Category, int> categoryRepository;
 
-        public CategoryManager(IRepository<Northwind.ProductAggregate.Category, int> categoryRepository)
+        public CategoryManager(IRepository<Northwind.OrderAggregate.Category, int> categoryRepository)
         {
             this.categoryRepository = categoryRepository;
         }
 
-        public async Task<Northwind.ProductAggregate.Category> CreateAsync(string name)
+        public async Task<Northwind.OrderAggregate.Category> CreateAsync(string name)
         {
             var categories = await categoryRepository.GetListAsync();
             if (categories.Any(x => x.CategoryName == name))
@@ -28,7 +28,7 @@ namespace OMSBlazor.DomainManagers.Category
 
             var key = categories.Last().Id + 1;
 
-            var category = new Northwind.ProductAggregate.Category(key, name);
+            var category = new Northwind.OrderAggregate.Category(key, name);
 
             await categoryRepository.InsertAsync(category);
 

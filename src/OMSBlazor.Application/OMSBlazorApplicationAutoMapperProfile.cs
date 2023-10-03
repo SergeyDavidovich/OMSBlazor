@@ -3,10 +3,7 @@ using OMSBlazor.Dto.Customer;
 using OMSBlazor.Dto.Employee;
 using OMSBlazor.Dto.Order;
 using OMSBlazor.Dto.Product;
-using OMSBlazor.Northwind.CustomerAggregate;
-using OMSBlazor.Northwind.EmployeeAggregate;
 using OMSBlazor.Northwind.OrderAggregate;
-using OMSBlazor.Northwind.ProductAggregate;
 
 namespace OMSBlazor;
 

@@ -5,14 +5,14 @@ using System.Text;
 using System.Threading.Tasks;
 using Volo.Abp;
 
-namespace OMSBlazor.Northwind.ProductAggregate.Exceptions
+namespace OMSBlazor.Northwind.OrderAggregate.Exceptions
 {
     public class EmptyProductNameException : BusinessException
     {
         public EmptyProductNameException()
-            :base(message: "Product name cannot be empty")
+            : base(message: "Product name cannot be empty")
         {
-            
+
         }
     }
 }
