@@ -34,17 +34,17 @@ namespace OMSBlazor.Northwind.OrderAggregate
 
         public DateTime RequiredDate { get; set; }
 
-        public string? ShipName { get; internal set; }
+        public string? ShipName { get; set; }
 
-        public string? ShipAddress { get; internal set; }
+        public string? ShipAddress { get; set; }
 
-        public string? ShipRegion { get; internal set; }
+        public string? ShipRegion { get; set; }
 
-        public string? ShipCity { get; internal set; }
+        public string? ShipCity { get; set; }
 
-        public string? ShipPostalCode { get; internal set; }
+        public string? ShipPostalCode { get; set; }
 
-        public string? ShipCountry { get; internal set; }
+        public string? ShipCountry { get; set; }
 
         public virtual ICollection<OrderDetail> OrderDetails { get; private set; }
 
