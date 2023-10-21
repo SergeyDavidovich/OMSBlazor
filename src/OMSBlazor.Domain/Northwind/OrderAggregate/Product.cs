@@ -1,4 +1,4 @@
-﻿using OMSBlazor.Northwind.ProductAggregate.Exceptions;
+﻿using OMSBlazor.Northwind.OrderAggregate.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,20 +6,25 @@ using System.Text;
 using System.Threading.Tasks;
 using Volo.Abp.Domain.Entities;
 
-namespace OMSBlazor.Northwind.ProductAggregate
+namespace OMSBlazor.Northwind.OrderAggregate
 {
-    public class Product : AggregateRoot<int>
+    public class Product : Entity<int>
     {
-        internal Product(int id, string name, Category category) :
+        private Product()
+        {
+
+        }
+
+        internal Product(int id, string name, int categoryId) :
             base(id)
         {
             ProductName = name;
-            Category = category;
+            CategoryId = categoryId;
         }
 
         public string ProductName { get; private set; }
 
-        public Category Category { get; private set; }
+        public int CategoryId { get; private set; }
 
         public string QuantityPerUnit { get; set; }
 

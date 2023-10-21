@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using OMSBlazor.HostModels;
+using OMSBlazor.Northwind.OrderAggregate;
 using Volo.Abp.AuditLogging.EntityFrameworkCore;
 using Volo.Abp.BackgroundJobs.EntityFrameworkCore;
 using Volo.Abp.Data;
@@ -22,6 +23,18 @@ public class OMSBlazorDbContext :
     AbpDbContext<OMSBlazorDbContext>,
     ITenantManagementDbContext
 {
+    public DbSet<Order> Orders { get; set; }
+
+    public DbSet<Customer> Customers { get; set; }
+
+    public DbSet<Product> Products { get; set; }
+
+    public DbSet<Employee> Employees { get; set; }
+
+    public DbSet<Category> Categories { get; set; }
+
+    public DbSet<OrderDetail> OrderDetails { get; set; }
+
     public DbSet<CustomerDemographics> CustomerDemographics { get; set; }
 
     #region Entities from the modules
@@ -66,5 +79,28 @@ public class OMSBlazorDbContext :
         //    b.ConfigureByConvention(); //auto configure for the base class props
         //    //...
         //});
+
+        builder.Entity<OrderDetail>()
+            .HasKey(x => new { x.OrderId, x.ProductId });
+
+        builder.Entity<Order>()
+            .Property(x => x.Id)
+            .HasColumnName("OrderId");
+        builder.Entity<Product>()
+            .Property(x => x.Id)
+            .HasColumnName("ProductId");
+        builder.Entity<Customer>()
+            .Property(x => x.Id)
+            .HasColumnName("CustomerId");
+        builder.Entity<Category>()
+            .Property(x => x.Id)
+            .HasColumnName("CategoryId");
+        builder.Entity<Employee>()
+            .Property(x => x.Id)
+            .HasColumnName("EmployeeId");
+
+        builder.Entity<Order>()
+            .Ignore(x => x.ConcurrencyStamp)
+            .Ignore(x => x.ExtraProperties);
     }
 }

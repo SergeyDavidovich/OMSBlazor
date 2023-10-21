@@ -1,6 +1,5 @@
 ﻿using OMSBlazor.Dto.Employee;
-using OMSBlazor.Interfaces;
-using OMSBlazor.Northwind.EmployeeAggregate;
+using OMSBlazor.Application.Contracts.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,8 +7,9 @@ using System.Text;
 using System.Threading.Tasks;
 using Volo.Abp.Application.Services;
 using Volo.Abp.Domain.Repositories;
+using OMSBlazor.Northwind.OrderAggregate;
 
-namespace OMSBlazor.ApplicationServices
+namespace OMSBlazor.Application.ApplicationServices
 {
     public class EmployeeApplicationService : ApplicationService, IEmployeeApplicationService
     {

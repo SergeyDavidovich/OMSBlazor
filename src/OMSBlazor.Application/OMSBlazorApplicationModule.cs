@@ -17,7 +17,8 @@ namespace OMSBlazor;
     typeof(AbpPermissionManagementApplicationModule),
     typeof(AbpTenantManagementApplicationModule),
     typeof(AbpFeatureManagementApplicationModule),
-    typeof(AbpSettingManagementApplicationModule)
+    typeof(AbpSettingManagementApplicationModule),
+    typeof(AbpAutoMapperModule)
     )]
 public class OMSBlazorApplicationModule : AbpModule
 {

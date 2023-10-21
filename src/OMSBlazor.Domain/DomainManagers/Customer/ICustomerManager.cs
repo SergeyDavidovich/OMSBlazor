@@ -8,6 +8,6 @@ namespace OMSBlazor.DomainManagers.Customer
 {
     public interface ICustomerManager 
     {
-        public Task<Northwind.CustomerAggregate.Customer> CreateAsync(string name);
+        public Task<Northwind.OrderAggregate.Customer> CreateAsync(string name);
     }
 }

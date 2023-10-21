@@ -3,10 +3,7 @@ using OMSBlazor.Dto.Customer;
 using OMSBlazor.Dto.Employee;
 using OMSBlazor.Dto.Order;
 using OMSBlazor.Dto.Product;
-using OMSBlazor.Northwind.CustomerAggregate;
-using OMSBlazor.Northwind.EmployeeAggregate;
 using OMSBlazor.Northwind.OrderAggregate;
-using OMSBlazor.Northwind.ProductAggregate;
 
 namespace OMSBlazor;
 
@@ -18,12 +15,20 @@ public class OMSBlazorApplicationAutoMapperProfile : Profile
          * Alternatively, you can split your mapping configurations
          * into multiple profile classes for a better organization. */
 
-        CreateMap<Product, ProductDto>();
+        CreateMap<Category, CategoryDto>();
 
-        CreateMap<Customer, CustomerDto>();
+        CreateMap<Product, ProductDto>()
+            .ForMember(
+                dest => dest.ProductId, src => src.MapFrom(x => x.Id));
+
+        CreateMap<Customer, CustomerDto>()
+            .ForMember(
+                dest => dest.CustomerId, src => src.MapFrom(x => x.Id));
 
         CreateMap<Employee, EmployeeDto>();
 
         CreateMap<Order, OrderDto>();
+
+        CreateMap<OrderDetail, OrderDetailDto>();
     }
 }
