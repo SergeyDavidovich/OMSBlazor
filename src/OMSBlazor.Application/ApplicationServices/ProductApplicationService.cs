@@ -9,6 +9,7 @@ using Volo.Abp.Domain.Repositories;
 using AutoMapper.Internal.Mappers;
 using Volo.Abp.Application.Services;
 using OMSBlazor.Northwind.OrderAggregate;
+using OMSBlazor.Dto.Category;
 
 namespace OMSBlazor.Application.ApplicationServices
 {

@@ -1,4 +1,5 @@
-﻿using OMSBlazor.Dto.Product;
+﻿using OMSBlazor.Dto.Category;
+using OMSBlazor.Dto.Product;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -11,7 +12,7 @@ namespace OMSBlazor.Application.Contracts.Interfaces
     {
         public Task<List<ProductDto>> GetProductsAsync();
 
-        public Task<List<CategoryDto>> GetCategoriesAsync();
+        public Task<ProductDto> GetProductAsync(int id);
 
         public Task DeleteProductAsync(int id);
 
