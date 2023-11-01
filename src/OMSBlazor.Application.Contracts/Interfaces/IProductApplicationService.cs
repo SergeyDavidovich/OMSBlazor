@@ -12,5 +12,11 @@ namespace OMSBlazor.Application.Contracts.Interfaces
         public Task<List<ProductDto>> GetProductsAsync();
 
         public Task<List<CategoryDto>> GetCategoriesAsync();
+
+        public Task DeleteProductAsync(int id);
+
+        public Task CreateProductAsync(CreateProductDto productDto);
+
+        public Task UpdateProductAsync(int id, UpdateProductDto productDto);
     }
 }
