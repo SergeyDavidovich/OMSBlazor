@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace OMSBlazor.Dto.Product
+namespace OMSBlazor.Dto.Category
 {
     public class CategoryDto
     {
