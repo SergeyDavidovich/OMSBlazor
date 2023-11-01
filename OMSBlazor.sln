@@ -48,20 +48,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OMSBlazor.NotificationSender", "src\OMSBlazor.NotificationSender\OMSBlazor.NotificationSender.csproj", "{53F1858A-8B02-489D-9708-E9D6D18E439D}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{2F38EDEC-670A-4E7D-9C0B-543E7DCD3E9A}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Class diagrams", "Class diagrams", "{E8E1E3B9-7C16-4A64-B31E-9DD08856D73A}"
 	ProjectSection(SolutionItems) = preProject
-		docs\class diagrams\Customer diagram.png = docs\class diagrams\Customer diagram.png
-		docs\class diagrams\Customer domain manager class diagram.png = docs\class diagrams\Customer domain manager class diagram.png
-		docs\class diagrams\Employee class diagram.png = docs\class diagrams\Employee class diagram.png
-		docs\class diagrams\Order and order detail class diagram.png = docs\class diagrams\Order and order detail class diagram.png
-		docs\class diagrams\Product and category class diagram.png = docs\class diagrams\Product and category class diagram.png
-		docs\class diagrams\Product and category domain managers class diagram.png = docs\class diagrams\Product and category domain managers class diagram.png
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Use cases", "Use cases", "{17ECA987-A5AD-447B-946B-804343615075}"
-	ProjectSection(SolutionItems) = preProject
-		docs\use caes\Oms Use cases.pdf = docs\use caes\Oms Use cases.pdf
+		docs\OMS Blazor.pdf = docs\OMS Blazor.pdf
 	EndProjectSection
 EndProject
 Global
@@ -156,8 +144,6 @@ Global
 		{27B2DDC7-8B75-4322-A312-25419C15D9D8} = {CA9AC87F-097E-4F15-8393-4BC07735A5B0}
 		{53F1858A-8B02-489D-9708-E9D6D18E439D} = {CA9AC87F-097E-4F15-8393-4BC07735A5B0}
 		{2F38EDEC-670A-4E7D-9C0B-543E7DCD3E9A} = {F1FA4DBD-C363-4389-8600-CA992A085034}
-		{E8E1E3B9-7C16-4A64-B31E-9DD08856D73A} = {2F38EDEC-670A-4E7D-9C0B-543E7DCD3E9A}
-		{17ECA987-A5AD-447B-946B-804343615075} = {2F38EDEC-670A-4E7D-9C0B-543E7DCD3E9A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {28315BFD-90E7-4E14-A2EA-F3D23AF4126F}
