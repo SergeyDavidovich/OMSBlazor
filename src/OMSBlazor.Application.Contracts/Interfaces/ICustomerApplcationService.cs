@@ -17,6 +17,6 @@ namespace OMSBlazor.Application.Contracts.Interfaces
 
         public Task CreateCustomerAsync(CreateCustomerDto customerDto);
 
-        public Task UpdateCustomerAsync(UpdateCustomerDto customerDto);
+        public Task UpdateCustomerAsync(int id, UpdateCustomerDto customerDto);
     }
 }
