@@ -6,8 +6,6 @@ namespace OMSBlazor.Dto.Customer
 {
     public class UpdateCustomerDto
     {
-        public string CustomerId { get; set; }
-
         public string CompanyName { get; set; }
 
         public string ContactName { get; set; }
