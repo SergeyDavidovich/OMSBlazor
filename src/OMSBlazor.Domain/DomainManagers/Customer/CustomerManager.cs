@@ -11,16 +11,20 @@ namespace OMSBlazor.DomainManagers.Customer
 {
     public class CustomerManager : DomainService, ICustomerManager
     {
-        private readonly IRepository<Northwind.OrderAggregate.Customer, string> customerRepository;
+        private readonly IRepository<Northwind.OrderAggregate.Customer, string> _customerRepository;
+        private readonly IRepository<Northwind.OrderAggregate.Order, int> _orderRepository;
 
-        public CustomerManager(IRepository<Northwind.OrderAggregate.Customer, string> customerRepository)
+        public CustomerManager(
+            IRepository<Northwind.OrderAggregate.Customer, string> customerRepository, 
+            IRepository<Northwind.OrderAggregate.Order, int> orderRepository)
         {
-            this.customerRepository = customerRepository;
+            _customerRepository = customerRepository;
+            _orderRepository = orderRepository;
         }
 
         public async Task<Northwind.OrderAggregate.Customer> CreateAsync(string name)
         {
-            var customers = await customerRepository.GetListAsync();
+            var customers = await _customerRepository.GetListAsync();
             if (customers.Any(x => x.CompanyName == name))
             {
                 throw new CustomerNameDuplicationException();
@@ -30,9 +34,21 @@ namespace OMSBlazor.DomainManagers.Customer
 
             var customer = new Northwind.OrderAggregate.Customer(key, name);
 
-            await customerRepository.InsertAsync(customer);
+            await _customerRepository.InsertAsync(customer);
 
             return customer;
+        }
+
+        public async Task DeleteAsync(string id)
+        {
+            var dependentOrder = await _orderRepository.FirstOrDefaultAsync(x => x.CustomerId == id);
+
+            if (dependentOrder is not null)
+            {
+                throw new CustomerDependentOrderExistException(dependentOrder.Id);
+            }
+
+            await _customerRepository.DeleteAsync(id);
         }
     }
 }
