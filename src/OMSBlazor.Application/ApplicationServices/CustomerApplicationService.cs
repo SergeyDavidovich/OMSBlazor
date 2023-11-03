@@ -10,6 +10,7 @@ using Volo.Abp.Domain.Repositories;
 using OMSBlazor.Northwind.OrderAggregate;
 using OMSBlazor.DomainManagers.Customer;
 using OMSBlazor.Northwind.OrderAggregate.Exceptions;
+using Volo.Abp.Domain.Entities;
 
 namespace OMSBlazor.Application.ApplicationServices
 {
@@ -76,7 +77,12 @@ namespace OMSBlazor.Application.ApplicationServices
 
         public async Task UpdateCustomerAsync(string id, UpdateCustomerDto customerDto)
         {
-            var customer = await _customerRepository.GetAsync(id);
+            var customer = await _customerRepository.SingleOrDefaultAsync(x => x.Id == id);
+
+            if (customer is null)
+            {
+                throw new EntityNotFoundException(typeof(Customer), id);
+            }
 
             customer.SetCompanyName(customerDto.CompanyName);
             customer.Address = customerDto.Address;
