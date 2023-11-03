@@ -34,12 +34,10 @@ namespace OMSBlazor.DomainManagers.Customer
 
             var customer = new Northwind.OrderAggregate.Customer(key, name);
 
-            await _customerRepository.InsertAsync(customer);
-
             return customer;
         }
 
-        public async Task DeleteAsync(string id)
+        public async Task CanDeleteAsync(string id)
         {
             var dependentOrder = await _orderRepository.FirstOrDefaultAsync(x => x.CustomerId == id);
 
@@ -47,8 +45,6 @@ namespace OMSBlazor.DomainManagers.Customer
             {
                 throw new CustomerDependentOrderExistException(dependentOrder.Id);
             }
-
-            await _customerRepository.DeleteAsync(id);
         }
     }
 }

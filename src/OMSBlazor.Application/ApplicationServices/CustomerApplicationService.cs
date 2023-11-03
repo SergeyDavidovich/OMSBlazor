@@ -40,7 +40,9 @@ namespace OMSBlazor.Application.ApplicationServices
 
         public async Task DeleteCustomerAsync(string customerId)
         {
-            await _customerManager.DeleteAsync(customerId);
+            await _customerManager.CanDeleteAsync(customerId);
+
+            await _customerRepository.DeleteAsync(customerId);
         }
 
         public async Task<CustomerDto> GetCustomerAsync(string customerId)
