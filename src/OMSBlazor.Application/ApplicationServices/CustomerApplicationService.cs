@@ -49,7 +49,7 @@ namespace OMSBlazor.Application.ApplicationServices
         {
             var canDelete = await _customerManager.CanDeleteAsync(customerId);
 
-            if (canDelete)
+            if (!canDelete)
             {
                 var dependentOrder = await _orderRepository.FirstAsync(x => x.CustomerId == customerId);
                 throw new CustomerDependentOrderExistException(dependentOrder.Id);
