@@ -9,5 +9,7 @@ namespace OMSBlazor.DomainManagers.Emoloyee
     public interface IEmployeeManager
     {
         Task<Northwind.OrderAggregate.Employee> CreateAsync(string firstName, string lastName);
+
+        Task<bool> CanDeleteAsync(int id);
     }
 }

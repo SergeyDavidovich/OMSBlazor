@@ -18,6 +18,11 @@ namespace OMSBlazor.DomainManagers.Emoloyee
             _employeeRepository = employeeRepository;
         }
 
+        public Task<bool> CanDeleteAsync(int id)
+        {
+            return _employeeRepository.AnyAsync(x => x.ReportsTo == id);
+        }
+
         public async Task<Employee> CreateAsync(string firstName, string lastName)
         {
             var lastEmployee = await _employeeRepository.LastAsync();
@@ -27,6 +32,6 @@ namespace OMSBlazor.DomainManagers.Emoloyee
             var employee = new Employee(id, firstName, lastName);
 
             return employee;
-        }
+        }   
     }
 }
