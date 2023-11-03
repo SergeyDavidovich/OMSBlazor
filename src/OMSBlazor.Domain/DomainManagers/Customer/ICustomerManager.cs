@@ -10,6 +10,6 @@ namespace OMSBlazor.DomainManagers.Customer
     {
         public Task<Northwind.OrderAggregate.Customer> CreateAsync(string name);
 
-        public Task CanDeleteAsync(string id);
+        public Task<bool> CanDeleteAsync(string id);
     }
 }

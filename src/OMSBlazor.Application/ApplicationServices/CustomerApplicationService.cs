@@ -9,17 +9,23 @@ using Volo.Abp.Application.Services;
 using Volo.Abp.Domain.Repositories;
 using OMSBlazor.Northwind.OrderAggregate;
 using OMSBlazor.DomainManagers.Customer;
+using OMSBlazor.Northwind.OrderAggregate.Exceptions;
 
 namespace OMSBlazor.Application.ApplicationServices
 {
     public class CustomerApplicationService : ApplicationService, ICustomerApplcationService
     {
         private readonly IRepository<Customer, string> _customerRepository;
+        private readonly IRepository<Order, int> _orderRepository;
         private readonly ICustomerManager _customerManager;
 
-        public CustomerApplicationService(IRepository<Customer, string> customerRepository, ICustomerManager customerManager)
+        public CustomerApplicationService(
+            IRepository<Customer, string> customerRepository,
+            IRepository<Order, int> orderRepository,
+            ICustomerManager customerManager)
         {
             _customerRepository = customerRepository;
+            _orderRepository = orderRepository;
             _customerManager = customerManager;
         }
 
@@ -40,7 +46,13 @@ namespace OMSBlazor.Application.ApplicationServices
 
         public async Task DeleteCustomerAsync(string customerId)
         {
-            await _customerManager.CanDeleteAsync(customerId);
+            var canDelete = await _customerManager.CanDeleteAsync(customerId);
+
+            if (canDelete)
+            {
+                var dependentOrder = await _orderRepository.FirstAsync(x => x.CustomerId == customerId);
+                throw new CustomerDependentOrderExistException(dependentOrder.Id);
+            }
 
             await _customerRepository.DeleteAsync(customerId);
         }

@@ -37,14 +37,9 @@ namespace OMSBlazor.DomainManagers.Customer
             return customer;
         }
 
-        public async Task CanDeleteAsync(string id)
+        public Task<bool> CanDeleteAsync(string id)
         {
-            var dependentOrder = await _orderRepository.FirstOrDefaultAsync(x => x.CustomerId == id);
-
-            if (dependentOrder is not null)
-            {
-                throw new CustomerDependentOrderExistException(dependentOrder.Id);
-            }
+            return _orderRepository.AnyAsync(x => x.CustomerId == id);
         }
     }
 }
