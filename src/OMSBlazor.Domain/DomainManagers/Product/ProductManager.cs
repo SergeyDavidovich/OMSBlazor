@@ -64,6 +64,11 @@ namespace OMSBlazor.DomainManagers.Product
 
         public async Task<Northwind.OrderAggregate.Product> UpdateNameAsync(int id, string name)
         {
+            if (!(await _productRepository.AnyAsync(x => x.Id == id)))
+            {
+                throw new EntityNotFoundException(typeof(Northwind.OrderAggregate.Product), id);
+            }
+
             if (await _productRepository.AnyAsync(x => x.ProductName == name && x.Id != id))
             {
                 throw new ProductNameDuplicationException();
