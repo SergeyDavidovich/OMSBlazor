@@ -1,9 +1,11 @@
-﻿using OMSBlazor.Northwind.OrderAggregate.Exceptions;
+﻿using OMSBlazor.Northwind.OrderAggregate;
+using OMSBlazor.Northwind.OrderAggregate.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Volo.Abp.Domain.Entities;
 using Volo.Abp.Domain.Repositories;
 using Volo.Abp.Domain.Services;
 
@@ -37,9 +39,18 @@ namespace OMSBlazor.DomainManagers.Customer
             return customer;
         }
 
-        public Task<bool> CanDeleteAsync(string id)
+        public async Task ThrowIfCannotDeleteAsync(string id)
         {
-            return _orderRepository.AnyAsync(x => x.CustomerId == id);
+            if (!(await _customerRepository.AnyAsync(x => x.Id == id)))
+            {
+                throw new EntityNotFoundException(typeof(Northwind.OrderAggregate.Category), id);
+            }
+
+            var dependentOrder = await _orderRepository.FirstOrDefaultAsync(x => x.CustomerId == id);
+            if (dependentOrder is not null)
+            {
+                throw new CustomerDependentOrderExistException(dependentOrder.Id);
+            }
         }
     }
 }
