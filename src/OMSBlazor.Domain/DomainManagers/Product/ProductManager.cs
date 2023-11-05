@@ -18,7 +18,7 @@ namespace OMSBlazor.DomainManagers.Product
         private readonly IRepository<Northwind.OrderAggregate.OrderDetail> _orderDetailRepository;
 
         public ProductManager(
-            IRepository<Northwind.OrderAggregate.Product, int> productRepository, 
+            IRepository<Northwind.OrderAggregate.Product, int> productRepository,
             IRepository<OrderDetail> orderDetailRepository,
             IRepository<Northwind.OrderAggregate.Category, int> categoryRepository)
         {
@@ -44,8 +44,6 @@ namespace OMSBlazor.DomainManagers.Product
 
             var product = new Northwind.OrderAggregate.Product(key, name, categoryId);
 
-            await _productRepository.InsertAsync(product);
-
             return product;
         }
 
@@ -57,6 +55,19 @@ namespace OMSBlazor.DomainManagers.Product
             {
                 throw new DependentOrderDetailExistException(id, dependentOrderDetail.OrderId);
             }
+        }
+
+        public async Task<Northwind.OrderAggregate.Product> UpdateNameAsync(int id, string name)
+        {
+            if (await _productRepository.AnyAsync(x => x.ProductName == name && x.Id != id))
+            {
+                throw new ProductNameDuplicationException();
+            }
+
+            var product = await _productRepository.SingleOrDefaultAsync(x => x.Id == id);
+            product.SetProductName(name);
+
+            return product;
         }
     }
 }

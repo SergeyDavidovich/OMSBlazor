@@ -11,5 +11,7 @@ namespace OMSBlazor.DomainManagers.Product
         public Task<Northwind.OrderAggregate.Product> CreateAsync(string name, int categoryId);
 
         public Task ThrowIfCannotDeleteAsync(int id);
+
+        public Task<Northwind.OrderAggregate.Product> UpdateNameAsync(int id, string name);
     }
 }
