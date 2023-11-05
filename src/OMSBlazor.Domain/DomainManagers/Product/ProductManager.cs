@@ -74,7 +74,7 @@ namespace OMSBlazor.DomainManagers.Product
                 throw new ProductNameDuplicationException();
             }
 
-            var product = await _productRepository.SingleOrDefaultAsync(x => x.Id == id);
+            var product = await _productRepository.SingleAsync(x => x.Id == id);
             product.SetProductName(name);
 
             return product;

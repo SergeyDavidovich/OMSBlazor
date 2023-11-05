@@ -42,7 +42,7 @@ namespace OMSBlazor.DomainManagers.Category
         {
             if (!(await _categoryRepository.AnyAsync(x => x.Id == id)))
             {
-                throw new EntityNotFoundException(typeof(Northwind.OrderAggregate.Product), id);
+                throw new EntityNotFoundException(typeof(Northwind.OrderAggregate.Category), id);
             }
 
             var dependentProduct = _productRepository.FirstOrDefaultAsync(x => x.CategoryId == id);
@@ -51,6 +51,25 @@ namespace OMSBlazor.DomainManagers.Category
             {
                 throw new DependentProductExistException(id, dependentProduct.Id);
             }
+        }
+
+        public async Task<Northwind.OrderAggregate.Category> UpdateNameAsync(int id, string name)
+        {
+            if (!(await _categoryRepository.AnyAsync(x => x.Id == id)))
+            {
+                throw new EntityNotFoundException(typeof(Northwind.OrderAggregate.Category), id);
+            }
+
+            var category = await _categoryRepository.SingleAsync(x => x.Id == id);
+
+            if (await _categoryRepository.AnyAsync(x=>x.CategoryName==name && x.Id != id))
+            {
+                throw new CategoryNameDuplicationException();
+            }
+
+            category.SetCategoryName(name);
+
+            return category;
         }
     }
 }
