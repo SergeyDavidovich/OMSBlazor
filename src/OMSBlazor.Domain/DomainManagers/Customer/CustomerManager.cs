@@ -52,5 +52,23 @@ namespace OMSBlazor.DomainManagers.Customer
                 throw new CustomerDependentOrderExistException(dependentOrder.Id);
             }
         }
+
+        public async Task<Northwind.OrderAggregate.Customer> UpdateNameAsync(string id, string name)
+        {
+            if (!(await _customerRepository.AnyAsync(x => x.Id == id)))
+            {
+                throw new EntityNotFoundException(typeof(Northwind.OrderAggregate.Customer), id);
+            }
+
+            if (await _customerRepository.AnyAsync(x => x.CompanyName == name && x.Id != id))
+            {
+                throw new CustomerNameDuplicationException();
+            }
+
+            var customer = await _customerRepository.SingleAsync(x => x.Id == id);
+            customer.SetCompanyName(name);
+
+            return customer;
+        }
     }
 }

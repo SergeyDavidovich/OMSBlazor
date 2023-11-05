@@ -71,14 +71,7 @@ namespace OMSBlazor.Application.ApplicationServices
 
         public async Task UpdateCustomerAsync(string id, UpdateCustomerDto customerDto)
         {
-            var customer = await _customerRepository.SingleOrDefaultAsync(x => x.Id == id);
-
-            if (customer is null)
-            {
-                throw new EntityNotFoundException(typeof(Customer), id);
-            }
-
-            customer.SetCompanyName(customerDto.CompanyName);
+            var customer = await _customerManager.UpdateNameAsync(id, customerDto.CompanyName);
             customer.Address = customerDto.Address;
             customer.Phone = customerDto.Phone;
             customer.City = customerDto.City;
