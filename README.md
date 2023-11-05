@@ -1,4 +1,3 @@
-## OMSBlazor
 ![](https://github.com/SergeyDavidovich/OMSBlazor/blob/master/src/OMSBlazor.Blazor/wwwroot/assets/oms2.jpg?raw=true)
 
 Real-time Order Management System
