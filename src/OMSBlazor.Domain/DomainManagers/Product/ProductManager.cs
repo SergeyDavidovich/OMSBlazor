@@ -49,6 +49,11 @@ namespace OMSBlazor.DomainManagers.Product
 
         public async Task ThrowIfCannotDeleteAsync(int id)
         {
+            if (!(await _productRepository.AnyAsync(x => x.Id == id)))
+            {
+                throw new EntityNotFoundException(typeof(Northwind.OrderAggregate.Product), id);
+            }
+
             var dependentOrderDetail = await _orderDetailRepository.FirstOrDefaultAsync(x => x.ProductId == id);
 
             if (dependentOrderDetail is not null)
