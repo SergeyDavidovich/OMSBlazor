@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Volo.Abp.Domain.Entities;
 using Volo.Abp.Domain.Repositories;
 using Volo.Abp.Domain.Services;
 
@@ -11,16 +12,20 @@ namespace OMSBlazor.DomainManagers.Category
 {
     public class CategoryManager : DomainService, ICategoryManager
     {
-        private readonly IRepository<Northwind.OrderAggregate.Category, int> categoryRepository;
+        private readonly IRepository<Northwind.OrderAggregate.Category, int> _categoryRepository;
+        private readonly IRepository<Northwind.OrderAggregate.Product, int> _productRepository;
 
-        public CategoryManager(IRepository<Northwind.OrderAggregate.Category, int> categoryRepository)
+        public CategoryManager(
+            IRepository<Northwind.OrderAggregate.Category, int> categoryRepository, 
+            IRepository<Northwind.OrderAggregate.Product, int> productRepository)
         {
-            this.categoryRepository = categoryRepository;
+            _categoryRepository = categoryRepository;
+            _productRepository = productRepository;
         }
 
         public async Task<Northwind.OrderAggregate.Category> CreateAsync(string name)
         {
-            var categories = await categoryRepository.GetListAsync();
+            var categories = await _categoryRepository.GetListAsync();
             if (categories.Any(x => x.CategoryName == name))
             {
                 throw new CategoryNameDuplicationException();
@@ -30,9 +35,22 @@ namespace OMSBlazor.DomainManagers.Category
 
             var category = new Northwind.OrderAggregate.Category(key, name);
 
-            await categoryRepository.InsertAsync(category);
-
             return category;
+        }
+
+        public async Task ThrowIfCannotDeleteAsync(int id)
+        {
+            if (!(await _categoryRepository.AnyAsync(x => x.Id == id)))
+            {
+                throw new EntityNotFoundException(typeof(Northwind.OrderAggregate.Product), id);
+            }
+
+            var dependentProduct = _productRepository.FirstOrDefaultAsync(x => x.CategoryId == id);
+
+            if (await _productRepository.AnyAsync(x => x.CategoryId == id))
+            {
+                throw new DependentProductExistException(id, dependentProduct.Id);
+            }
         }
     }
 }
