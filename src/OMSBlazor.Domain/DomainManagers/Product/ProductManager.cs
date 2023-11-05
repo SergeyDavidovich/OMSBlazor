@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Volo.Abp.Domain.Entities;
 using Volo.Abp.Domain.Repositories;
 using Volo.Abp.Domain.Services;
 
@@ -13,12 +14,17 @@ namespace OMSBlazor.DomainManagers.Product
     public class ProductManager : DomainService, IProductManager
     {
         private readonly IRepository<Northwind.OrderAggregate.Product, int> _productRepository;
+        private readonly IRepository<Northwind.OrderAggregate.Category, int> _categoryRepository;
         private readonly IRepository<Northwind.OrderAggregate.OrderDetail> _orderDetailRepository;
 
-        public ProductManager(IRepository<Northwind.OrderAggregate.Product, int> productRepository, IRepository<OrderDetail> orderDetailRepository)
+        public ProductManager(
+            IRepository<Northwind.OrderAggregate.Product, int> productRepository, 
+            IRepository<OrderDetail> orderDetailRepository,
+            IRepository<Northwind.OrderAggregate.Category, int> categoryRepository)
         {
             _productRepository = productRepository;
             _orderDetailRepository = orderDetailRepository;
+            _categoryRepository = categoryRepository;
         }
 
         public async Task<Northwind.OrderAggregate.Product> CreateAsync(string name, int categoryId)
@@ -27,6 +33,11 @@ namespace OMSBlazor.DomainManagers.Product
             if (products.Any(x => x.ProductName == name))
             {
                 throw new ProductNameDuplicationException();
+            }
+
+            if (!(await _categoryRepository.AnyAsync(x => x.Id == categoryId)))
+            {
+                throw new EntityNotFoundException(typeof(Northwind.OrderAggregate.Category), categoryId);
             }
 
             var key = products.Last().Id + 1;
