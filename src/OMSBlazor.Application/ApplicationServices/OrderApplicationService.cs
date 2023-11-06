@@ -51,5 +51,14 @@ namespace OMSBlazor.Application.ApplicationServices
 
             return orderDtos;
         }
+
+        public async Task<OrderDto> GetOrderAsync(int id)
+        {
+            var order = await _orderRepository.GetAsync(id);
+
+            var orderDto = ObjectMapper.Map<Order, OrderDto>(order);
+
+            return orderDto;
+        }
     }
 }
