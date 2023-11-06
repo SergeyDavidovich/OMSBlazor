@@ -53,7 +53,7 @@ namespace OMSBlazor.DomainManagers.Customer
             }
         }
 
-        public async Task<Northwind.OrderAggregate.Customer> UpdateNameAsync(string id, string name)
+        public async Task<Northwind.OrderAggregate.Customer> UpdateAsync(string id, string name)
         {
             if (!(await _customerRepository.AnyAsync(x => x.Id == id)))
             {

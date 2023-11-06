@@ -71,7 +71,7 @@ namespace OMSBlazor.Application.ApplicationServices
 
         public async Task UpdateCustomerAsync(string id, UpdateCustomerDto customerDto)
         {
-            var customer = await _customerManager.UpdateNameAsync(id, customerDto.CompanyName);
+            var customer = await _customerManager.UpdateAsync(id, customerDto.CompanyName);
             customer.Address = customerDto.Address;
             customer.Phone = customerDto.Phone;
             customer.City = customerDto.City;
