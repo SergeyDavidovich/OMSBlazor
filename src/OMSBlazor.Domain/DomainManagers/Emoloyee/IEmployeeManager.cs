@@ -10,6 +10,6 @@ namespace OMSBlazor.DomainManagers.Emoloyee
     {
         Task<Northwind.OrderAggregate.Employee> CreateAsync(string firstName, string lastName);
 
-        Task<bool> CanDeleteAsync(int id);
+        Task ThrowIfCannotDeleteAsync(int id);
     }
 }

@@ -49,12 +49,7 @@ namespace OMSBlazor.Application.ApplicationServices
 
         public async Task DeleteEmployeeAsync(int id)
         {
-            var canDelete = (await _employeeManager.CanDeleteAsync(id));
-            if (!canDelete)
-            {
-                var reporterId = (await _employeeRepository.FirstAsync(x => x.ReportsTo == id)).Id;
-                throw new DependentReporterExistException(id, reporterId);
-            }
+            await _employeeManager.ThrowIfCannotDeleteAsync(id);
 
             await _employeeRepository.DeleteAsync(id);
         }
