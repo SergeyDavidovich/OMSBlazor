@@ -60,5 +60,10 @@ namespace OMSBlazor.Application.ApplicationServices
 
             return orderDto;
         }
+
+        public async Task DeleteOrderAsync(int id)
+        {
+            await _orderRepository.DeleteAsync(id);
+        }
     }
 }
