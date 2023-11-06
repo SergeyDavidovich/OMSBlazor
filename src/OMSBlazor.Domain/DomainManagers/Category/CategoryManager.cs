@@ -53,7 +53,7 @@ namespace OMSBlazor.DomainManagers.Category
             }
         }
 
-        public async Task<Northwind.OrderAggregate.Category> UpdateNameAsync(int id, string name)
+        public async Task<Northwind.OrderAggregate.Category> UpdateAsync(int id, string name)
         {
             if (!(await _categoryRepository.AnyAsync(x => x.Id == id)))
             {

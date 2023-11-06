@@ -60,7 +60,7 @@ namespace OMSBlazor.ApplicationServices
 
         public async Task UpdateCategoryAsync(int id, UpdateCategoryDto categoryDto)
         {
-            var category = await _categoryManager.UpdateNameAsync(id, categoryDto.CategoryName);
+            var category = await _categoryManager.UpdateAsync(id, categoryDto.CategoryName);
 
             category.Description = categoryDto.Description;
             category.Picture = categoryDto.Picture;

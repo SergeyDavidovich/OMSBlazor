@@ -12,6 +12,6 @@ namespace OMSBlazor.DomainManagers.Category
 
         public Task ThrowIfCannotDeleteAsync(int id);
 
-        public Task<Northwind.OrderAggregate.Category> UpdateNameAsync(int id, string name);
+        public Task<Northwind.OrderAggregate.Category> UpdateAsync(int id, string name);
     }
 }
