@@ -68,7 +68,7 @@ namespace OMSBlazor.Application.ApplicationServices
 
         public async Task UpdateProductAsync(int id, UpdateProductDto productDto)
         {
-            var product = await _productManager.UpdateNameAsync(id, productDto.ProductName);
+            var product = await _productManager.UpdateAsync(id, productDto.ProductName);
             product.Discontinued = productDto.Discontinued;
             product.UnitsOnOrder = productDto.UnitsOnOrder;
             product.QuantityPerUnit = productDto.QuantityPerUnit;

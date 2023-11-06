@@ -62,7 +62,7 @@ namespace OMSBlazor.DomainManagers.Product
             }
         }
 
-        public async Task<Northwind.OrderAggregate.Product> UpdateNameAsync(int id, string name)
+        public async Task<Northwind.OrderAggregate.Product> UpdateAsync(int id, string name)
         {
             if (!(await _productRepository.AnyAsync(x => x.Id == id)))
             {
