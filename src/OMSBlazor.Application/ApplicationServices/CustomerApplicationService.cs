@@ -17,16 +17,13 @@ namespace OMSBlazor.Application.ApplicationServices
     public class CustomerApplicationService : ApplicationService, ICustomerApplcationService
     {
         private readonly IRepository<Customer, string> _customerRepository;
-        private readonly IRepository<Order, int> _orderRepository;
         private readonly ICustomerManager _customerManager;
 
         public CustomerApplicationService(
             IRepository<Customer, string> customerRepository,
-            IRepository<Order, int> orderRepository,
             ICustomerManager customerManager)
         {
             _customerRepository = customerRepository;
-            _orderRepository = orderRepository;
             _customerManager = customerManager;
         }
 
