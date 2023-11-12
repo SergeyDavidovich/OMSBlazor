@@ -49,7 +49,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OMSBlazor.NotificationSende
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{2F38EDEC-670A-4E7D-9C0B-543E7DCD3E9A}"
 	ProjectSection(SolutionItems) = preProject
-		docs\OMS Blazor.pdf = docs\OMS Blazor.pdf
+		docs\OMSBlazor Model.pdf = docs\OMSBlazor Model.pdf
 	EndProjectSection
 EndProject
 Global
