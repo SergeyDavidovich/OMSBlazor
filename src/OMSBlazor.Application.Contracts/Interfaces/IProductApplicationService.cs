@@ -19,5 +19,7 @@ namespace OMSBlazor.Application.Contracts.Interfaces
         public Task CreateProductAsync(CreateProductDto productDto);
 
         public Task UpdateProductAsync(int id, UpdateProductDto productDto);
+
+        public Task UpdateCurrentProductUnitsInStockAsync(int id, int currentUnitsInStock);
     }
 }

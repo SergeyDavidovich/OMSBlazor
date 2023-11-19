@@ -11,12 +11,15 @@ using Volo.Abp.Application.Services;
 using OMSBlazor.Northwind.OrderAggregate;
 using OMSBlazor.Dto.Category;
 using OMSBlazor.DomainManagers.Product;
+using OMSBlazor.NotificationSender.Signalr.Messages;
+using Microsoft.AspNetCore.SignalR.Client;
 
 namespace OMSBlazor.Application.ApplicationServices
 {
-    public class ProductApplicationService : ApplicationService, IProductApplicationService
+    public class ProductApplicationService : ApplicationService, IProductApplicationService, IAsyncDisposable
     {
         private readonly IRepository<Product, int> _productRepository;
+        private readonly HubConnection hubConnection;
         private readonly IProductManager _productManager;
 
         public ProductApplicationService(
@@ -25,6 +28,10 @@ namespace OMSBlazor.Application.ApplicationServices
         {
             _productRepository = productRepository;
             _productManager = productManager;
+
+            hubConnection = new HubConnectionBuilder()
+            .WithUrl("https://localhost:44314/signalr-hubs/productUnitsInStockUpdater")
+            .Build();
         }
 
         public async Task<List<ProductDto>> GetProductsAsync()
@@ -77,6 +84,23 @@ namespace OMSBlazor.Application.ApplicationServices
             product.UnitsInStock = productDto.UnitsInStock;
 
             await _productRepository.UpdateAsync(product);
+        }
+
+        public async Task UpdateCurrentProductUnitsInStockAsync(int id, int currentUnitsInStock)
+        {
+            await hubConnection.StartAsync();
+
+            var message = new ProductUnitsInStockUpdatedMessage();
+
+            message.ProductId = id;
+            message.NewUnitsInStockNumber = currentUnitsInStock;
+
+            await hubConnection.SendAsync("UpdateProductUnitsInStock", message);
+        }
+
+        public ValueTask DisposeAsync()
+        {
+            return hubConnection.DisposeAsync();
         }
     }
 }

@@ -11,9 +11,11 @@
   <ItemGroup>
     <ProjectReference Include="..\OMSBlazor.Domain\OMSBlazor.Domain.csproj" />
     <ProjectReference Include="..\OMSBlazor.Application.Contracts\OMSBlazor.Application.Contracts.csproj" />
+    <ProjectReference Include="..\OMSBlazor.NotificationSender\OMSBlazor.NotificationSender.csproj" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="7.0.14" />
     <PackageReference Include="Volo.Abp.Account.Application" Version="7.1.1" />
     <PackageReference Include="Volo.Abp.Identity.Application" Version="7.1.1" />
     <PackageReference Include="Volo.Abp.PermissionManagement.Application" Version="7.1.1" />
