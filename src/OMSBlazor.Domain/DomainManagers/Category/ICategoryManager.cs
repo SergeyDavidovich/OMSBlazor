@@ -9,5 +9,9 @@ namespace OMSBlazor.DomainManagers.Category
     public interface ICategoryManager
     {
         public Task<Northwind.OrderAggregate.Category> CreateAsync(string name);
+
+        public Task ThrowIfCannotDeleteAsync(int id);
+
+        public Task<Northwind.OrderAggregate.Category> UpdateAsync(int id, string name);
     }
 }

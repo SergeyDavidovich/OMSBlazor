@@ -9,5 +9,9 @@ namespace OMSBlazor.DomainManagers.Customer
     public interface ICustomerManager 
     {
         public Task<Northwind.OrderAggregate.Customer> CreateAsync(string name);
+
+        public Task ThrowIfCannotDeleteAsync(string id);
+
+        public Task<Northwind.OrderAggregate.Customer> UpdateAsync(string id, string name);
     }
 }

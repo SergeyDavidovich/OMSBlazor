@@ -12,5 +12,9 @@ namespace OMSBlazor.Application.Contracts.Interfaces
         public Task<OrderDto> SaveOrderAsync(CreateOrderDto createOrderDto);
 
         public Task<List<OrderDto>> GetOrdersAsync();
+
+        public Task<OrderDto> GetOrderAsync(int id);
+
+        public Task DeleteOrderAsync(int id);
     }
 }
