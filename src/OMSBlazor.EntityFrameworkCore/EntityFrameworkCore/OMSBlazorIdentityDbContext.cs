@@ -42,8 +42,6 @@ public class OMSBlazorIdentityDbContext :
 
     public DbSet<IdentityLinkUser> LinkUsers { get; set; }
 
-    public DbSet<IdentityUserDelegation> UserDelegations { get; set; }
-
     protected override void OnModelCreating(ModelBuilder builder)
     {
         builder.SetMultiTenancySide(MultiTenancySides.Host);
