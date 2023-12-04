@@ -119,5 +119,20 @@ public class OMSBlazorDbContext :
         builder.Entity<Order>()
             .Ignore(x => x.ConcurrencyStamp)
             .Ignore(x => x.ExtraProperties);
+
+        builder.Entity<CustomersByCountry>()
+            .HasKey(x => x.CountryName);
+        builder.Entity<OrdersByCountry>()
+            .HasKey(x => x.CountryName);
+        builder.Entity<ProductsByCategory>()
+            .HasKey(x => x.CategoryName);
+        builder.Entity<PurchasesByCustomer>()
+            .HasKey(x => x.CompanyName);
+        builder.Entity<SalesByCategory>()
+            .HasKey(x => x.CategoryName);
+        builder.Entity<SalesByCountry>()
+            .HasKey(x => x.CountryName);
+        builder.Entity<SalesByEmployee>()
+            .HasKey(x => x.ID);
     }
 }
