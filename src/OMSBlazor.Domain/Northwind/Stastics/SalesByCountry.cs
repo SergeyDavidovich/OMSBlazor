@@ -8,6 +8,8 @@ namespace OMSBlazor.Northwind.Stastics
 {
     public class SalesByCountry
     {
+        private SalesByCountry() { }
+
         public SalesByCountry(string countryName)
         {
             CountryName = countryName;

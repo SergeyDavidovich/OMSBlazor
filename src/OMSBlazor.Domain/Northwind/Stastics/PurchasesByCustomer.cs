@@ -8,6 +8,8 @@ namespace OMSBlazor.Northwind.Stastics
 {
     public class PurchasesByCustomer
     {
+        private PurchasesByCustomer() { }
+
         public PurchasesByCustomer(string companyName)
         {
             CompanyName = companyName;

@@ -8,6 +8,8 @@ namespace OMSBlazor.Northwind.Stastics
 {
     public class SalesByCategory
     {
+        private SalesByCategory() { }
+
         public SalesByCategory(string categoryName)
         {
             CategoryName = categoryName;

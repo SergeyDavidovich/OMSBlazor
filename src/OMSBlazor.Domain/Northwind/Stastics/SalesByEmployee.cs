@@ -8,6 +8,8 @@ namespace OMSBlazor.Northwind.Stastics
 {
     public class SalesByEmployee
     {
+        private SalesByEmployee() { }
+
         public SalesByEmployee(int id, string lastName)
         {
             ID = id;
