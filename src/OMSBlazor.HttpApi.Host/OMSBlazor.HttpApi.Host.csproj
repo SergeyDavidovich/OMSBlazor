@@ -40,6 +40,13 @@
 
   <ItemGroup>
     <None Remove="cert-encryption.pfx" />
+    <None Remove="NorthwindSQLite.sqlite" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="NorthwindSQLite.sqlite">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
 </Project>
