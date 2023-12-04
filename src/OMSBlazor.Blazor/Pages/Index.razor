@@ -5,3 +5,216 @@
 @inject IOrderApplicationService ordersApplicationService
 @inject ICustomerApplcationService customersApplicationService
 @inject IProductApplicationService productApplicationService
+@inject ICategoryApplicationService categoryApplicationService
+
+<Row>
+    <Column id="order-stastics-column">
+        <Div Border="Border.Is1" Class="whole-column-stastics">
+            <Div Class="stastics-header">
+                <Span>ORDERS</Span>
+                <Button>Manage</Button>
+            </Div>
+            <Div>
+                <Row id="orders-stastic-first-row">
+                    <Column ColumnSize="ColumnSize.Is4">
+                        <Div Class="stastic" Border="Border.Is1.Rounded">
+                            <Span>Orders by countries(Top 10)</Span>
+                            <Div>
+                                <PieChart @ref="top10OrdersByCountriesChart" TItem="int"></PieChart>
+                            </Div>
+                        </Div>
+                    </Column>
+                    <Column ColumnSize="ColumnSize.Is4">
+                        <Div Class="stastic" Border="Border.Is1.Rounded">
+                            <Span>Sales by categories</Span>
+                            <Div>
+                                <PieChart @ref="salesByCategoriesChart" TItem="double"></PieChart>
+                            </Div>
+                        </Div>
+                    </Column>
+                    <Column ColumnSize="ColumnSize.Is4">
+                        <Div Class="stastic">
+                            Summary
+                        </Div>
+                    </Column>
+                </Row>
+                <Row id="orders-stastic-second-row">
+                    <Column>
+                        <Div Class="stastic">
+                            Orders by countries
+                        </Div>
+                    </Column>
+                </Row>
+            </Div>
+        </Div>
+    </Column>
+    <Column id="customer-stastics-column">
+        <Div Border="Border.Is1" Class="whole-column-stastics">
+            Customers
+        </Div>
+    </Column>
+    <Column id="product-and-employee-stastics">
+        <Div Border="Border.Is1" Class="half-column-stastics">
+            Employees
+        </Div>
+        <Div Border="Border.Is1" Class="half-column-stastics">
+            Products
+        </Div>
+    </Column>
+</Row>
+
+<style>
+    .stastics-header {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        padding: 5px;
+    }
+        .stastics-header > button {
+            background-color: red;
+            border-style: solid;
+            border-radius: 10px;
+            margin: 5px;
+        }
+    .stastic {
+        height: 100%;
+        width: 100%;
+        text-align: center;
+    }
+        .stastic > span {
+            display: inline-block;
+            text-align: center;
+        }
+    .whole-column-stastics {
+        height: 100%;
+    }
+    .half-column-stastics {
+        height: 50%;
+    }
+    #orders-stastic-first-row {
+        margin-left: 5px;
+        margin-right: 5px;
+    }
+    #orders-stastic-second-row {
+        margin-top: 5px;
+        margin-left: 5px;
+        margin-right: 5px;
+        margin-bottom: 5px;
+    }
+    #order-stastics-column {
+        /* flex-basis: auto; */
+        flex-grow: 2;
+    }
+    #customer-stastics-column {
+        /* flex-basis: auto; */
+        flex-grow: 1;
+    }
+    #product-and-employee-stastics {
+        /* flex-basis:auto; */
+        flex-grow: 1;
+    }
+</style>
+
+@code {
+    List<string> backgroundColors = new List<string>
+    {
+        ChartColor.FromRgba(255, 99, 132, 0.2f),
+        ChartColor.FromRgba(54, 162, 235, 0.2f),
+        ChartColor.FromRgba(255, 206, 86, 0.2f),
+        ChartColor.FromRgba(75, 192, 192, 0.2f),
+        ChartColor.FromRgba(153, 102, 255, 0.2f),
+        ChartColor.FromRgba(255, 159, 64, 0.2f)
+    };
+    List<string> borderColors = new List<string>
+    {
+        ChartColor.FromRgba(255, 99, 132, 1f),
+        ChartColor.FromRgba(54, 162, 235, 1f),
+        ChartColor.FromRgba(255, 206, 86, 1f),
+        ChartColor.FromRgba(75, 192, 192, 1f),
+        ChartColor.FromRgba(153, 102, 255, 1f),
+        ChartColor.FromRgba(255, 159, 64, 1f)
+    };
+
+    private PieChartOptions pieChartOptions = new PieChartOptions() { AspectRatio = 2.5 };
+
+    private PieChart<int>? top10OrdersByCountriesChart;
+
+    private PieChart<double>? salesByCategoriesChart;
+
+    // protected override async Task OnAfterRenderAsync(bool firstRender)
+    // {
+    //     var orders = await ordersApplicationService.GetOrdersAsync();
+    //     var orderDetails = orders.SelectMany(x => x.OrderDetails).ToList();
+    //     var customers = await customersApplicationService.GetCustomersAsync();
+    //     var products = await productApplicationService.GetProductsAsync();
+    //     var categories = await categoryApplicationService.GetCategoriesAsync();
+    //     var customerIdAndCountryDictionary = customers.ToDictionary(x => x.CustomerId, y => y.Country);
+    //     var productIdAndCategoryNameDictionary = products.ToDictionary(x => x.ProductId, x =>  x.Category.CategoryName);
+    //     await SetTop10CountriesByOrdersChartAsync(orders, customerIdAndCountryDictionary);
+    //     await SetSalesByCategoriesChartAsync(orderDetails, productIdAndCategoryNameDictionary);
+    // }    
+
+    private async Task SetSalesByCategoriesChartAsync(List<OrderDetailDto> orderDetails, Dictionary<int, string> productIdAndCategoryNameDictionary)
+    {
+        var salesByCategories = orderDetails
+            .Select(x => new
+            {
+                CategoryName = productIdAndCategoryNameDictionary[x.ProductId],
+                Sales = x.UnitPrice * x.Quantity
+            })
+            .GroupBy(x => x.CategoryName)
+            .Select(x => new
+            {
+                CategoryName = x.Key,
+                Sales = x.Sum(x => x.Sales)
+            })
+            .ToList();
+
+        var salesByCategoriesChartDataSet = new PieChartDataset<double>()
+            {
+                Data = salesByCategories.Select(x => x.Sales).ToList(),
+                BorderColor = borderColors,
+                BackgroundColor = backgroundColors,
+                BorderWidth = 1
+            };
+
+        if (salesByCategoriesChart is null)
+        {
+            throw new NullReferenceException();
+        }
+
+        await salesByCategoriesChart.AddLabelsDatasetsAndUpdate(
+            salesByCategories.Select(x => x.CategoryName).ToArray(),
+            salesByCategoriesChartDataSet);
+    }
+
+    private async Task SetTop10CountriesByOrdersChartAsync(List<OrderDto> orders, Dictionary<string, string> customerIdAndCountryDictionary)
+    {
+        var ordersByCountries = orders
+            .GroupBy(x => customerIdAndCountryDictionary[x.CustomerId!])
+            .Select(x => new
+            {
+                CountryName = x.Key,
+                OrdersCount = x.Count()
+            });
+
+        var top10OrdersByCountries = ordersByCountries.OrderByDescending(x => x.OrdersCount).Take(10).ToList();
+        var top10OrdersByCountriesChartDataSet = new PieChartDataset<int>()
+            {
+                Data = top10OrdersByCountries.Select(x => x.OrdersCount).ToList(),
+                BorderColor = borderColors,
+                BackgroundColor = backgroundColors,
+                BorderWidth = 1,
+            };
+
+        if (top10OrdersByCountriesChart is null)
+        {
+            throw new NullReferenceException();
+        }
+
+        await top10OrdersByCountriesChart.AddLabelsDatasetsAndUpdate(
+            top10OrdersByCountries.Select(x => x.CountryName).ToArray(),
+            top10OrdersByCountriesChartDataSet);
+    }
+}
