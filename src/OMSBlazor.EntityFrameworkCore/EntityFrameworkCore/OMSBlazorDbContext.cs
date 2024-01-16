@@ -12,6 +12,7 @@ using Volo.Abp.Identity;
 using Volo.Abp.Identity.EntityFrameworkCore;
 using Volo.Abp.OpenIddict.EntityFrameworkCore;
 using Volo.Abp.PermissionManagement.EntityFrameworkCore;
+using Volo.Abp.SettingManagement;
 using Volo.Abp.SettingManagement.EntityFrameworkCore;
 using Volo.Abp.TenantManagement;
 using Volo.Abp.TenantManagement.EntityFrameworkCore;
@@ -22,7 +23,8 @@ namespace OMSBlazor.EntityFrameworkCore;
 [ConnectionStringName("Default")]
 public class OMSBlazorDbContext :
     AbpDbContext<OMSBlazorDbContext>,
-    ITenantManagementDbContext
+    ITenantManagementDbContext,
+    ISettingManagementDbContext
 {
     public DbSet<Order> Orders { get; set; }
 
@@ -59,6 +61,10 @@ public class OMSBlazorDbContext :
     // Tenant Management
     public DbSet<Tenant> Tenants { get; set; }
     public DbSet<TenantConnectionString> TenantConnectionStrings { get; set; }
+
+    public DbSet<Setting> Settings { get; set; }
+
+    public DbSet<SettingDefinitionRecord> SettingDefinitionRecords { get; set; }
 
     #endregion
 

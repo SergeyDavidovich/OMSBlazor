@@ -42,6 +42,8 @@ public class OMSBlazorIdentityDbContext :
 
     public DbSet<IdentityLinkUser> LinkUsers { get; set; }
 
+    public DbSet<IdentityUserDelegation> UserDelegations => throw new NotImplementedException();
+
     protected override void OnModelCreating(ModelBuilder builder)
     {
         builder.SetMultiTenancySide(MultiTenancySides.Host);
