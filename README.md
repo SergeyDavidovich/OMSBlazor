@@ -86,6 +86,7 @@ So for example in this current case tables for Identity, Feature, and Audit logg
 `NorthwindIdentitySQLite` database. If you don't write this connection strings ABP will try to find this tables
 in the `Default` connection string(this is how Abp works)
 
+
 --------------------
 
 ### Migration to .net 8 and ABP V8 notes
