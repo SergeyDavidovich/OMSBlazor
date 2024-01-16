@@ -1,7 +1,8 @@
-## OMSBlazor
+![](https://github.com/SergeyDavidovich/OMSBlazor/blob/master/src/OMSBlazor.Blazor/wwwroot/assets/oms2.jpg?raw=true)
+
 Real-time Order Management System
 ------------------------
-### How start your application
+#### How start your application
 In order to start application you should start `HttpApi.Host` project first, then start `.Blazor` project
 In order to log in to the system use this default credentials: Login - **admin**, password - **1q2w3E***
 
@@ -89,4 +90,4 @@ in the `Default` connection string(this is how Abp works)
 ### Migration to .net 8 and ABP V8 notes
 
 - Add migration that add `AbpSettingDefinitions` table to `NorthwindSQLite`
-- Add migration that add `LastPasswordChangeTime` column to `AbpUsers` table in `NorthwindIdentitySQLite`
+- Add migration that add `LastPasswordChangeTime` column to `AbpUsers` table in `NorthwindIden
