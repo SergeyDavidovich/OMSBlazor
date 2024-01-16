@@ -86,28 +86,9 @@ So for example in this current case tables for Identity, Feature, and Audit logg
 `NorthwindIdentitySQLite` database. If you don't write this connection strings ABP will try to find this tables
 in the `Default` connection string(this is how Abp works)
 
-------------------------
+--------------------
 
-### Add current theme
+### Migration to .net 8 and ABP V8 notes
 
-Run this command in the root of our solution 
-```
-abp add-package Volo.Abp.AspNetCore.Components.WebAssembly.BasicTheme --with-source-code --add-to-solution-file
-```
-
-If you want to add your custom styles and scripts you will want to read 
-this article - https://docs.abp.io/en/abp/latest/UI/Blazor/Theming?UI=Blazor#global-styles-scripts
-
-**VERY IMPORTANT:**
-
--  ***PLEASE REMEMBER*** that in this article - https://docs.abp.io/en/abp/latest/UI/Blazor/Theming?UI=Blazor#global-styles-scripts
-docs says that you should add your styles to `wwwroot` folder. Don't be confused because in the generate project you won't have this folder so you should create it and also you should create entire tree in this folder. For example, `wwwroot`->`MyThemes` and at the end `style.css`;
-- ***PLEASE DON'T FORGET*** to run the command `abp bundle` command from the directory where your Blazor project located otherwise styles won't be applied;
-- ***PAY ATTENTION*** take into account that your Blazor project will depend on the project that contains your custom theme so when you will move this theme to another solution don't forget to add **PROJECT DEPENDENCY** first then add dependency to the module inside your **(YourProjectName)BlazorModule** class it will look something like this:
-```
-[DependsOn(
-typeof(........),
-typeof(........),
-typeof(........),
-typeof(AbpAspNetCoreComponentsWebAssemblyBasicThemeModule))]
-```
+- Add migration that add `AbpSettingDefinitions` table to `NorthwindSQLite`
+- Add migration that add `LastPasswordChangeTime` column to `AbpUsers` table in `NorthwindIdentitySQLite`
