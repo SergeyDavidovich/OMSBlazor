@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using OMSBlazor.EntityFrameworkCore;
 using Volo.Abp.EntityFrameworkCore;
@@ -11,14 +12,16 @@ using Volo.Abp.EntityFrameworkCore;
 namespace OMSBlazor.Migrations
 {
     [DbContext(typeof(OMSBlazorDbContext))]
-    partial class OMSBlazorDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231204195728_AddStastics")]
+    partial class AddStastics
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("_Abp_DatabaseProvider", EfCoreDatabaseProvider.Sqlite)
-                .HasAnnotation("ProductVersion", "8.0.0");
+                .HasAnnotation("ProductVersion", "7.0.1");
 
             modelBuilder.Entity("OMSBlazor.HostModels.CustomerDemographics", b =>
                 {
@@ -365,7 +368,6 @@ namespace OMSBlazor.Migrations
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
-                        .IsRequired()
                         .HasMaxLength(40)
                         .HasColumnType("TEXT")
                         .HasColumnName("ConcurrencyStamp");
@@ -375,7 +377,6 @@ namespace OMSBlazor.Migrations
                         .HasColumnName("CreationTime");
 
                     b.Property<string>("ExtraProperties")
-                        .IsRequired()
                         .HasColumnType("TEXT")
                         .HasColumnName("ExtraProperties");
 
@@ -423,10 +424,6 @@ namespace OMSBlazor.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("ApplicationType")
-                        .HasMaxLength(50)
-                        .HasColumnType("TEXT");
-
                     b.Property<string>("ClientId")
                         .HasMaxLength(100)
                         .HasColumnType("TEXT");
@@ -434,16 +431,11 @@ namespace OMSBlazor.Migrations
                     b.Property<string>("ClientSecret")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("ClientType")
-                        .HasMaxLength(50)
-                        .HasColumnType("TEXT");
-
                     b.Property<string>("ClientUri")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
-                        .IsRequired()
                         .HasMaxLength(40)
                         .HasColumnType("TEXT")
                         .HasColumnName("ConcurrencyStamp");
@@ -475,7 +467,6 @@ namespace OMSBlazor.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("ExtraProperties")
-                        .IsRequired()
                         .HasColumnType("TEXT")
                         .HasColumnName("ExtraProperties");
 
@@ -484,9 +475,6 @@ namespace OMSBlazor.Migrations
                         .HasColumnType("INTEGER")
                         .HasDefaultValue(false)
                         .HasColumnName("IsDeleted");
-
-                    b.Property<string>("JsonWebKeySet")
-                        .HasColumnType("TEXT");
 
                     b.Property<DateTime?>("LastModificationTime")
                         .HasColumnType("TEXT")
@@ -514,7 +502,8 @@ namespace OMSBlazor.Migrations
                     b.Property<string>("Requirements")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Settings")
+                    b.Property<string>("Type")
+                        .HasMaxLength(50)
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
@@ -535,7 +524,6 @@ namespace OMSBlazor.Migrations
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
-                        .IsRequired()
                         .HasMaxLength(40)
                         .HasColumnType("TEXT")
                         .HasColumnName("ConcurrencyStamp");
@@ -560,7 +548,6 @@ namespace OMSBlazor.Migrations
                         .HasColumnName("DeletionTime");
 
                     b.Property<string>("ExtraProperties")
-                        .IsRequired()
                         .HasColumnType("TEXT")
                         .HasColumnName("ExtraProperties");
 
@@ -611,7 +598,6 @@ namespace OMSBlazor.Migrations
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
-                        .IsRequired()
                         .HasMaxLength(40)
                         .HasColumnType("TEXT")
                         .HasColumnName("ConcurrencyStamp");
@@ -645,7 +631,6 @@ namespace OMSBlazor.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("ExtraProperties")
-                        .IsRequired()
                         .HasColumnType("TEXT")
                         .HasColumnName("ExtraProperties");
 
@@ -694,7 +679,6 @@ namespace OMSBlazor.Migrations
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
-                        .IsRequired()
                         .HasMaxLength(40)
                         .HasColumnType("TEXT")
                         .HasColumnName("ConcurrencyStamp");
@@ -722,7 +706,6 @@ namespace OMSBlazor.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("ExtraProperties")
-                        .IsRequired()
                         .HasColumnType("TEXT")
                         .HasColumnName("ExtraProperties");
 
@@ -893,6 +876,7 @@ namespace OMSBlazor.Migrations
             modelBuilder.Entity("Volo.Abp.SettingManagement.Setting", b =>
                 {
                     b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Name")
@@ -921,54 +905,6 @@ namespace OMSBlazor.Migrations
                     b.ToTable("AbpSettings", (string)null);
                 });
 
-            modelBuilder.Entity("Volo.Abp.SettingManagement.SettingDefinitionRecord", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("DefaultValue")
-                        .HasMaxLength(256)
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Description")
-                        .HasMaxLength(512)
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("DisplayName")
-                        .IsRequired()
-                        .HasMaxLength(256)
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("ExtraProperties")
-                        .HasColumnType("TEXT")
-                        .HasColumnName("ExtraProperties");
-
-                    b.Property<bool>("IsEncrypted")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<bool>("IsInherited")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<bool>("IsVisibleToClients")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(128)
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Providers")
-                        .HasMaxLength(128)
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("Name")
-                        .IsUnique();
-
-                    b.ToTable("AbpSettingDefinitions", (string)null);
-                });
-
             modelBuilder.Entity("Volo.Abp.TenantManagement.Tenant", b =>
                 {
                     b.Property<Guid>("Id")
@@ -976,7 +912,6 @@ namespace OMSBlazor.Migrations
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
-                        .IsRequired()
                         .HasMaxLength(40)
                         .HasColumnType("TEXT")
                         .HasColumnName("ConcurrencyStamp");
@@ -1001,7 +936,6 @@ namespace OMSBlazor.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("ExtraProperties")
-                        .IsRequired()
                         .HasColumnType("TEXT")
                         .HasColumnName("ExtraProperties");
 

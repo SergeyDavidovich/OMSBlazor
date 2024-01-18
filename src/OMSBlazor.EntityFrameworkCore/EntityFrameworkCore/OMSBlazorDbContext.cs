@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using OMSBlazor.HostModels;
 using OMSBlazor.Northwind.OrderAggregate;
+using OMSBlazor.Northwind.Stastics;
 using Volo.Abp.AuditLogging.EntityFrameworkCore;
 using Volo.Abp.BackgroundJobs.EntityFrameworkCore;
 using Volo.Abp.Data;
@@ -11,6 +12,7 @@ using Volo.Abp.Identity;
 using Volo.Abp.Identity.EntityFrameworkCore;
 using Volo.Abp.OpenIddict.EntityFrameworkCore;
 using Volo.Abp.PermissionManagement.EntityFrameworkCore;
+using Volo.Abp.SettingManagement;
 using Volo.Abp.SettingManagement.EntityFrameworkCore;
 using Volo.Abp.TenantManagement;
 using Volo.Abp.TenantManagement.EntityFrameworkCore;
@@ -21,7 +23,8 @@ namespace OMSBlazor.EntityFrameworkCore;
 [ConnectionStringName("Default")]
 public class OMSBlazorDbContext :
     AbpDbContext<OMSBlazorDbContext>,
-    ITenantManagementDbContext
+    ITenantManagementDbContext,
+    ISettingManagementDbContext
 {
     public DbSet<Order> Orders { get; set; }
 
@@ -37,11 +40,31 @@ public class OMSBlazorDbContext :
 
     public DbSet<CustomerDemographics> CustomerDemographics { get; set; }
 
+    #region Stastics
+    public DbSet<CustomersByCountry> CustomersByCountries { get; set; }
+
+    public DbSet<OrdersByCountry> OrdersByCountries { get; set; }
+
+    public DbSet<ProductsByCategory> ProductsByCategories { get; set; }
+
+    public DbSet<PurchasesByCustomer> PurchasesByCustomers { get; set; }
+
+    public DbSet<SalesByCategory> SalesByCategories { get; set; }
+
+    public DbSet<SalesByCountry> SalesByCountries { get; set; }
+
+    public DbSet<SalesByEmployee> SalesByEmployees { get; set; }
+    #endregion
+
     #region Entities from the modules
 
     // Tenant Management
     public DbSet<Tenant> Tenants { get; set; }
     public DbSet<TenantConnectionString> TenantConnectionStrings { get; set; }
+
+    public DbSet<Setting> Settings { get; set; }
+
+    public DbSet<SettingDefinitionRecord> SettingDefinitionRecords { get; set; }
 
     #endregion
 
@@ -102,5 +125,20 @@ public class OMSBlazorDbContext :
         builder.Entity<Order>()
             .Ignore(x => x.ConcurrencyStamp)
             .Ignore(x => x.ExtraProperties);
+
+        builder.Entity<CustomersByCountry>()
+            .HasKey(x => x.CountryName);
+        builder.Entity<OrdersByCountry>()
+            .HasKey(x => x.CountryName);
+        builder.Entity<ProductsByCategory>()
+            .HasKey(x => x.CategoryName);
+        builder.Entity<PurchasesByCustomer>()
+            .HasKey(x => x.CompanyName);
+        builder.Entity<SalesByCategory>()
+            .HasKey(x => x.CategoryName);
+        builder.Entity<SalesByCountry>()
+            .HasKey(x => x.CountryName);
+        builder.Entity<SalesByEmployee>()
+            .HasKey(x => x.ID);
     }
 }
