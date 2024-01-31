@@ -90,9 +90,9 @@ in the `Default` connection string(this is how Abp works)
 #### Migration notes
 
 - To .NET 8 migration notes: 
-1. Add migration that add `AbpSettingDefinitions` table to `NorthwindSQLite`
+1. Add migration that add `AbpSettingDefinitions` table to `NorthwindSQLite`  
 **1.1** To do this you can just create empty migration for `OMSBlazorDbContext` and copy content of `20240115220346_AddSettingsTable` (you can find this file on this path: `OMSBlazor.EntityFrameworkCore`-> `Migrations`)
-2. Add migration that add `LastPasswordChangeTime` column to `AbpUsers` table in `NorthwindIdentitySQLite`
+2. Add migration that add `LastPasswordChangeTime` column to `AbpUsers` table in `NorthwindIdentitySQLite`  
 **2.1** To do this you can just create empty migration for `OMSBlazorIdentityDbContext` and copy content of `20240116200534_AddLastPasswordChangeTimeColumn` (you can find this file on this path: `OMSBlazor.EntityFrameworkCore`-> `OMSBlazorIdentity`)
 3. Take instance of database that is now in `OMSBlazor.HttpApi.Host` and put it into the `bin` folder of the `OMSBlazor.DbMigrator` project and run `OMSBlazor.DbMigrator`. This project will add new tables to the existing database
 4. Copy back updated DBs to the `OMSBlazor.HttpApi.Host`
