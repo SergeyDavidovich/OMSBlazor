@@ -8,6 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="MudBlazor" />
     <PackageReference Include="Volo.Abp.AspNetCore.Components.Web.Theming" VersionOverride="8.0.4" />
   </ItemGroup>
 
