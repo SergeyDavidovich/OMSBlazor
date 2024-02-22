@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
+<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
 
   <Import Project="..\..\common.props" />
 
@@ -18,7 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
-	<PackageReference Include="Volo.Abp.AspNetCore.Components.WebAssembly.BasicTheme" Version="8.0.1" />
+	<ProjectReference Include="..\..\packages\Volo.Abp.AspNetCore.Components.WebAssembly.BasicTheme\Volo.Abp.AspNetCore.Components.WebAssembly.BasicTheme.csproj" />
   </ItemGroup>
 
   <ItemGroup>
