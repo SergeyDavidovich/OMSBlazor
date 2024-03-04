@@ -1,6 +1,6 @@
 ﻿@inherits LayoutComponentBase
 
-<MudThemeProvider />
+<MudThemeProvider Theme="@GrayTheme"/>
 
 <MudLayout>
     <MudAppBar Elevation="8">
@@ -32,4 +32,16 @@
     {
         _drawerOpen = !_drawerOpen;
     }
+
+    MudTheme GrayTheme = new MudTheme()
+        {
+            Palette = new Palette()
+            {
+                Primary = Colors.Grey.Default,
+                Secondary = Colors.Grey.Default,
+                AppbarBackground = Colors.Grey.Default,
+                //Define other properties here.
+            },
+
+        };
 }
