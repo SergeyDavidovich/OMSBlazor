@@ -87,6 +87,10 @@ So for example in this current case tables for Identity, Feature, and Audit logg
 `NorthwindIdentitySQLite` database. If you don't write this connection strings ABP will try to find this tables
 in the `Default` connection string(this is how Abp works)
 
+#### Integrate MudBlazor
+
+Tutorial of integration MudBlazor is here - https://github.com/yellow-dragon-cloud/AbpMudBlazor
+
 #### Migration notes
 
 - To .NET 8 migration notes: 
