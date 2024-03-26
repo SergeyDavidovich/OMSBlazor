@@ -1,2 +1,100 @@
 ﻿@page "/orders"
 @attribute [Authorize]
+
+@page "/flipFlopCard"
+@using OMSBlazor.Blazor.Components
+
+<h3>Orders</h3>
+
+<MudGrid>
+    <MudItem xs="12" md="9" lg="9">
+        <StupeniFlipFlopCard MainContentTitle="Orders managment - Create" AlternativeContentTitle="Orders managment - Journal" Icon="@Icons.Material.Filled.Edit" ButtonColor="MudBlazor.Color.Secondary" MainContentButtonText="To journal" AlternativeContentButtonText="To creation">
+            <MainChildContent>
+                <MudGrid>
+                    <MudItem xs="12" lg="6" md="6" Class="d-flex align-stretch">
+                        <StupeniCard Title="Products on Store" Icon="@Icons.Material.Filled.Home" ButtonColor="MudBlazor.Color.Secondary" ButtonText="Remove all">
+                            <MudDataGrid Items="persons">
+                                <Columns>
+                                    <PropertyColumn Property="x => x.FirstName" />
+                                    <PropertyColumn Property="x => x.LastName" />
+                                </Columns>
+                            </MudDataGrid>
+                        </StupeniCard>
+                    </MudItem>
+                    <MudItem xs="12" lg="6" md="6">
+                        <StupeniCard Title="Products in Order" Icon="@Icons.Material.Filled.Timer" ButtonColor="MudBlazor.Color.Success" ButtonText="Create" IsButtonDisabled="true">
+                            <MudGrid>
+                                <MudItem xs="12">
+                                    <MudDatePicker Label="Only Calendar" DisableToolbar="true" />
+                                </MudItem>
+                                <MudItem xs="6">
+                                    <MudSelect T="string" Label="Coffee" AnchorOrigin="Origin.BottomCenter">
+                                        <MudSelectItem Value="@("Cappuccino")" />
+                                        <MudSelectItem Value="@("Cafe Latte")" />
+                                        <MudSelectItem Value="@("Espresso")" />
+                                    </MudSelect>
+                                </MudItem>
+                                <MudItem xs="6">
+                                    <MudSelect T="string" Label="Coffee" AnchorOrigin="Origin.BottomCenter">
+                                        <MudSelectItem Value="@("Cappuccino")" />
+                                        <MudSelectItem Value="@("Cafe Latte")" />
+                                        <MudSelectItem Value="@("Espresso")" />
+                                    </MudSelect>
+                                </MudItem>
+                                <MudItem xs="12">
+                                    <MudDataGrid Items="persons">
+                                        <Columns>
+                                            <PropertyColumn Property="x => x.FirstName" Title="Nr" />
+                                            <PropertyColumn Property="x => x.LastName" />
+                                        </Columns>
+                                    </MudDataGrid>
+                                </MudItem>
+                                <MudItem xs="12">
+                                    <MudTextField T="string" Value="@("Total price: 1000")" Variant="Variant.Text" Disabled="true" />
+                                </MudItem>
+                            </MudGrid>
+                        </StupeniCard>
+                    </MudItem>
+                </MudGrid>
+            </MainChildContent>
+            <AlternativeChildContent>
+                <MudDataGrid Items="persons">
+                    <Columns>
+                        <PropertyColumn Property="x => x.FirstName" />
+                        <PropertyColumn Property="x => x.LastName" />
+                    </Columns>
+                </MudDataGrid>
+            </AlternativeChildContent>
+        </StupeniFlipFlopCard>
+    </MudItem>
+    <MudItem xs="12" md="3" lg="3">
+        <StupeniCard Title="Invoice" Icon="@Icons.Material.Filled.Pages" IsWithButton="false">
+            <div>
+                Invoice
+            </div>
+        </StupeniCard>
+    </MudItem>
+</MudGrid>
+
+@code {
+    private Person[] persons = new Person[5]
+    {
+        new Person("FirstName1", "FirstName2"),
+        new Person("FirstName2", "FirstName3"),
+        new Person("FirstName3", "FirstName3"),
+        new Person("FirstName4", "FirstName4"),
+        new Person("FirstName5", "FirstName5"),
+    };
+
+    public class Person
+    {
+        public Person(string firstName, string lastName)
+        {
+            FirstName = firstName;
+            LastName = lastName;
+        }
+
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+    }
+}

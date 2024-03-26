@@ -1,0 +1,65 @@
+﻿<MudGrid>
+    <MudItem xs="12">
+        <MudPaper Class="d-flex flex-column rounded" Elevation="3" Style="height:100%">
+            <div id="bar" class="d-flex gap-4 justify-space-between mud-theme-primary flex-grow-2">
+                <div id="title" class="d-flex gap-2 align-center">
+                    <MudIcon Icon="@Icon" />
+                    <span id="title-text">@Title</span>
+                </div>
+                <MudButton id="card-button" Class="@buttonVisibility" Style="height:39px; width:auto" Variant="Variant.Filled" Color="@ButtonColor" Disabled="@IsButtonDisabled" OnClick="@OnClickCallBack">
+                    @ButtonText
+                </MudButton>
+            </div>
+            <div id="content" class="flex-grow-10">
+                @ChildContent
+            </div>
+        </MudPaper>
+    </MudItem>
+</MudGrid>
+
+<style>
+    #title {
+        margin: 5px;
+    }
+
+    #card-button {
+        margin: 5px;
+    }
+
+    #content {
+        margin: 10px;
+    }
+</style>
+
+@code {
+    [Parameter]
+    public string? Icon { get; set; }
+
+    [Parameter]
+    public string? Title { get; set; }
+
+    [Parameter]
+    public string? ButtonText { get; set; }
+
+    [Parameter]
+    public MudBlazor.Color ButtonColor { get; set; }
+
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+
+    [Parameter]
+    public bool IsButtonDisabled { get; set; } = false;
+
+    [Parameter]
+    public bool IsWithButton { get; set; } = true;
+
+    [Parameter]
+    public EventCallback OnClickCallBack { get; set; }
+
+    private string buttonVisibility = "visible";
+
+    protected override void OnParametersSet()
+    {
+        buttonVisibility = IsWithButton ? "visible" : "invisible";
+    }
+}
