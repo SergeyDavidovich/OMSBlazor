@@ -48,7 +48,18 @@ public class OMSBlazorMenuContributor : IMenuContributor
                 icon: "fas fa-home"
             )
         );
-     
+
+        context.Menu.Items.Insert(
+            1,
+            new ApplicationMenuItem(
+                OMSBlazorMenus.Home,
+                "Orders",
+                "/orders",
+                icon: "fas fa-edit"
+            )
+        );
+
+
         var administration = context.Menu.GetAdministration();
 
         if (MultiTenancyConsts.IsEnabled)

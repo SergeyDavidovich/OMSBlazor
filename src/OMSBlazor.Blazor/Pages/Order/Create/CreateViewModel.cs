@@ -20,7 +20,7 @@ using OMSBlazor.Dto.Product;
 using OMSBlazor.Dto.Order;
 using OMSBlazor.Application.Contracts.Interfaces;
 
-namespace OMSBlazor.Blazor.Pages.Order.CreateViewModel
+namespace OMSBlazor.Blazor.Pages.Order.Create
 {
     public class CreateViewModel : ReactiveObject
     {
