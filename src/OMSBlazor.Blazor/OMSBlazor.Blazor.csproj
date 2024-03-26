@@ -35,5 +35,9 @@
     <ProjectReference Include="..\..\src\OMSBlazor.HttpApi.Client\OMSBlazor.HttpApi.Client.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Pages\CreateOrder\" />
+  </ItemGroup>
+
 
 </Project>
