@@ -38,8 +38,8 @@ namespace OMSBlazor.Application.ApplicationServices
             employee.City = employeeDto.City;
             employee.Country = employeeDto.Country;
             employee.Extension = employeeDto.Extension;
+            employee.TitleOfCourtesy = employeeDto.TitleOfCoursery;
             employee.ReportsTo = employeeDto.ReportsTo;
-            employee.TitleOfCoursery = employeeDto.TitleOfCoursery;
             employee.Title = employeeDto.Title;
             employee.Region = employeeDto.Region;
             employee.PostalCode = employeeDto.PostalCode;
@@ -89,10 +89,10 @@ namespace OMSBlazor.Application.ApplicationServices
             employee.Address = employeeDto.Address;
             employee.City = employeeDto.City;
             employee.Country = employeeDto.Country;
+            employee.TitleOfCourtesy = employeeDto.TitleOfCoursery;
             employee.Notes = employeeDto.Notes;
             employee.PostalCode = employeeDto.PostalCode;
             employee.Title = employeeDto.Title;
-            employee.TitleOfCoursery = employeeDto.TitleOfCoursery;
             employee.Region = employeeDto.Region;
 
             await _employeeRepository.UpdateAsync(employee);

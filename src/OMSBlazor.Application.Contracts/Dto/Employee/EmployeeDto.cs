@@ -14,7 +14,7 @@ namespace OMSBlazor.Dto.Employee
 
         public string Title { get; set; }
 
-        public string TitleOfCoursery { get; set; }
+        public string TitleOfCourtesy { get; set; }
 
         public DateTime BirthDate { get; set; }
 

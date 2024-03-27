@@ -17,6 +17,9 @@ using Volo.Abp.UI.Navigation;
 using Volo.Abp.Identity.Blazor.WebAssembly;
 using Volo.Abp.SettingManagement.Blazor.WebAssembly;
 using Volo.Abp.TenantManagement.Blazor.WebAssembly;
+using OMSBlazor.Blazor.Pages.Order.Create;
+using Splat;
+using ReactiveUI;
 
 namespace OMSBlazor.Blazor;
 
@@ -42,6 +45,20 @@ public class OMSBlazorBlazorModule : AbpModule
         ConfigureUI(builder);
         ConfigureMenu(context);
         ConfigureAutoMapper(context);
+        ConfigureReactiveUI(context);
+        ConfigureViewModels(context);
+    }
+
+    private void ConfigureReactiveUI(ServiceConfigurationContext context)
+    {
+        var resolver = Locator.CurrentMutable;
+        resolver.InitializeSplat();
+        resolver.InitializeReactiveUI();
+    }
+
+    private void ConfigureViewModels(ServiceConfigurationContext context)
+    {
+        context.Services.AddTransient<CreateViewModel>();
     }
 
     private void ConfigureRouter(ServiceConfigurationContext context)

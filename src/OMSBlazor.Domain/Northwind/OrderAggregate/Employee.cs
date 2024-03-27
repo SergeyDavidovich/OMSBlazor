@@ -23,7 +23,7 @@ namespace OMSBlazor.Northwind.OrderAggregate
 
         public string? Title { get; set; }
 
-        public string? TitleOfCoursery { get; set; }
+        public string? TitleOfCourtesy { get; set; }
 
         public DateTime BirthDate { get; set; }
 
@@ -45,7 +45,7 @@ namespace OMSBlazor.Northwind.OrderAggregate
 
         public string? Notes { get; set; }
 
-        public int ReportsTo { get; set; }
+        public int? ReportsTo { get; set; }
 
         public string? PhotoPath { get; set; }
 

@@ -1,8 +1,10 @@
 ﻿@page "/orders"
 @attribute [Authorize]
-
-@page "/flipFlopCard"
 @using OMSBlazor.Blazor.Components
+@using OMSBlazor.Blazor.Pages.Order.Create
+@using OMSBlazor.Dto.Product
+@using ReactiveUI.Blazor
+@inherits ReactiveComponentBase<CreateViewModel>
 
 <h3>Orders</h3>
 
@@ -13,10 +15,14 @@
                 <MudGrid>
                     <MudItem xs="12" lg="6" md="6" Class="d-flex align-stretch">
                         <StupeniCard Title="Products on Store" Icon="@Icons.Material.Filled.Home" ButtonColor="MudBlazor.Color.Secondary" ButtonText="Remove all">
-                            <MudDataGrid Items="persons">
+                            <MudDataGrid Items="Products" Virtualize="true" FixedHeader="true" Height="800px">
                                 <Columns>
-                                    <PropertyColumn Property="x => x.FirstName" />
-                                    <PropertyColumn Property="x => x.LastName" />
+                                    <SelectColumn/>
+                                    <PropertyColumn Title="Id" Property="x=>x.ProductID"/>
+                                    <PropertyColumn Title="Product name" Property="x => x.ProductName" />
+                                    <PropertyColumn Title="Unit price" Property="x => x.UnitPrice" />
+                                    <PropertyColumn Title="Unit in stock" Property="x=>x.UnitsInStock"/>
+                                    <PropertyColumn Title="Unit in stock" Property="x=>x.UnitsInStock" />
                                 </Columns>
                             </MudDataGrid>
                         </StupeniCard>

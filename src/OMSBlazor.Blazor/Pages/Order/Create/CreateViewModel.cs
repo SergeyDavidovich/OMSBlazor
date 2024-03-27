@@ -254,8 +254,11 @@ namespace OMSBlazor.Blazor.Pages.Order.Create
         }
         #endregion
 
-        #region Implementation of INavigationAware
-        public async void OnNavigatedTo(NavigationContext navigationContext)
+        /// <summary>
+        /// Call this method when navigation to view occured
+        /// </summary>
+        /// <returns></returns>
+        public async Task OnNavigatedTo()
         {
             if (products.Count == 0)
             {
@@ -274,7 +277,6 @@ namespace OMSBlazor.Blazor.Pages.Order.Create
                 customers.AddRange(customerList);
             }
         }
-        #endregion
 
         #region Properties
         public ReadOnlyObservableCollection<ProductInOrder> ProductsInOrder => _productsInOrder;
@@ -325,6 +327,8 @@ namespace OMSBlazor.Blazor.Pages.Order.Create
         }
 
         private decimal TotalSum { set; get; }
+
+        public ViewModelActivator Activator { get; }
         #endregion
 
         #region Screen objects
