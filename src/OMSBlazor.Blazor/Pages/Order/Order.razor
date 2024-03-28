@@ -3,8 +3,6 @@
 @using OMSBlazor.Blazor.Components
 @using OMSBlazor.Blazor.Pages.Order.Create
 @using OMSBlazor.Dto.Product
-@using ReactiveUI.Blazor
-@inherits ReactiveComponentBase<CreateViewModel>
 
 <h3>Orders</h3>
 
@@ -12,56 +10,7 @@
     <MudItem xs="12" md="9" lg="9">
         <StupeniFlipFlopCard MainContentTitle="Orders managment - Create" AlternativeContentTitle="Orders managment - Journal" Icon="@Icons.Material.Filled.Edit" ButtonColor="MudBlazor.Color.Secondary" MainContentButtonText="To journal" AlternativeContentButtonText="To creation">
             <MainChildContent>
-                <MudGrid>
-                    <MudItem xs="12" lg="6" md="6" Class="d-flex align-stretch">
-                        <StupeniCard Title="Products on Store" Icon="@Icons.Material.Filled.Home" ButtonColor="MudBlazor.Color.Secondary" ButtonText="Remove all">
-                            <MudDataGrid Items="@ViewModel!.ProductsInStore" Virtualize="true" FixedHeader="true" Height="800px">
-                                <Columns>
-                                    <SelectColumn/>
-                                    <PropertyColumn Title="Id" Property="x=>x.ProductID"/>
-                                    <PropertyColumn Title="Product name" Property="x => x.ProductName" />
-                                    <PropertyColumn Title="Unit price" Property="x => x.UnitPrice" />
-                                    <PropertyColumn Title="Unit in stock" Property="x=>x.UnitsInStock"/>
-                                    <PropertyColumn Title="Unit in stock" Property="x=>x.UnitsInStock" />
-                                </Columns>
-                            </MudDataGrid>
-                        </StupeniCard>
-                    </MudItem>
-                    <MudItem xs="12" lg="6" md="6">
-                        <StupeniCard Title="Products in Order" Icon="@Icons.Material.Filled.Timer" ButtonColor="MudBlazor.Color.Success" ButtonText="Create" IsButtonDisabled="true">
-                            <MudGrid>
-                                <MudItem xs="12">
-                                    <MudDatePicker Label="Only Calendar" DisableToolbar="true" />
-                                </MudItem>
-                                <MudItem xs="6">
-                                    <MudSelect T="string" Label="Coffee" AnchorOrigin="Origin.BottomCenter">
-                                        <MudSelectItem Value="@("Cappuccino")" />
-                                        <MudSelectItem Value="@("Cafe Latte")" />
-                                        <MudSelectItem Value="@("Espresso")" />
-                                    </MudSelect>
-                                </MudItem>
-                                <MudItem xs="6">
-                                    <MudSelect T="string" Label="Coffee" AnchorOrigin="Origin.BottomCenter">
-                                        <MudSelectItem Value="@("Cappuccino")" />
-                                        <MudSelectItem Value="@("Cafe Latte")" />
-                                        <MudSelectItem Value="@("Espresso")" />
-                                    </MudSelect>
-                                </MudItem>
-                                <MudItem xs="12">
-                                    <MudDataGrid Items="persons">
-                                        <Columns>
-                                            <PropertyColumn Property="x => x.FirstName" Title="Nr" />
-                                            <PropertyColumn Property="x => x.LastName" />
-                                        </Columns>
-                                    </MudDataGrid>
-                                </MudItem>
-                                <MudItem xs="12">
-                                    <MudTextField T="string" Value="@("Total price: 1000")" Variant="Variant.Text" Disabled="true" />
-                                </MudItem>
-                            </MudGrid>
-                        </StupeniCard>
-                    </MudItem>
-                </MudGrid>
+                <CreateView></CreateView>
             </MainChildContent>
             <AlternativeChildContent>
                 <MudDataGrid Items="persons">
