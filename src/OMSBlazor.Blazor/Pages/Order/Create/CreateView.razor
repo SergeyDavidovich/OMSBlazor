@@ -1,13 +1,19 @@
 ﻿@using OMSBlazor.Blazor.Components
+@using OMSBlazor.Dto.Customer
+@using OMSBlazor.Dto.Employee
 @using ReactiveUI.Blazor
 @inherits ReactiveComponentBase<CreateViewModel>
 
 <MudGrid>
     <MudItem xs="12" lg="6" md="6" Class="d-flex align-stretch">
         <StupeniCard Title="Products on Store" Icon="@Icons.Material.Filled.Home" ButtonColor="MudBlazor.Color.Secondary" ButtonText="Remove all">
-            <MudDataGrid Items="@ViewModel!.ProductsInStore" Virtualize="true" FixedHeader="true" Height="800px">
+            <MudDataGrid Items="@ViewModel!.ProductsInStore" Virtualize="true" FixedHeader="true" Height="600px">
                 <Columns>
-                    <SelectColumn />
+                    <TemplateColumn Title="Added" IsEditable="true">
+                        <CellTemplate>
+                            <MudCheckBox @bind-Value="context.Item.Added"/>
+                        </CellTemplate>
+                    </TemplateColumn>
                     <PropertyColumn Title="Id" Property="x=>x.ProductID" />
                     <PropertyColumn Title="Product name" Property="x => x.ProductName" />
                     <PropertyColumn Title="Unit price" Property="x => x.UnitPrice" />
@@ -17,62 +23,48 @@
             </MudDataGrid>
         </StupeniCard>
     </MudItem>
-    <MudItem xs="12" lg="6" md="6">
+    <MudItem xs="12" lg="6" md="6" Class="d-flex align-stretch">
         <StupeniCard Title="Products in Order" Icon="@Icons.Material.Filled.Timer" ButtonColor="MudBlazor.Color.Success" ButtonText="Create" IsButtonDisabled="true">
             <MudGrid>
                 <MudItem xs="12">
-                    <MudDatePicker Label="Only Calendar" DisableToolbar="true" />
+                    <MudDatePicker Label="Order date" ReadOnly="true" DisableToolbar="true" />
                 </MudItem>
                 <MudItem xs="6">
-                    <MudSelect T="string" Label="Coffee" AnchorOrigin="Origin.BottomCenter">
-                        <MudSelectItem Value="@("Cappuccino")" />
-                        <MudSelectItem Value="@("Cafe Latte")" />
-                        <MudSelectItem Value="@("Espresso")" />
+                    <MudSelect T="EmployeeDto" ToStringFunc="GetFullName" Label="Employee" AnchorOrigin="Origin.BottomCenter">
+                        @foreach (var employee in ViewModel!.Employees)
+                        {
+                            <MudSelectItem Value="employee"/>
+                        }
                     </MudSelect>
                 </MudItem>
                 <MudItem xs="6">
-                    <MudSelect T="string" Label="Coffee" AnchorOrigin="Origin.BottomCenter">
-                        <MudSelectItem Value="@("Cappuccino")" />
-                        <MudSelectItem Value="@("Cafe Latte")" />
-                        <MudSelectItem Value="@("Espresso")" />
+                    <MudSelect T="CustomerDto" ToStringFunc="GetCustomerName" Label="Customer" AnchorOrigin="Origin.BottomCenter">
+                        @foreach (var customer in ViewModel!.Customers)
+                        {
+                            <MudSelectItem Value="customer"/>
+                        }
                     </MudSelect>
                 </MudItem>
                 <MudItem xs="12">
-                    <MudDataGrid Items="persons">
+                    <MudDataGrid Items="@ViewModel!.ProductsInOrder">
                         <Columns>
-                            <PropertyColumn Property="x => x.FirstName" Title="Nr" />
-                            <PropertyColumn Property="x => x.LastName" />
+                            <PropertyColumn Title="Id" Property="x => x.ProductID" />
+                            <PropertyColumn Title="Product name" Property="x => x.ProductName" />
+                            <PropertyColumn Title="Unit price" Property="x=>x.UnitPrice"/>
+                            <PropertyColumn Title="Quantity" Property="x=>x.SelectedQuantity"/>
+                            <PropertyColumn Title="Discount" Property="x=>x.SelectedDiscount"/>
                         </Columns>
                     </MudDataGrid>
                 </MudItem>
                 <MudItem xs="12">
-                    <MudTextField T="string" Value="@("Total price: 1000")" Variant="Variant.Text" Disabled="true" />
+                    <MudTextField T="string" Value="@($"Total price: {ViewModel!.TotalSumString}")" Variant="Variant.Text" Disabled="true"/>
                 </MudItem>
             </MudGrid>
         </StupeniCard>
     </MudItem>
 </MudGrid>
 
-
 @code {
-    private Person[] persons = new Person[5]
-    {
-        new Person("FirstName1", "FirstName2"),
-        new Person("FirstName2", "FirstName3"),
-        new Person("FirstName3", "FirstName3"),
-        new Person("FirstName4", "FirstName4"),
-        new Person("FirstName5", "FirstName5"),
-    };
-
-    public class Person
-    {
-        public Person(string firstName, string lastName)
-        {
-            FirstName = firstName;
-            LastName = lastName;
-        }
-
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-    }
+    private Func<EmployeeDto, string> GetFullName = employee => $"{employee.FirstName} {employee.LastName}";
+    private Func<CustomerDto, string> GetCustomerName = customer => $"{customer.CompanyName}";
 }
