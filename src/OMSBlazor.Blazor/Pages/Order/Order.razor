@@ -15,7 +15,7 @@
                 <MudGrid>
                     <MudItem xs="12" lg="6" md="6" Class="d-flex align-stretch">
                         <StupeniCard Title="Products on Store" Icon="@Icons.Material.Filled.Home" ButtonColor="MudBlazor.Color.Secondary" ButtonText="Remove all">
-                            <MudDataGrid Items="Products" Virtualize="true" FixedHeader="true" Height="800px">
+                            <MudDataGrid Items="@ViewModel!.ProductsInStore" Virtualize="true" FixedHeader="true" Height="800px">
                                 <Columns>
                                     <SelectColumn/>
                                     <PropertyColumn Title="Id" Property="x=>x.ProductID"/>
