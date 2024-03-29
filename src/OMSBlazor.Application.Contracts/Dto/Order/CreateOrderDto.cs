@@ -14,7 +14,7 @@ namespace OMSBlazor.Dto.Order
         public int EmployeeId { get; set; }
 
         [Required]
-        public List<OrderDetailDto> OrderDetails { get; }
+        public List<OrderDetailDto> OrderDetails { get; set; }
 
         public DateTime RequiredDate { get; set; }
 

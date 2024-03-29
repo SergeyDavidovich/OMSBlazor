@@ -11,6 +11,11 @@ namespace OMSBlazor.Blazor.Pages.Order.Create
             ViewModel = createViewModel;
         }
 
+        private async Task CreateOrderButtonClicked()
+        {
+            await ViewModel!.CreateOrderCommand.Execute();
+        }
+
         private async Task RemoveAllButtonClicked()
         {
             await ViewModel!.RemoveAllCommand.Execute();

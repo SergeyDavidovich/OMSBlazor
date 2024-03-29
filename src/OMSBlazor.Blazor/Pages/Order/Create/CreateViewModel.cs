@@ -68,18 +68,19 @@ namespace OMSBlazor.Blazor.Pages.Order.Create
 
             productsInOrder.CountChanged.Subscribe(currentCount => { CountOfProductsInOrder = currentCount; });
 
-            var canCreateOrderExecute = this.WhenAnyValue(vm => vm.SelectedCustomer, vm => vm.SelectedEmployee, vm => vm.CountOfProductsInOrder).
+            createOrderButtonDisabled = this.WhenAnyValue(vm => vm.SelectedCustomer, vm => vm.SelectedEmployee, vm => vm.CountOfProductsInOrder).
                 Select(x =>
                 {
-                    if (x.Item1 == null || x.Item2 == null || x.Item3 == 0) return false;
-                    return true;
-                });
+                    if (x.Item1 == null || x.Item2 == null || x.Item3 == 0) return true;
+                    return false;
+                })
+                .ToProperty(this, x => x.CreateOrderButtonDisabled);
 
             this.WhenAnyValue(vm => vm.SelectedCustomer, vm => vm.SelectedEmployee, vm => vm.CountOfProductsInOrder).
                 Subscribe(x =>
                 {
-                    if (x.Item1 != null || x.Item2 != null || x.Item3 != 0) OrderDate = DateTime.Now.ToLongDateString();
-                    else OrderDate = "";
+                    if (x.Item1 != null || x.Item2 != null || x.Item3 != 0) OrderDate = DateTime.Now;
+                    else OrderDate = null;
                 });
 
             products.Connect().
@@ -105,7 +106,7 @@ namespace OMSBlazor.Blazor.Pages.Order.Create
                 Subscribe();
 
             RemoveAllCommand = ReactiveCommand.Create(RemoveAllCommandExecute, canRemoveAllExecute);
-            CreateOrderCommand = ReactiveCommand.Create(CreateOrderExecute, canCreateOrderExecute);
+            CreateOrderCommand = ReactiveCommand.CreateFromTask(CreateOrderExecute);
         }
 
         #region Commands
@@ -127,14 +128,14 @@ namespace OMSBlazor.Blazor.Pages.Order.Create
         #region Create
         public ReactiveCommand<Unit, Unit> CreateOrderCommand { get; }
 
-        private async void CreateOrderExecute()
+        private async Task CreateOrderExecute()
         {
             CreateOrderDto newOrder = new CreateOrderDto();
             string shipCountry = "USA";
 
             newOrder.CustomerId = SelectedCustomer.CustomerId;
             newOrder.EmployeeId = SelectedEmployee.EmployeeId;
-            newOrder.RequiredDate = DateTime.Parse(OrderDate);
+            newOrder.RequiredDate = OrderDate!.Value;
             newOrder.ShipCountry = shipCountry;
 
             ProductsInOrder.ForEach(productInOrder => productInOrder.IsSaled = true);
@@ -147,12 +148,14 @@ namespace OMSBlazor.Blazor.Pages.Order.Create
                 Discount = p.SelectedDiscount / 100
             }).ToList();
 
+            newOrder.OrderDetails = orderDetails;
+
             await _orderApplicationService.SaveOrderAsync(newOrder);
 
             RemoveAllCommand.Execute().Subscribe();
 
             productsInOrder.Clear();
-            OrderDate = string.Empty;
+            OrderDate = null;
             SelectedCustomer = null;
             SelectedEmployee = null;
         }
@@ -298,8 +301,8 @@ namespace OMSBlazor.Blazor.Pages.Order.Create
             set { this.RaiseAndSetIfChanged(ref _selectedCustomer, value); }
         }
 
-        private string _orderDate;
-        public string OrderDate
+        private DateTime? _orderDate;
+        public DateTime? OrderDate
         {
             get { return _orderDate; }
             set { this.RaiseAndSetIfChanged(ref _orderDate, value); }
@@ -326,9 +329,13 @@ namespace OMSBlazor.Blazor.Pages.Order.Create
             get { return _totalSumString; }
         }
 
-        private decimal TotalSum { set; get; }
+        private readonly ObservableAsPropertyHelper<bool> createOrderButtonDisabled;
+        public bool CreateOrderButtonDisabled
+        {
+            get { return createOrderButtonDisabled.Value; }
+        }
 
-        public ViewModelActivator Activator { get; }
+        private decimal TotalSum { set; get; }
         #endregion
 
         #region Screen objects

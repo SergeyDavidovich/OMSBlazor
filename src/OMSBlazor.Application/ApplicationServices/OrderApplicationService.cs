@@ -25,8 +25,11 @@ namespace OMSBlazor.Application.ApplicationServices
 
         public async Task<OrderDto> SaveOrderAsync(CreateOrderDto createOrderDto)
         {
-            var orderDetails = ObjectMapper.Map<List<OrderDetailDto>, List<OrderDetail>>(createOrderDto.OrderDetails);
-            var order = await _orderManager.CreateAsync(createOrderDto.EmployeeId, createOrderDto.CustomerId, orderDetails);
+            var order = await _orderManager.CreateAsync(createOrderDto.EmployeeId, createOrderDto.CustomerId);
+            foreach (var orderDetailDto in createOrderDto.OrderDetails)
+            {
+                order.AddOrderDetail(orderDetailDto.ProductId, orderDetailDto.Quantity, orderDetailDto.UnitPrice, orderDetailDto.Discount);
+            }
 
             order.RequiredDate = createOrderDto.RequiredDate;
             order.ShipRegion = createOrderDto.ShipRegion;

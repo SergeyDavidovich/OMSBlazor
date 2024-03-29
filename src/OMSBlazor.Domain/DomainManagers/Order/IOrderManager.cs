@@ -9,6 +9,6 @@ namespace OMSBlazor.DomainManagers.Order
 {
     public interface IOrderManager
     {
-        public Task<Northwind.OrderAggregate.Order> CreateAsync(int employeeId, string customerId, List<OrderDetail> orderDetails);
+        public Task<Northwind.OrderAggregate.Order> CreateAsync(int employeeId, string customerId);
     }
 }

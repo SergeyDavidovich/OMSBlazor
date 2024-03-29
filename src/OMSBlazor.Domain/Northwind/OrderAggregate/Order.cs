@@ -46,7 +46,7 @@ namespace OMSBlazor.Northwind.OrderAggregate
 
         public string? ShipCountry { get; set; }
 
-        public virtual ICollection<OrderDetail> OrderDetails { get; private set; }
+        public virtual List<OrderDetail> OrderDetails { get; private set; } = new List<OrderDetail>();
 
         public void AddOrderDetail(int productId, int quantity, double unitPrice, float discount)
         {

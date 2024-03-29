@@ -18,16 +18,11 @@ namespace OMSBlazor.DomainManagers.Order
             _orderRepository = orderRepository;
         }
 
-        public async Task<Northwind.OrderAggregate.Order> CreateAsync(int employeeId, string customerId, List<OrderDetail> orderDetails)
+        public async Task<Northwind.OrderAggregate.Order> CreateAsync(int employeeId, string customerId)
         {
             var lastOrderId = (await _orderRepository.GetListAsync()).Last().Id;
 
             var order = new Northwind.OrderAggregate.Order(lastOrderId + 1, employeeId, customerId);
-
-            foreach (var orderDetail in orderDetails)
-            {
-                order.AddOrderDetail(orderDetail.ProductId, orderDetail.Quantity, orderDetail.UnitPrice, orderDetail.Discount);
-            }
 
             return order;
         }
