@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using ReactiveUI;
+using System.Reactive.Linq;
+using System.Threading.Tasks;
 
 namespace OMSBlazor.Blazor.Pages.Order.Create
 {
@@ -7,6 +9,11 @@ namespace OMSBlazor.Blazor.Pages.Order.Create
         public CreateView(CreateViewModel createViewModel)
         {
             ViewModel = createViewModel;
+        }
+
+        private async Task RemoveAllButtonClicked()
+        {
+            await ViewModel!.RemoveAllCommand.Execute();
         }
 
         protected async override Task OnParametersSetAsync()

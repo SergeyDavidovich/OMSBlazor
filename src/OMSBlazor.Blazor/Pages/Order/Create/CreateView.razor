@@ -6,7 +6,7 @@
 
 <MudGrid>
     <MudItem xs="12" lg="6" md="6" Class="d-flex align-stretch">
-        <StupeniCard Title="Products on Store" Icon="@Icons.Material.Filled.Home" ButtonColor="MudBlazor.Color.Secondary" ButtonText="Remove all">
+        <StupeniCard Title="Products on Store" Icon="@Icons.Material.Filled.Home" ButtonColor="MudBlazor.Color.Secondary" ButtonText="Remove all" OnClickCallBack="RemoveAllButtonClicked">
             <MudDataGrid Items="@ViewModel!.ProductsInStore" Virtualize="true" FixedHeader="true" Height="600px">
                 <Columns>
                     <TemplateColumn Title="Added" IsEditable="true">
