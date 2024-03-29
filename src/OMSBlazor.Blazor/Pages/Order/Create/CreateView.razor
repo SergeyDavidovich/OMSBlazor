@@ -51,8 +51,16 @@
                             <PropertyColumn Title="Id" Property="x => x.ProductID" />
                             <PropertyColumn Title="Product name" Property="x => x.ProductName" />
                             <PropertyColumn Title="Unit price" Property="x=>x.UnitPrice"/>
-                            <PropertyColumn Title="Quantity" Property="x=>x.SelectedQuantity"/>
-                            <PropertyColumn Title="Discount" Property="x=>x.SelectedDiscount"/>
+                            <TemplateColumn Title="Quantity">
+                                <CellTemplate>
+                                    <MudNumericField T="short" @bind-Value="context.Item.SelectedQuantity" Variant="Variant.Text" Min="0" />
+                                </CellTemplate>
+                            </TemplateColumn>
+                            <TemplateColumn Title="Discount">
+                                <CellTemplate>
+                                    <MudNumericField T="float" @bind-Value="context.Item.SelectedDiscount" Variant="Variant.Text" Min="0" Max="100"/>
+                                </CellTemplate>
+                            </TemplateColumn>
                         </Columns>
                     </MudDataGrid>
                 </MudItem>
