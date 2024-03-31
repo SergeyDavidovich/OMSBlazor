@@ -1,4 +1,5 @@
 ﻿using ReactiveUI;
+using System;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
 
@@ -21,7 +22,7 @@ namespace OMSBlazor.Blazor.Pages.Order.Create
             await ViewModel!.RemoveAllCommand.Execute();
         }
 
-        protected async override Task OnParametersSetAsync()
+        protected async override Task OnInitializedAsync()
         {
             await ViewModel!.OnNavigatedTo();
         }
