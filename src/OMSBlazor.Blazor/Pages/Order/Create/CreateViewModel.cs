@@ -15,7 +15,6 @@ using OMSBlazor.Dto.Product;
 using OMSBlazor.Dto.Order;
 using OMSBlazor.Application.Contracts.Interfaces;
 using Microsoft.AspNetCore.SignalR.Client;
-using Microsoft.Extensions.Logging;
 
 namespace OMSBlazor.Blazor.Pages.Order.Create
 {
