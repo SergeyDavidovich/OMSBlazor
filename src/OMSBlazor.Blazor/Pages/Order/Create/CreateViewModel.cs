@@ -2,23 +2,20 @@
 using System.Collections.Generic;
 using System.Linq;
 using ReactiveUI;
-using System.Text;
 using System.Threading.Tasks;
 using System.Collections.ObjectModel;
 using DynamicData;
 using DynamicData.Binding;
 using System.Reactive.Linq;
 using System.Reactive;
-using System.Data.Common;
-using System.Runtime.InteropServices;
-using DynamicData.Kernel;
-using Microsoft.AspNetCore.Components.Routing;
 using NUglify.Helpers;
 using OMSBlazor.Dto.Employee;
 using OMSBlazor.Dto.Customer;
 using OMSBlazor.Dto.Product;
 using OMSBlazor.Dto.Order;
 using OMSBlazor.Application.Contracts.Interfaces;
+using Microsoft.AspNetCore.SignalR.Client;
+using Microsoft.Extensions.Logging;
 
 namespace OMSBlazor.Blazor.Pages.Order.Create
 {
@@ -41,6 +38,8 @@ namespace OMSBlazor.Blazor.Pages.Order.Create
         private readonly SourceList<CustomerDto> customers;
 
         private List<ProductDto> productsList;
+
+        private readonly HubConnection hubConnection;
         #endregion
 
         public CreateViewModel(
@@ -49,6 +48,10 @@ namespace OMSBlazor.Blazor.Pages.Order.Create
             IProductApplicationService productApplicationService,
             ICustomerApplcationService customerApplcationService)
         {
+            this.hubConnection = new HubConnectionBuilder()
+                .WithUrl("https://localhost:44314/signalr-hubs/product")
+                .Build();
+
             _employeeApplicationService = employeeApplicationService;
             _orderApplicationService = orderApplicationService;
             _productApplicationService = productApplicationService;
@@ -246,13 +249,14 @@ namespace OMSBlazor.Blazor.Pages.Order.Create
 
                     return deltaQuantity;
                 })
-                .Subscribe(newValue =>
+                .Subscribe(async newValue =>
                 {
                     newProductInOrder.SourceProductOnStore.UnitsInStock -= (short)newValue;
 
-                    ProductDto productToReplace = productsList.First(x => x.ProductId == newProductInOrder.ProductID);
+                    var product = productsList.First(x => x.ProductId == newProductInOrder.ProductID);
 
-                    productToReplace.UnitsInStock -= (short)newValue;
+                    product.UnitsInStock -= (short)newValue;
+                    await hubConnection.SendAsync("UpdateProductUnitsInStock", hubConnection.ConnectionId, newProductInOrder.ProductID, newValue);
                 });
         }
         #endregion
@@ -279,6 +283,15 @@ namespace OMSBlazor.Blazor.Pages.Order.Create
                 var customerList = await _customerApplcationService.GetCustomersAsync();
                 customers.AddRange(customerList);
             }
+
+            hubConnection.On<int, int>("UpdateQuantity", (productId, quantity) =>
+            {
+                var product = ProductsInStore.Single(x => x.ProductID == productId);
+                product.UnitsInStock -= quantity;
+                this.RaisePropertyChanged(nameof(ProductsInStore));
+            });
+
+            await hubConnection.StartAsync();
         }
 
         #region Properties
@@ -334,7 +347,6 @@ namespace OMSBlazor.Blazor.Pages.Order.Create
         {
             get { return createOrderButtonDisabled.Value; }
         }
-
         private decimal TotalSum { set; get; }
         #endregion
 
