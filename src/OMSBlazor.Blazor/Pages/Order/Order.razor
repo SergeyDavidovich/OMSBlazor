@@ -2,6 +2,7 @@
 @attribute [Authorize]
 @using OMSBlazor.Blazor.Components
 @using OMSBlazor.Blazor.Pages.Order.Create
+@using OMSBlazor.Blazor.Pages.Order.Journal
 
 <h3>Orders</h3>
 
@@ -12,12 +13,7 @@
                 <CreateView></CreateView>
             </MainChildContent>
             <AlternativeChildContent>
-                <MudDataGrid Items="persons">
-                    <Columns>
-                        <PropertyColumn Property="x => x.FirstName" />
-                        <PropertyColumn Property="x => x.LastName" />
-                    </Columns>
-                </MudDataGrid>
+                <JournalView></JournalView>
             </AlternativeChildContent>
         </StupeniFlipFlopCard>
     </MudItem>
@@ -29,26 +25,3 @@
         </StupeniCard>
     </MudItem>
 </MudGrid>
-
-@code {
-    private Person[] persons = new Person[5]
-    {
-        new Person("FirstName1", "FirstName2"),
-        new Person("FirstName2", "FirstName3"),
-        new Person("FirstName3", "FirstName3"),
-        new Person("FirstName4", "FirstName4"),
-        new Person("FirstName5", "FirstName5"),
-    };
-
-    public class Person
-    {
-        public Person(string firstName, string lastName)
-        {
-            FirstName = firstName;
-            LastName = lastName;
-        }
-
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-    }
-}

@@ -20,6 +20,7 @@ using Volo.Abp.TenantManagement.Blazor.WebAssembly;
 using OMSBlazor.Blazor.Pages.Order.Create;
 using Splat;
 using ReactiveUI;
+using OMSBlazor.Blazor.Pages.Order.Journal;
 
 namespace OMSBlazor.Blazor;
 
@@ -58,6 +59,7 @@ public class OMSBlazorBlazorModule : AbpModule
 
     private void ConfigureViewModels(ServiceConfigurationContext context)
     {
+        context.Services.AddTransient<JournalViewModel>();
         context.Services.AddTransient<CreateViewModel>();
     }
 
