@@ -117,7 +117,7 @@ namespace OMSBlazor.Blazor.Pages.Order.Create
         /// <summary>
         /// Removing all products from order
         /// </summary>
-        public ReactiveCommand<Unit, Unit> RemoveAllCommand { get; }
+        public ReactiveCommand<System.Reactive.Unit, System.Reactive.Unit> RemoveAllCommand { get; }
 
         private void RemoveAllCommandExecute()
         {
@@ -128,9 +128,9 @@ namespace OMSBlazor.Blazor.Pages.Order.Create
         #endregion
 
         #region Create
-        public ReactiveCommand<Unit, Unit> CreateOrderCommand { get; }
+        public ReactiveCommand<System.Reactive.Unit, byte[]> CreateOrderCommand { get; }
 
-        private async Task CreateOrderExecute()
+        private async Task<byte[]> CreateOrderExecute()
         {
             CreateOrderDto newOrder = new CreateOrderDto();
             string shipCountry = "USA";
@@ -152,7 +152,7 @@ namespace OMSBlazor.Blazor.Pages.Order.Create
 
             newOrder.OrderDetails = orderDetails;
 
-            await _orderApplicationService.SaveOrderAsync(newOrder);
+            var orderDto = await _orderApplicationService.SaveOrderAsync(newOrder);
 
             RemoveAllCommand.Execute().Subscribe();
 
@@ -160,6 +160,9 @@ namespace OMSBlazor.Blazor.Pages.Order.Create
             OrderDate = null;
             SelectedCustomer = null;
             SelectedEmployee = null;
+
+            var arr = await _orderApplicationService.GetInvoiceAsync(orderDto.OrderId);
+            return arr;
         }
         #endregion
 

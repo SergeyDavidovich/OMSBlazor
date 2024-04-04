@@ -11,7 +11,7 @@
                 <Columns>
                     <TemplateColumn Title="Added" IsEditable="true">
                         <CellTemplate>
-                            <MudCheckBox @bind-Value="context.Item.Added"/>
+                            <MudCheckBox @bind-Value="context.Item.Added" />
                         </CellTemplate>
                     </TemplateColumn>
                     <PropertyColumn Title="Id" Property="x=>x.ProductID" />
@@ -33,7 +33,7 @@
                     <MudSelect T="EmployeeDto" ToStringFunc="GetFullName" @bind-Value="@ViewModel!.SelectedEmployee" Label="Employee" AnchorOrigin="Origin.BottomCenter">
                         @foreach (var employee in ViewModel!.Employees)
                         {
-                            <MudSelectItem Value="employee"/>
+                            <MudSelectItem Value="employee" />
                         }
                     </MudSelect>
                 </MudItem>
@@ -41,7 +41,7 @@
                     <MudSelect T="CustomerDto" ToStringFunc="GetCustomerName" @bind-Value="@ViewModel!.SelectedCustomer" Label="Customer" AnchorOrigin="Origin.BottomCenter">
                         @foreach (var customer in ViewModel!.Customers)
                         {
-                            <MudSelectItem Value="customer"/>
+                            <MudSelectItem Value="customer" />
                         }
                     </MudSelect>
                 </MudItem>
@@ -50,7 +50,7 @@
                         <Columns>
                             <PropertyColumn Title="Id" Property="x => x.ProductID" />
                             <PropertyColumn Title="Product name" Property="x => x.ProductName" />
-                            <PropertyColumn Title="Unit price" Property="x=>x.UnitPrice"/>
+                            <PropertyColumn Title="Unit price" Property="x=>x.UnitPrice" />
                             <TemplateColumn Title="Quantity">
                                 <CellTemplate>
                                     <MudNumericField T="short" @bind-Value="context.Item.SelectedQuantity" Variant="Variant.Text" Min="0" />
@@ -58,14 +58,14 @@
                             </TemplateColumn>
                             <TemplateColumn Title="Discount">
                                 <CellTemplate>
-                                    <MudNumericField T="float" @bind-Value="context.Item.SelectedDiscount" Variant="Variant.Text" Min="0" Max="100"/>
+                                    <MudNumericField T="float" @bind-Value="context.Item.SelectedDiscount" Variant="Variant.Text" Min="0" Max="100" />
                                 </CellTemplate>
                             </TemplateColumn>
                         </Columns>
                     </MudDataGrid>
                 </MudItem>
                 <MudItem xs="12">
-                    <MudTextField T="string" Value="@($"Total price: {ViewModel!.TotalSumString}")" Variant="Variant.Text" Disabled="true"/>
+                    <MudTextField T="string" Value="@($"Total price: {ViewModel!.TotalSumString}")" Variant="Variant.Text" Disabled="true" />
                 </MudItem>
             </MudGrid>
         </StupeniCard>
@@ -75,4 +75,7 @@
 @code {
     private Func<EmployeeDto, string> GetFullName = employee => $"{employee.FirstName} {employee.LastName}";
     private Func<CustomerDto, string> GetCustomerName = customer => $"{customer.CompanyName}";
+
+    [Parameter]
+    public EventCallback<byte[]> PdfGenerated { get; set; }
 }

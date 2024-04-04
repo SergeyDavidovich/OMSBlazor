@@ -1,0 +1,30 @@
+@using OMSBlazor.Blazor.Components
+@using System.IO
+@using System.Reflection
+@inject IJSRuntime JsRuntime
+
+<StupeniCard Title="Invoice" Icon="@Icons.Material.Filled.Pages" IsWithButton="false">
+    @if (arr.Length == 0)
+    {
+        <p>After order creation you will see report here</p>
+    }
+    else
+    {   
+        <embed src="@GetPdf()" width="100%" height="700px"/>
+    }
+</StupeniCard>
+
+@code{
+    byte[] arr = Array.Empty<byte>();
+
+    private string GetPdf()
+    {
+        return "data:application/pdf;base64," + Convert.ToBase64String(arr);
+    }
+
+    public void ShowPdf(byte[] arr)
+    {
+        this.arr = arr;
+        StateHasChanged();
+    }
+}

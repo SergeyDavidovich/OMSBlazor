@@ -9,17 +9,33 @@ using System.Threading.Tasks;
 using Volo.Abp.Application.Services;
 using Volo.Abp.Domain.Repositories;
 using OMSBlazor.DomainManagers.Order;
+using OMSBlazor.Blazor.Services;
+using QuestPDF.Fluent;
 
 namespace OMSBlazor.Application.ApplicationServices
 {
     public class OrderApplicationService : ApplicationService, IOrderApplicationService
     {
         private readonly IRepository<Order, int> _orderRepository;
+        private readonly IRepository<Employee, int> _employeeRepository;
+        private readonly IRepository<Customer, string> _customerRepository;
+        private readonly IRepository<OrderDetail> _orderDetailsRepository;
+        private readonly IRepository<Product, int> _productRepository;
         private readonly IOrderManager _orderManager;
 
-        public OrderApplicationService(IRepository<Order, int> orderRepository, IOrderManager orderManager)
+        public OrderApplicationService(
+            IRepository<Order, int> orderRepository,
+            IRepository<Employee, int> employeeRepository,
+            IRepository<Customer, string> customerRepository,
+            IRepository<Product, int> productRepository,
+            IRepository<OrderDetail> orderDetailsRepository,
+            IOrderManager orderManager)
         {
             _orderRepository = orderRepository;
+            _customerRepository = customerRepository;
+            _employeeRepository = employeeRepository;
+            _productRepository = productRepository;
+            _orderDetailsRepository = orderDetailsRepository;
             _orderManager = orderManager;
         }
 
@@ -67,6 +83,35 @@ namespace OMSBlazor.Application.ApplicationServices
         public async Task DeleteOrderAsync(int id)
         {
             await _orderRepository.DeleteAsync(id);
+        }
+
+        public async Task<byte[]> GetInvoiceAsync(int id)
+        {
+            var order = await _orderRepository.GetAsync(x => x.Id == id);
+            var orderDetails = await _orderDetailsRepository.GetListAsync(x => x.OrderId == id);
+            var customer = await _customerRepository.GetAsync(order.CustomerId);
+            var employee = await _employeeRepository.GetAsync(order.EmployeeId);
+            var products = await _productRepository.GetListAsync();
+
+            var pdfInvoiceModel = new InvoiceModel();
+            pdfInvoiceModel.InvoiceNumber = id;
+            pdfInvoiceModel.OrderDate = order.OrderDate;
+            pdfInvoiceModel.EmployeeFullName = $"{employee.FirstName} {employee.LastName}";
+            pdfInvoiceModel.CustomerName = $"{customer.CompanyName}";
+
+            foreach (var orderDetail in orderDetails)
+            {
+                pdfInvoiceModel.Items.Add(new OrderItem()
+                {
+                    ProductName = products.Single(x => x.Id == orderDetail.ProductId).ProductName,
+                    Price = (decimal)orderDetail.UnitPrice,
+                    Discount = (int)orderDetail.Discount,
+                    Quantity = orderDetail.Quantity
+                });
+            }
+            var document = new InvoiceDocument(pdfInvoiceModel);
+            var arr = document.GeneratePdf();
+            return arr;
         }
     }
 }

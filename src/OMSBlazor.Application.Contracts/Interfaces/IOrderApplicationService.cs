@@ -16,5 +16,7 @@ namespace OMSBlazor.Application.Contracts.Interfaces
         public Task<OrderDto> GetOrderAsync(int id);
 
         public Task DeleteOrderAsync(int id);
+
+        public Task<byte[]> GetInvoiceAsync(int id);
     }
 }

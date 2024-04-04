@@ -14,7 +14,9 @@ namespace OMSBlazor.Blazor.Pages.Order.Create
 
         private async Task CreateOrderButtonClicked()
         {
-            await ViewModel!.CreateOrderCommand.Execute();
+            var result = await ViewModel!.CreateOrderCommand.Execute();
+
+            await PdfGenerated.InvokeAsync(result);
         }
 
         private async Task RemoveAllButtonClicked()
