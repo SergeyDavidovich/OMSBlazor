@@ -5,7 +5,7 @@
 @inherits ReactiveComponentBase<CreateViewModel>
 
 <MudGrid>
-    <MudItem xs="12" lg="6" md="6" Class="d-flex align-stretch">
+    <MudItem xs="12" lg="6" md="6">
         <StupeniCard Title="Products on Store" Icon="@Icons.Material.Filled.Home" ButtonColor="MudBlazor.Color.Secondary" ButtonText="Remove all" OnClickCallBack="RemoveAllButtonClicked">
             <MudDataGrid Items="@ViewModel!.ProductsInStore" Virtualize="true" FixedHeader="true" Height="600px">
                 <Columns>
@@ -23,9 +23,9 @@
             </MudDataGrid>
         </StupeniCard>
     </MudItem>
-    <MudItem xs="12" lg="6" md="6" Class="d-flex align-stretch">
+    <MudItem xs="12" lg="6" md="6">
         <StupeniCard Title="Products in Order" Icon="@Icons.Material.Filled.Timer" ButtonColor="MudBlazor.Color.Success" ButtonText="Create" IsButtonDisabled="@ViewModel!.CreateOrderButtonDisabled" OnClickCallBack="CreateOrderButtonClicked">
-            <MudGrid>
+            <MudGrid Style="height:100%">
                 <MudItem xs="12">
                     <MudDatePicker @bind-Date="@ViewModel!.OrderDate" Label="Order date" ReadOnly="true" DisableToolbar="true" />
                 </MudItem>
@@ -64,7 +64,7 @@
                         </Columns>
                     </MudDataGrid>
                 </MudItem>
-                <MudItem xs="12">
+                <MudItem xs="12" Class="align-self-end">
                     <MudTextField T="string" Value="@($"Total price: {ViewModel!.TotalSumString}")" Variant="Variant.Text" Disabled="true" />
                 </MudItem>
             </MudGrid>

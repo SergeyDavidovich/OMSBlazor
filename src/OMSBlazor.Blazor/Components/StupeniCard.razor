@@ -1,21 +1,17 @@
-﻿<MudGrid>
-    <MudItem xs="12">
-        <MudPaper Class="d-flex flex-column rounded" Elevation="3">
-            <div id="bar" class="d-flex gap-4 justify-space-between mud-theme-primary flex-grow-2">
-                <div id="title" class="d-flex gap-2 align-center">
-                    <MudIcon Icon="@Icon" />
-                    <span id="title-text">@Title</span>
-                </div>
-                <MudButton id="card-button" Class="@buttonVisibility" Style="height:39px; width:auto" Variant="Variant.Filled" Color="@ButtonColor" Disabled="@IsButtonDisabled" OnClick="@OnClickCallBack">
-                    @ButtonText
-                </MudButton>
-            </div>
-            <div id="content" class="flex-grow-10">
-                @ChildContent
-            </div>
-        </MudPaper>
-    </MudItem>
-</MudGrid>
+﻿<MudPaper Class="d-flex flex-column rounded" Style="height: 100%" Elevation="3">
+    <div id="bar" class="d-flex gap-4 justify-space-between mud-theme-primary flex-grow-2">
+        <div id="title" class="d-flex gap-2 align-center">
+            <MudIcon Icon="@Icon" />
+            <span id="title-text">@Title</span>
+        </div>
+        <MudButton id="card-button" Class="@buttonVisibility" Style="height:39px; width:auto" Variant="Variant.Filled" Color="@ButtonColor" Disabled="@IsButtonDisabled" OnClick="@OnClickCallBack">
+            @ButtonText
+        </MudButton>
+    </div>
+    <div id="content" class="flex-grow-10">
+        @ChildContent
+    </div>
+</MudPaper>
 
 <style>
     #title {
@@ -28,10 +24,13 @@
 
     #content {
         margin: 10px;
+        height: 100%;
     }
 </style>
 
 @code {
+    public string Class{ get; set; }
+
     [Parameter]
     public string? Icon { get; set; }
 

@@ -6,11 +6,11 @@
 <StupeniCard Title="Invoice" Icon="@Icons.Material.Filled.Pages" IsWithButton="false">
     @if (arr.Length == 0)
     {
-        <p>After order creation you will see report here</p>
+        <MudTextField T="string" Class="align-content-center justify-center" Text="If you create order or choose order from journal it will be viewed here" AutoGrow MaxLines="3" Variant="Variant.Text" Disabled="true" />
     }
     else
     {   
-        <embed src="@GetPdf()" width="100%" height="700px"/>
+        <embed src="@GetPdf()" width="100%" height="100%"/>
     }
 </StupeniCard>
 
