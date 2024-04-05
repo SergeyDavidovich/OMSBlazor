@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 
 namespace OMSBlazor.Blazor.Pages.Order.Journal
 {
@@ -6,7 +7,7 @@ namespace OMSBlazor.Blazor.Pages.Order.Journal
     {
         public JournalView(JournalViewModel viewModel)
         {
-            this.ViewModel = viewModel;
+            ViewModel = viewModel;
         }
 
         protected async override Task OnInitializedAsync()

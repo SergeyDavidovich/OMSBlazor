@@ -4,21 +4,22 @@
 @inherits ReactiveComponentBase<JournalViewModel>
 
 <StupeniCard Title="Orders journal" Icon="@Icons.Material.Filled.List" IsWithButton="false">
-    <MudDataGrid T="OrderDto" Items="@ViewModel.Orders" SelectedItem="@ViewModel!.SelectedOrder">
+    <MudDataGrid T="OrderDto" Items="@ViewModel.Orders" SelectedItemChanged="SelectedItemChanged">
         <ToolBarContent>
             <MudSpacer />
             <MudTextField @bind-Value="@ViewModel.SearchTerm" Placeholder="Search by customer id" Adornment="Adornment.Start" Immediate="true"
                           AdornmentIcon="@Icons.Material.Filled.Search" IconSize="MudBlazor.Size.Medium" Class="mt-0"></MudTextField>
         </ToolBarContent>
         <Columns>
+            <SelectColumn />
             <PropertyColumn Property="x => x.OrderId" Title="Id" />
             <PropertyColumn Property="x => x.CustomerId" Title="Customer id" />
             <PropertyColumn Property="x => x.EmployeeId" Title="Employee id" />
             <PropertyColumn Property="x => x.OrderDate" Title="Order date" />
             <PropertyColumn Property="x => x.RequiredDate" Title="Required date" />
             <PropertyColumn Property="x => x.ShipAddress" Title="Ship address" />
-            <PropertyColumn Property="x=>x.ShipName" Title="Ship name"/>
-            <PropertyColumn Property="x=>x.ShipCity" Title="Ship city"/>
+            <PropertyColumn Property="x=>x.ShipName" Title="Ship name" />
+            <PropertyColumn Property="x=>x.ShipCity" Title="Ship city" />
             <PropertyColumn Property="x=>x.ShipCountry" Title="Ship country" />
         </Columns>
         <PagerContent>
@@ -26,3 +27,14 @@
         </PagerContent>
     </MudDataGrid>
 </StupeniCard>
+
+@code {
+    [Parameter]
+    public EventCallback<byte[]> OnSelectedOrderChanged { get; set; }
+
+    private async Task SelectedItemChanged(OrderDto order)
+    {
+        var arr = await ViewModel!.GetInvoice(order.OrderId);
+        await OnSelectedOrderChanged.InvokeAsync(arr);
+    }
+}

@@ -80,5 +80,12 @@ namespace OMSBlazor.Blazor.Pages.Order.Journal
             SearchTerm = string.Empty;
         }
         #endregion
+
+        public async Task<byte[]> GetInvoice(int id)
+        {
+            var arr = await _orderApplicationService.GetInvoiceAsync(id);
+
+            return arr;
+        }
     }
 }
