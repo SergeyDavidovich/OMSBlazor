@@ -17,7 +17,7 @@ namespace OMSBlazor.Northwind.Stastics
         }
 
         public int ID { get; }
-        public string LastName { get; }
+        public string LastName { get; private set; }
         public decimal Sales { get; set; }
     }
 }

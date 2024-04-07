@@ -54,6 +54,8 @@ public class OMSBlazorDbContext :
     public DbSet<SalesByCountry> SalesByCountries { get; set; }
 
     public DbSet<SalesByEmployee> SalesByEmployees { get; set; }
+
+    public DbSet<Summary> Summaries { get; set; }
     #endregion
 
     #region Entities from the modules
@@ -140,5 +142,7 @@ public class OMSBlazorDbContext :
             .HasKey(x => x.CountryName);
         builder.Entity<SalesByEmployee>()
             .HasKey(x => x.ID);
+        builder.Entity<Summary>()
+            .HasKey(x => x.SummaryName);
     }
 }

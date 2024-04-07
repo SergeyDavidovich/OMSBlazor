@@ -149,13 +149,13 @@ namespace OMSBlazor.Migrations
                     b.Property<string>("Region")
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("ReportsTo")
+                    b.Property<int?>("ReportsTo")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Title")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("TitleOfCoursery")
+                    b.Property<string>("TitleOfCourtesy")
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
@@ -355,6 +355,19 @@ namespace OMSBlazor.Migrations
                     b.HasKey("ID");
 
                     b.ToTable("SalesByEmployees");
+                });
+
+            modelBuilder.Entity("OMSBlazor.Northwind.Stastics.Summary", b =>
+                {
+                    b.Property<string>("SummaryName")
+                        .HasColumnType("TEXT");
+
+                    b.Property<double>("SummaryValue")
+                        .HasColumnType("REAL");
+
+                    b.HasKey("SummaryName");
+
+                    b.ToTable("Summaries");
                 });
 
             modelBuilder.Entity("Volo.Abp.BackgroundJobs.BackgroundJobRecord", b =>
