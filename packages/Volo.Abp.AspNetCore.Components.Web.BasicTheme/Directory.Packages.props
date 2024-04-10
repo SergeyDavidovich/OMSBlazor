@@ -103,7 +103,7 @@
     <PackageVersion Include="Microsoft.SourceLink.GitHub" Version="1.1.1" />
     <PackageVersion Include="Minio" Version="6.0.1" />
     <PackageVersion Include="MongoDB.Driver" Version="2.22.0" />
-    <PackageVersion Include="MudBlazor" Version="6.16.0" />
+    <PackageVersion Include="MudBlazor" Version="6.19.1" />
     <PackageVersion Include="NEST" Version="7.17.5" />
     <PackageVersion Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageVersion Include="Nito.AsyncEx.Context" Version="5.1.2" />

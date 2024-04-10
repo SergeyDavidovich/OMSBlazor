@@ -1,4 +1,5 @@
 ﻿using OMSBlazor.Dto.Order;
+using OMSBlazor.Dto.Order.Stastics;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -18,5 +19,13 @@ namespace OMSBlazor.Application.Contracts.Interfaces
         public Task DeleteOrderAsync(int id);
 
         public Task<byte[]> GetInvoiceAsync(int id);
+
+        public Task<IEnumerable<OrdersByCountryDto>> GetOrdersByCountriesAsync();
+
+        public Task<IEnumerable<SalesByCategoryDto>> GetSalesByCategoriesAsync();
+
+        public Task<IEnumerable<SalesByCountryDto>> GetSalesByCountriesAsync();
+
+        public Task<IEnumerable<SummaryDto>> GetSummariesAsync();
     }
 }

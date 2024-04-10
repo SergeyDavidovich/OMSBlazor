@@ -59,6 +59,15 @@ public class OMSBlazorMenuContributor : IMenuContributor
             )
         );
 
+        context.Menu.Items.Insert(
+            2,
+            new ApplicationMenuItem(
+                OMSBlazorMenus.Home,
+                "Dashboard",
+                "/dashboard",
+                icon: "fas fa-edit"
+            )
+        );
 
         var administration = context.Menu.GetAdministration();
 

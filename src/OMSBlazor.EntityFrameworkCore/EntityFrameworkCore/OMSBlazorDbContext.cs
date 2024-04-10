@@ -130,19 +130,33 @@ public class OMSBlazorDbContext :
 
         builder.Entity<CustomersByCountry>()
             .HasKey(x => x.CountryName);
+
         builder.Entity<OrdersByCountry>()
             .HasKey(x => x.CountryName);
+        builder.Entity<OrdersByCountry>()
+            .Ignore(x => x.Id);
+
         builder.Entity<ProductsByCategory>()
             .HasKey(x => x.CategoryName);
         builder.Entity<PurchasesByCustomer>()
             .HasKey(x => x.CompanyName);
+
         builder.Entity<SalesByCategory>()
             .HasKey(x => x.CategoryName);
+        builder.Entity<SalesByCategory>()
+            .Ignore(x => x.Id);
+
         builder.Entity<SalesByCountry>()
             .HasKey(x => x.CountryName);
+        builder.Entity<SalesByCountry>()
+            .Ignore(x => x.Id);
+
         builder.Entity<SalesByEmployee>()
             .HasKey(x => x.ID);
+
         builder.Entity<Summary>()
             .HasKey(x => x.SummaryName);
+        builder.Entity<Summary>()
+            .Ignore(x => x.Id);
     }
 }

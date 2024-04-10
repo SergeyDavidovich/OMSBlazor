@@ -11,6 +11,8 @@ using Volo.Abp.Domain.Repositories;
 using OMSBlazor.DomainManagers.Order;
 using OMSBlazor.Blazor.Services;
 using QuestPDF.Fluent;
+using OMSBlazor.Dto.Order.Stastics;
+using OMSBlazor.Northwind.Stastics;
 
 namespace OMSBlazor.Application.ApplicationServices
 {
@@ -21,6 +23,10 @@ namespace OMSBlazor.Application.ApplicationServices
         private readonly IRepository<Customer, string> _customerRepository;
         private readonly IRepository<OrderDetail> _orderDetailsRepository;
         private readonly IRepository<Product, int> _productRepository;
+        private readonly IRepository<OrdersByCountry, string> _ordersByCountryRepository;
+        private readonly IRepository<SalesByCategory, string> _salesByCategoryRepository;
+        private readonly IRepository<SalesByCountry, string> _salesByCountryRepository;
+        private readonly IRepository<Summary, string> _summaryRepository;
         private readonly IOrderManager _orderManager;
 
         public OrderApplicationService(
@@ -29,7 +35,11 @@ namespace OMSBlazor.Application.ApplicationServices
             IRepository<Customer, string> customerRepository,
             IRepository<Product, int> productRepository,
             IRepository<OrderDetail> orderDetailsRepository,
-            IOrderManager orderManager)
+            IOrderManager orderManager,
+            IRepository<OrdersByCountry, string> ordersByCountryRepository,
+            IRepository<SalesByCategory, string> salesByCategoryRepository,
+            IRepository<SalesByCountry, string> salesByCountryRepository,
+            IRepository<Summary, string> summaryRepository)
         {
             _orderRepository = orderRepository;
             _customerRepository = customerRepository;
@@ -37,6 +47,10 @@ namespace OMSBlazor.Application.ApplicationServices
             _productRepository = productRepository;
             _orderDetailsRepository = orderDetailsRepository;
             _orderManager = orderManager;
+            _ordersByCountryRepository = ordersByCountryRepository;
+            _salesByCategoryRepository = salesByCategoryRepository;
+            _salesByCountryRepository = salesByCountryRepository;
+            _summaryRepository = summaryRepository;
         }
 
         public async Task<OrderDto> SaveOrderAsync(CreateOrderDto createOrderDto)
@@ -112,6 +126,42 @@ namespace OMSBlazor.Application.ApplicationServices
             var document = new InvoiceDocument(pdfInvoiceModel);
             var arr = document.GeneratePdf();
             return arr;
+        }
+
+        public async Task<IEnumerable<OrdersByCountryDto>> GetOrdersByCountriesAsync()
+        {
+            var stastics = await _ordersByCountryRepository.GetListAsync();
+
+            var stasticsDto = ObjectMapper.Map<List<OrdersByCountry>, List<OrdersByCountryDto>>(stastics);
+
+            return stasticsDto;
+        }
+
+        public async Task<IEnumerable<SalesByCategoryDto>> GetSalesByCategoriesAsync()
+        {
+            var stastics = await _salesByCategoryRepository.GetListAsync();
+
+            var stasticsDto = ObjectMapper.Map<List<SalesByCategory>, List<SalesByCategoryDto>>(stastics);
+
+            return stasticsDto;
+        }
+
+        public async Task<IEnumerable<SalesByCountryDto>> GetSalesByCountriesAsync()
+        {
+            var stastics = await _salesByCountryRepository.GetListAsync();
+
+            var stasticsDto = ObjectMapper.Map<List<SalesByCountry>, List<SalesByCountryDto>>(stastics);
+
+            return stasticsDto;
+        }
+
+        public async Task<IEnumerable<SummaryDto>> GetSummariesAsync()
+        {
+            var stastics = await _summaryRepository.GetListAsync();
+
+            var stasticsDto = ObjectMapper.Map<List<Summary>, List<SummaryDto>>(stastics);
+
+            return stasticsDto;
         }
     }
 }

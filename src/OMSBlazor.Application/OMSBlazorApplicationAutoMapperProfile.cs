@@ -3,8 +3,10 @@ using OMSBlazor.Dto.Category;
 using OMSBlazor.Dto.Customer;
 using OMSBlazor.Dto.Employee;
 using OMSBlazor.Dto.Order;
+using OMSBlazor.Dto.Order.Stastics;
 using OMSBlazor.Dto.Product;
 using OMSBlazor.Northwind.OrderAggregate;
+using OMSBlazor.Northwind.Stastics;
 
 namespace OMSBlazor;
 
@@ -35,5 +37,13 @@ public class OMSBlazorApplicationAutoMapperProfile : Profile
                 dest => dest.OrderId, src => src.MapFrom(x => x.Id));
 
         CreateMap<OrderDetail, OrderDetailDto>();
+
+        CreateMap<OrdersByCountry, OrdersByCountryDto>();
+
+        CreateMap<SalesByCategory, SalesByCategoryDto>();
+
+        CreateMap<SalesByCountry, SalesByCountryDto>();
+
+        CreateMap<Summary, SummaryDto>();
     }
 }
