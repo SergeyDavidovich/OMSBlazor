@@ -1,4 +1,5 @@
 ﻿using OMSBlazor.Dto.Customer;
+using OMSBlazor.Dto.Customer.Stastics;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -18,5 +19,9 @@ namespace OMSBlazor.Application.Contracts.Interfaces
         public Task CreateCustomerAsync(CreateCustomerDto customerDto);
 
         public Task UpdateCustomerAsync(string id, UpdateCustomerDto customerDto);
+
+        public Task<IEnumerable<CustomersByCountryDto>> GetCustomersByCountry();
+
+        public Task<IEnumerable<PurchasesByCustomerDto>> GetPurchasesByCustomer();
     }
 }

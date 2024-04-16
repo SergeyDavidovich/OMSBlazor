@@ -22,6 +22,7 @@ using Splat;
 using ReactiveUI;
 using OMSBlazor.Blazor.Pages.Order.Journal;
 using OMSBlazor.Blazor.Pages.Dashboard.OrderStastics;
+using OMSBlazor.Blazor.Pages.Dashboard.CustomerStastics;
 
 namespace OMSBlazor.Blazor;
 
@@ -63,6 +64,7 @@ public class OMSBlazorBlazorModule : AbpModule
         context.Services.AddTransient<JournalViewModel>();
         context.Services.AddTransient<CreateViewModel>();
         context.Services.AddTransient<OrderStasticsViewModel>();
+        context.Services.AddTransient<CustomerStasticsViewModel>();
     }
 
     private void ConfigureRouter(ServiceConfigurationContext context)

@@ -2,50 +2,67 @@
 @using ReactiveUI.Blazor
 @inherits ReactiveComponentBase<OrderStasticsViewModel>
 
-<StupeniCard Title="Orders" IsWithButton="false">
-    <MudGrid>
-        <MudItem xs="12" lg="3" md="3">
-            <MudPaper Class="d-flex flex-column align-center p-2">
+<StupeniCard Icon="@Icons.Material.Filled.Edit" Title="Orders" IsWithButton="false">
+    <MudGrid Justify="Justify.SpaceAround">
+        <MudItem xs="12" lg="6" md="6">
+            <MudPaper Class="d-flex flex-column align-center justify-space-around p-2" Outlined="true">
+                <MudText Class="align-self-center" Typo="Typo.h6">Orders by countries (top 10)</MudText>
                 <MudChart ChartType="MudBlazor.ChartType.Pie"
+                          Height="100%"
                           InputData="@ViewModel!.OrdersByCountries.Select(x=>x.OrdersCount).Select(x=>(double)x).ToArray()"
                           InputLabels="@ViewModel!.OrdersByCountries.Select(x=>x.CountryName).ToArray()">
                 </MudChart>
-                <MudText>Orders by countries (top 10)</MudText>
             </MudPaper>
         </MudItem>
-        <MudItem xs="12" lg="3" md="3">
-            <MudPaper Class="d-flex flex-column align-center p-2">
+        <MudItem xs="12" lg="6" md="6">
+            <MudPaper Class="d-flex flex-column align-center justify-space-around p-2" Outlined="true">
+                <MudText Typo="Typo.h6">Sales by categories</MudText>
                 <MudChart ChartType="MudBlazor.ChartType.Pie"
+                          Height="100%"
                           InputData="@ViewModel!.SalesByCategories.Select(x=>x.Sales).Select(x=>(double)x).ToArray()"
                           InputLabels="@ViewModel!.SalesByCategories.Select(x=>x.CategoryName).ToArray()">
                 </MudChart>
-                <MudText>Sales by categories</MudText>
             </MudPaper>
         </MudItem>
-        <MudItem xs="12" lg="3" md="3">
-            <MudPaper Class="d-flex flex-column">
-                <MudTextField T="string" Text="Summary">
-                </MudTextField>
-                <MudTextField T="string" Disabled="true" @bind-Value="OverallSalesValue">
-                </MudTextField>
-                <MudTextField T="string" Disabled="true" @bind-Value="OrdersQuantityValue">
-                </MudTextField>
-                <MudTextField T="string" Disabled="true" @bind-Value="AverageCheckValue">
-                </MudTextField>
-                <MudTextField T="string" Disabled="true" @bind-Value="MaxCheckValue">
-                </MudTextField>
-                <MudTextField T="string" Disabled="true" @bind-Value="MinCheckValue">
-                </MudTextField>
+        <MudItem xs="12" lg="6" md="6">
+            <MudPaper Class="d-flex flex-column justify-space-between p-2" Height="100%" Outlined="true">
+                <MudText Typo="Typo.h6" Class="align-self-center"> Summary </MudText>
+                <div class="d-flex justify-center">
+                    <MudText>Overall sales sum:</MudText>
+                    <MudText Style="color: red">@OverallSalesValue</MudText>
+                </div>
+                <div class="d-flex justify-center">
+                    <MudText>Orders quanatity:</MudText>
+                    <MudText Style="color: red">@OrdersQuantityValue</MudText>
+                </div>
+                <div class="d-flex justify-center">
+                    <MudText>Average check:</MudText>
+                    <MudText Style="color: red">@AverageCheckValue</MudText>
+                </div>
+                <div class="d-flex justify-center">
+                    <MudText>Max check:</MudText>
+                    <MudText Style="color: red">@MaxCheckValue</MudText>
+                </div>
+                <div class="d-flex justify-center">
+                    <MudText>Min check:</MudText>
+                    <MudText Style="color: red">@MinCheckValue</MudText>
+                </div>
             </MudPaper>
         </MudItem>
-        <MudItem xs="12">
-            <MudPaper Class="d-flex flex-column align-center p-2" Width="100%">
-                <MudChart ChartType="MudBlazor.ChartType.Bar" ChartSeries="series" XAxisLabels="xLabels" Width="100%"></MudChart>
-                <MudText>Sales by countries</MudText>
+        <MudItem xs="6">
+            <MudPaper Class="d-flex flex-column align-center p-2" Outlined="true">
+                <MudText Typo="Typo.h6">Sales by countries (top 10)</MudText>
+                <MudChart ChartType="MudBlazor.ChartType.Donut" InputData="@ViewModel.SalesByCountries.Select(x=>(double)x.Sales).ToArray()" InputLabels="@ViewModel.SalesByCountries.Select(x=>x.CountryName).ToArray()" Width="100%" Height="100%"></MudChart>
             </MudPaper>
         </MudItem>
     </MudGrid>
 </StupeniCard>
+
+<style>
+    .mud-chart-bar {
+        stroke-width: 80px;
+    }
+</style>
 
 @code {
     string OverallSalesValue;

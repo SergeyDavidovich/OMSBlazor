@@ -1,5 +1,7 @@
 ﻿using DynamicData;
+using DynamicData.Binding;
 using OMSBlazor.Application.Contracts.Interfaces;
+using OMSBlazor.Dto.Customer.Stastics;
 using OMSBlazor.Dto.Order.Stastics;
 using ReactiveUI;
 using System;
@@ -8,6 +10,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
+using static OMSBlazor.Blazor.Pages.Order.Create.CreateViewModel;
 
 namespace OMSBlazor.Blazor.Pages.Dashboard.OrderStastics
 {
@@ -25,7 +28,7 @@ namespace OMSBlazor.Blazor.Pages.Dashboard.OrderStastics
         private readonly SourceCache<SalesByCountryDto, string> _salesByCountriesSource;
         private readonly SourceCache<SummaryDto, string> _summariesSource;
 
-        public OrderStasticsViewModel(IOrderApplicationService orderApplicationService)
+        public OrderStasticsViewModel(IOrderApplicationService orderApplicationService, ICustomerApplcationService customerApplicationService)
         {
             _orderApplicationService = orderApplicationService;
 
@@ -35,6 +38,8 @@ namespace OMSBlazor.Blazor.Pages.Dashboard.OrderStastics
             _summariesSource = new(x => x.SummaryName);
 
             _ordersByCountriesSource.Connect()
+                .Sort(SortExpressionComparer<OrdersByCountryDto>.Descending(x => x.OrdersCount))
+                .Top(10)
                 .Bind(out _ordersByCountries)
                 .Subscribe();
 
@@ -43,17 +48,20 @@ namespace OMSBlazor.Blazor.Pages.Dashboard.OrderStastics
                 .Subscribe();
 
             _salesByCountriesSource.Connect()
+                .Sort(SortExpressionComparer<SalesByCountryDto>.Descending(x => x.Sales))
+                .Top(10)
                 .Bind(out _salesByCountries)
                 .Subscribe();
 
             _summariesSource.Connect()
                 .Bind(out _summaries)
                 .Subscribe();
+
         }
 
         public async Task OnNavigatedTo()
         {
-            var ordersByCountries = (await _orderApplicationService.GetOrdersByCountriesAsync()).OrderByDescending(x => x.OrdersCount).Take(10);
+            var ordersByCountries = await _orderApplicationService.GetOrdersByCountriesAsync();
             var salesByCategories = await _orderApplicationService.GetSalesByCategoriesAsync();
             var salesByCountries = await _orderApplicationService.GetSalesByCountriesAsync();
             var summaries = await _orderApplicationService.GetSummariesAsync();
@@ -62,8 +70,6 @@ namespace OMSBlazor.Blazor.Pages.Dashboard.OrderStastics
             _salesByCategoriesSource.AddOrUpdate(salesByCategories);
             _salesByCountriesSource.AddOrUpdate(salesByCountries);
             _summariesSource.AddOrUpdate(summaries);
-
-
         }
 
         public ReadOnlyObservableCollection<OrdersByCountryDto> OrdersByCountries => _ordersByCountries;

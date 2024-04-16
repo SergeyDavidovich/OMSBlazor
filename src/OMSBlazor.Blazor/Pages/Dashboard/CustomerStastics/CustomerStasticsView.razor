@@ -1,0 +1,28 @@
+﻿@using OMSBlazor.Blazor.Components
+@using ReactiveUI.Blazor
+@inherits ReactiveComponentBase<CustomerStasticsViewModel>
+
+<StupeniCard Icon="@Icons.Material.Filled.Contacts" Title="Customers" IsWithButton="false">
+    <MudGrid>
+        <MudItem xs="12" lg="6" md="6">
+            <MudPaper Class="d-flex flex-column align-center justify-space-around p-2" Height="100%" Outlined="true">
+                <MudText Class="align-self-center" Typo="Typo.h6">Customers by countries</MudText>
+                <MudChart ChartType="MudBlazor.ChartType.Pie"
+                          Height="100%"
+                          InputData="@ViewModel!.CustomersByCountries.Select(x=>x.CustomersCount).Select(x=>(double)x).ToArray()"
+                          InputLabels="@ViewModel!.CustomersByCountries.Select(x=>x.CountryName).ToArray()">
+                </MudChart>
+            </MudPaper>
+        </MudItem>
+        <MudItem xs="12" lg="6" md="6">
+            <MudPaper Class="d-flex flex-column align-center justify-space-around p-2" Height="100%" Outlined="true">
+                <MudText Typo="Typo.h6">Purchases by customers (Top 10)</MudText>
+                <MudChart ChartType="MudBlazor.ChartType.Donut"
+                          Height="100%"
+                          InputData="@ViewModel!.PurchasesByCustomers.Select(x=>x.Purchases).Select(x=>(double)x).ToArray()"
+                          InputLabels="@ViewModel!.PurchasesByCustomers.Select(x=>x.CompanyName).ToArray()">
+                </MudChart>
+            </MudPaper>
+        </MudItem>
+    </MudGrid>
+</StupeniCard>

@@ -17,20 +17,12 @@ namespace OMSBlazor.Blazor.Pages.Dashboard.OrderStastics
         {
             await ViewModel!.OnNavigatedTo();
 
-            OverallSalesValue = $"Overall sales sum - {GetSummaryValue("OverallSales")}";
-            OrdersQuantityValue = $"Overall orders quantity - {GetSummaryValue("OrdersQuantity")}";
-            AverageCheckValue = $"Average - {GetSummaryValue("AverageCheck")}";
-            MaxCheckValue = $"Max check - {GetSummaryValue("MaxCheck")}";
-            MinCheckValue = $"Min check - {GetSummaryValue("MinCheck")}";
-
-            foreach (var salesByCountry in ViewModel.SalesByCountries)
-            {
-                series.Add(new() { Name = salesByCountry.CountryName, Data = new double[] { Convert.ToDouble(salesByCountry.Sales) } });
-            }
+            OverallSalesValue = GetSummaryValue("OverallSales");
+            OrdersQuantityValue = GetSummaryValue("OrdersQuantity");
+            AverageCheckValue = GetSummaryValue("AverageCheck");
+            MaxCheckValue = GetSummaryValue("MaxCheck");
+            MinCheckValue = GetSummaryValue("MinCheck");
         }
-
-        List<ChartSeries> series = new List<ChartSeries>();
-        string[] xLabels = new string[1] { "" };
 
         string GetSummaryValue(string summaryName)
         {

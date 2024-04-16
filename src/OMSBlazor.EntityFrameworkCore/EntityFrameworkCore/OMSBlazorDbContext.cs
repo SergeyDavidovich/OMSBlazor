@@ -130,6 +130,12 @@ public class OMSBlazorDbContext :
 
         builder.Entity<CustomersByCountry>()
             .HasKey(x => x.CountryName);
+        builder.Entity<CustomersByCountry>()
+            .Ignore(x => x.Id);
+        builder.Entity<PurchasesByCustomer>()
+            .HasKey(x => x.CompanyName);
+        builder.Entity<PurchasesByCustomer>()
+            .Ignore(x => x.Id);
 
         builder.Entity<OrdersByCountry>()
             .HasKey(x => x.CountryName);

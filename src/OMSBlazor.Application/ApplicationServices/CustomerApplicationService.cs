@@ -11,20 +11,28 @@ using OMSBlazor.Northwind.OrderAggregate;
 using OMSBlazor.DomainManagers.Customer;
 using OMSBlazor.Northwind.OrderAggregate.Exceptions;
 using Volo.Abp.Domain.Entities;
+using OMSBlazor.Dto.Customer.Stastics;
+using OMSBlazor.Northwind.Stastics;
 
 namespace OMSBlazor.Application.ApplicationServices
 {
     public class CustomerApplicationService : ApplicationService, ICustomerApplcationService
     {
         private readonly IRepository<Customer, string> _customerRepository;
+        private readonly IRepository<CustomersByCountry, string> _customersByCountryRepository;
+        private readonly IRepository<PurchasesByCustomer, string> _purchasesByCustomerRepository;
         private readonly ICustomerManager _customerManager;
 
         public CustomerApplicationService(
             IRepository<Customer, string> customerRepository,
-            ICustomerManager customerManager)
+            ICustomerManager customerManager,
+            IRepository<CustomersByCountry, string> customersByCountryRepository,
+            IRepository<PurchasesByCustomer, string> purchasesByCustomerRepository)
         {
             _customerRepository = customerRepository;
             _customerManager = customerManager;
+            _customersByCountryRepository = customersByCountryRepository;
+            _purchasesByCustomerRepository = purchasesByCustomerRepository;
         }
 
         public async Task CreateCustomerAsync(CreateCustomerDto customerDto)
@@ -79,6 +87,24 @@ namespace OMSBlazor.Application.ApplicationServices
             customer.Fax = customerDto.Fax;
 
             await _customerRepository.UpdateAsync(customer);
+        }
+
+        public async Task<IEnumerable<CustomersByCountryDto>> GetCustomersByCountry()
+        {
+            var stastics = await _customersByCountryRepository.GetListAsync();
+
+            var stasticsDto = ObjectMapper.Map<List<CustomersByCountry>, List<CustomersByCountryDto>>(stastics);
+
+            return stasticsDto;
+        }
+
+        public async Task<IEnumerable<PurchasesByCustomerDto>> GetPurchasesByCustomer()
+        {
+            var stastics = await _purchasesByCustomerRepository.GetListAsync();
+
+            var stasticsDto = ObjectMapper.Map<List<PurchasesByCustomer>, List<PurchasesByCustomerDto>>(stastics);
+
+            return stasticsDto;
         }
     }
 }

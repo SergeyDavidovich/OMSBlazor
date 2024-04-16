@@ -1,7 +1,8 @@
 ﻿@page "/dashboard"
 @using OMSBlazor.Blazor.Pages.Dashboard.OrderStastics
+@using OMSBlazor.Blazor.Pages.Dashboard.CustomerStastics
 @attribute [Authorize]
-
-<OrderStasticsView>
-
-</OrderStasticsView>
+<div class="d-flex flex-column gap-3">
+    <OrderStasticsView></OrderStasticsView>
+    <CustomerStasticsView></CustomerStasticsView>
+</div>
