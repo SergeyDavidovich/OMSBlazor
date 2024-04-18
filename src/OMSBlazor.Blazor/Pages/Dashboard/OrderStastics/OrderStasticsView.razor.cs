@@ -8,6 +8,7 @@ namespace OMSBlazor.Blazor.Pages.Dashboard.OrderStastics
 {
     public partial class OrderStasticsView
     {
+        private readonly string format = "$ ###,###.###";
         public OrderStasticsView(OrderStasticsViewModel viewModel)
         {
             ViewModel = viewModel;
@@ -27,14 +28,12 @@ namespace OMSBlazor.Blazor.Pages.Dashboard.OrderStastics
         string GetSummaryValue(string summaryName)
         {
             var summary = ViewModel.Summaries.SingleOrDefault(x => x.SummaryName == summaryName);
-            if (summary == null)
+            return summary switch
             {
-                return "No value";
-            }
-            else
-            {
-                return summary.SummaryValue.ToString();
-            }
+                null => "No value",
+                not null when summaryName== "OrdersQuantity" => summary.SummaryValue.ToString(),
+                not null => summary.SummaryValue.ToString(format)
+            };
         }
     }
 }

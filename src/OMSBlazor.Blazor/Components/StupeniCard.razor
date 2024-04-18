@@ -5,7 +5,7 @@
             <span id="title-text">@Title</span>
         </div>
         <MudButton id="card-button" Class="@buttonVisibility" Style="height:39px; width:auto" Variant="Variant.Filled" Color="@ButtonColor" Disabled="@IsButtonDisabled" OnClick="@OnClickCallBack">
-            @ButtonText
+            <MudText Typo="Typo.button">@ButtonText</MudText>
         </MudButton>
     </div>
     <div id="content" class="flex-grow-10">

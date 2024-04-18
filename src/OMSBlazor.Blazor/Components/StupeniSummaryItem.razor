@@ -1,0 +1,12 @@
+﻿<div class="d-flex flex-column border-b gap-2">
+    <MudText>@Title:</MudText>
+    <MudText Class="align-self-end" Style="color:red">@Value</MudText>
+</div>
+
+@code {
+    [Parameter]
+    public string Title { get; set; }
+
+    [Parameter]
+    public string Value { get; set; }
+}
