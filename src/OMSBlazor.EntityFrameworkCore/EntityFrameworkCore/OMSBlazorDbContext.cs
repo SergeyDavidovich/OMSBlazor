@@ -159,6 +159,8 @@ public class OMSBlazorDbContext :
 
         builder.Entity<SalesByEmployee>()
             .HasKey(x => x.ID);
+        builder.Entity<SalesByEmployee>()
+            .Ignore(x => x.Id);
 
         builder.Entity<Summary>()
             .HasKey(x => x.SummaryName);

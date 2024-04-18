@@ -11,18 +11,22 @@ using OMSBlazor.Northwind.OrderAggregate;
 using OMSBlazor.DomainManagers.Emoloyee;
 using OMSBlazor.Northwind.OrderAggregate.Exceptions;
 using Volo.Abp.Domain.Entities;
+using OMSBlazor.Dto.Employee.Stastics;
+using OMSBlazor.Northwind.Stastics;
 
 namespace OMSBlazor.Application.ApplicationServices
 {
     public class EmployeeApplicationService : ApplicationService, IEmployeeApplicationService
     {
         private readonly IRepository<Employee, int> _employeeRepository;
+        private readonly IRepository<SalesByEmployee, int> _salesByEmployeeRepository;
         private readonly IEmployeeManager _employeeManager;
 
-        public EmployeeApplicationService(IRepository<Employee, int> employeeRepository, IEmployeeManager employeeManager)
+        public EmployeeApplicationService(IRepository<Employee, int> employeeRepository, IEmployeeManager employeeManager, IRepository<SalesByEmployee, int> salesByEmployeeRepository)
         {
             _employeeRepository = employeeRepository;
             _employeeManager = employeeManager;
+            _salesByEmployeeRepository = salesByEmployeeRepository;
         }
 
         public async Task CreateEmployeeAsync(CreateEmployeeDto employeeDto)
@@ -96,6 +100,15 @@ namespace OMSBlazor.Application.ApplicationServices
             employee.Region = employeeDto.Region;
 
             await _employeeRepository.UpdateAsync(employee);
+        }
+
+        public async Task<IEnumerable<SalesByEmployeeDto>> GetSalesByEmployees()
+        {
+            var stastics = await _salesByEmployeeRepository.GetListAsync();
+
+            var stasticsDto = ObjectMapper.Map<List<SalesByEmployee>, List<SalesByEmployeeDto>>(stastics);
+
+            return stasticsDto;
         }
     }
 }

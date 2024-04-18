@@ -1,4 +1,10 @@
 ﻿@using OMSBlazor.Blazor.Components
-<StupeniCard Title="Employee" IsWithButton="false" Icon="@Icons.Material.Filled.People">
+@using ReactiveUI.Blazor
+@inherits ReactiveComponentBase<EmployeeStasticsViewModel>
 
+<StupeniCard Title="Employee" IsWithButton="false" Icon="@Icons.Material.Filled.People">
+    <StupeniChart Title="Sales by employee" 
+        ChartType="MudBlazor.ChartType.Donut" 
+        Data="ViewModel.SalesByEmployees.Select(x=>(double)x.Sales).ToArray()"
+        Labels="ViewModel.SalesByEmployees.Select(x=>x.LastName).ToArray()"></StupeniChart>
 </StupeniCard>

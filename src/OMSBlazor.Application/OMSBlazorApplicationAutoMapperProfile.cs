@@ -3,6 +3,7 @@ using OMSBlazor.Dto.Category;
 using OMSBlazor.Dto.Customer;
 using OMSBlazor.Dto.Customer.Stastics;
 using OMSBlazor.Dto.Employee;
+using OMSBlazor.Dto.Employee.Stastics;
 using OMSBlazor.Dto.Order;
 using OMSBlazor.Dto.Order.Stastics;
 using OMSBlazor.Dto.Product;
@@ -50,5 +51,7 @@ public class OMSBlazorApplicationAutoMapperProfile : Profile
         CreateMap<CustomersByCountry, CustomersByCountryDto>();
 
         CreateMap<PurchasesByCustomer, PurchasesByCustomerDto>();
+
+        CreateMap<SalesByEmployee, SalesByEmployeeDto>();
     }
 }

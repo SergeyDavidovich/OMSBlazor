@@ -1,4 +1,5 @@
 ﻿using OMSBlazor.Dto.Employee;
+using OMSBlazor.Dto.Employee.Stastics;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -18,5 +19,7 @@ namespace OMSBlazor.Application.Contracts.Interfaces
         public Task CreateEmployeeAsync(CreateEmployeeDto employeeDto);
 
         public Task UpdateEmployeeAsync(int id, UpdateEmployeeDto employeeDto);
+
+        public Task<IEnumerable<SalesByEmployeeDto>> GetSalesByEmployees();
     }
 }
