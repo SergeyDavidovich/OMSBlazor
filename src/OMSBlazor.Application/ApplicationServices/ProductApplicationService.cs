@@ -13,20 +13,25 @@ using OMSBlazor.Dto.Category;
 using OMSBlazor.DomainManagers.Product;
 using Microsoft.AspNetCore.SignalR.Client;
 using OMSBlazor.NotificationSender.Signalr;
+using OMSBlazor.Dto.Product.Stastics;
+using OMSBlazor.Northwind.Stastics;
 
 namespace OMSBlazor.Application.ApplicationServices
 {
     public class ProductApplicationService : ApplicationService, IProductApplicationService
     {
         private readonly IRepository<Product, int> _productRepository;
+        private readonly IRepository<ProductsByCategory, string> _productsByCategoryRepository;
         private readonly IProductManager _productManager;
 
         public ProductApplicationService(
             IRepository<Product, int> productRepository,
-            IProductManager productManager)
+            IProductManager productManager,
+            IRepository<ProductsByCategory, string> productsByCategoryRepository)
         {
             _productRepository = productRepository;
             _productManager = productManager;
+            _productsByCategoryRepository = productsByCategoryRepository;
         }
 
         public async Task<List<ProductDto>> GetProductsAsync()
@@ -79,6 +84,15 @@ namespace OMSBlazor.Application.ApplicationServices
             product.UnitsInStock = productDto.UnitsInStock;
 
             await _productRepository.UpdateAsync(product);
+        }
+
+        public async Task<IEnumerable<ProductsByCategoryDto>> GetProductsByCategoryAsync()
+        {
+            var stastics = await _productsByCategoryRepository.GetListAsync();
+
+            var stasticsDto = ObjectMapper.Map<List<ProductsByCategory>, List<ProductsByCategoryDto>>(stastics);
+
+            return stasticsDto;
         }
     }
 }

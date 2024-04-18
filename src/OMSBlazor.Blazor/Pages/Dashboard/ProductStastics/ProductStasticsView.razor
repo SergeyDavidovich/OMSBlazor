@@ -1,7 +1,12 @@
 ﻿@using OMSBlazor.Blazor.Components
+@using ReactiveUI.Blazor
+@inherits ReactiveComponentBase<ProductStasticsViewModel>
 
 <StupeniCard Title="Products" IsWithButton="false" Icon="@Icons.Material.Filled.Shop">
-
+    <StupeniChart Title="Products by categories" 
+        ChartType="MudBlazor.ChartType.Pie" 
+        Labels="ViewModel.ProductsByCategories.Select(x=>x.CategoryName).ToArray()"
+        Data="ViewModel.ProductsByCategories.Select(x=>(double)x.ProductsCount).ToArray()"></StupeniChart>
 </StupeniCard>
 
 @code {

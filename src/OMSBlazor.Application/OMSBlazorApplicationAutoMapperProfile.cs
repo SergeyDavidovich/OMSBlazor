@@ -7,6 +7,7 @@ using OMSBlazor.Dto.Employee.Stastics;
 using OMSBlazor.Dto.Order;
 using OMSBlazor.Dto.Order.Stastics;
 using OMSBlazor.Dto.Product;
+using OMSBlazor.Dto.Product.Stastics;
 using OMSBlazor.Northwind.OrderAggregate;
 using OMSBlazor.Northwind.Stastics;
 
@@ -53,5 +54,7 @@ public class OMSBlazorApplicationAutoMapperProfile : Profile
         CreateMap<PurchasesByCustomer, PurchasesByCustomerDto>();
 
         CreateMap<SalesByEmployee, SalesByEmployeeDto>();
+
+        CreateMap<ProductsByCategory, ProductsByCategoryDto>();
     }
 }

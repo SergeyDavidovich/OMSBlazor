@@ -144,9 +144,9 @@ public class OMSBlazorDbContext :
 
         builder.Entity<ProductsByCategory>()
             .HasKey(x => x.CategoryName);
-        builder.Entity<PurchasesByCustomer>()
-            .HasKey(x => x.CompanyName);
-
+        builder.Entity<ProductsByCategory>()
+            .Ignore(x => x.Id);
+        
         builder.Entity<SalesByCategory>()
             .HasKey(x => x.CategoryName);
         builder.Entity<SalesByCategory>()

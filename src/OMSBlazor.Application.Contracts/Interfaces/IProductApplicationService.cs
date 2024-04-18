@@ -1,5 +1,6 @@
 ﻿using OMSBlazor.Dto.Category;
 using OMSBlazor.Dto.Product;
+using OMSBlazor.Dto.Product.Stastics;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -19,5 +20,7 @@ namespace OMSBlazor.Application.Contracts.Interfaces
         public Task CreateProductAsync(CreateProductDto productDto);
 
         public Task UpdateProductAsync(int id, UpdateProductDto productDto);
+
+        public Task<IEnumerable<ProductsByCategoryDto>> GetProductsByCategoryAsync();
     }
 }
