@@ -1,8 +1,20 @@
 ﻿@page "/dashboard"
+@using OMSBlazor.Blazor.Pages.Dashboard.EmployeeStastics
 @using OMSBlazor.Blazor.Pages.Dashboard.OrderStastics
 @using OMSBlazor.Blazor.Pages.Dashboard.CustomerStastics
+@using OMSBlazor.Blazor.Pages.Dashboard.ProductStastics
 @attribute [Authorize]
-<div class="d-flex flex-column gap-3">
-    <OrderStasticsView></OrderStasticsView>
-    <CustomerStasticsView></CustomerStasticsView>
-</div>
+<MudGrid Class="gap-3">
+    <MudItem xs="12">
+        <OrderStasticsView></OrderStasticsView>
+    </MudItem>
+    <MudItem xs="12">
+        <CustomerStasticsView></CustomerStasticsView>
+    </MudItem>
+    <MudItem xs="12" lg="6" md="6">
+        <ProductStasticsView></ProductStasticsView>
+    </MudItem>
+    <MudItem xs="12" lg="6" md="6">
+        <EmployeeStasticsView></EmployeeStasticsView>
+    </MudItem>
+</MudGrid>
