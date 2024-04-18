@@ -5,24 +5,16 @@
 <StupeniCard Icon="@Icons.Material.Filled.Edit" Title="Orders" IsWithButton="false">
     <MudGrid Justify="Justify.SpaceAround">
         <MudItem xs="12" lg="6" md="6">
-            <MudPaper Class="d-flex flex-column align-center justify-space-around p-2" Outlined="true">
-                <MudText Class="align-self-center" Typo="Typo.h6">Orders by countries (top 10)</MudText>
-                <MudChart ChartType="MudBlazor.ChartType.Pie"
-                          Height="100%"
-                          InputData="@ViewModel!.OrdersByCountries.Select(x=>x.OrdersCount).Select(x=>(double)x).ToArray()"
-                          InputLabels="@ViewModel!.OrdersByCountries.Select(x=>x.CountryName).ToArray()">
-                </MudChart>
-            </MudPaper>
+            <StupeniChart Title="Orders by countries (top 10)"
+                          ChartType="MudBlazor.ChartType.Pie"
+                          Data="ViewModel!.OrdersByCountries.Select(x=>x.OrdersCount).Select(x=>(double)x).ToArray()"
+                          Labels="ViewModel!.OrdersByCountries.Select(x=>x.CountryName).ToArray()"></StupeniChart>
         </MudItem>
         <MudItem xs="12" lg="6" md="6">
-            <MudPaper Class="d-flex flex-column align-center justify-space-around p-2" Outlined="true">
-                <MudText Typo="Typo.h6">Sales by categories</MudText>
-                <MudChart ChartType="MudBlazor.ChartType.Pie"
-                          Height="100%"
-                          InputData="@ViewModel!.SalesByCategories.Select(x=>x.Sales).Select(x=>(double)x).ToArray()"
-                          InputLabels="@ViewModel!.SalesByCategories.Select(x=>x.CategoryName).ToArray()">
-                </MudChart>
-            </MudPaper>
+            <StupeniChart Title="Sales by categories"
+                          ChartType="MudBlazor.ChartType.Pie"
+                          Data="ViewModel!.SalesByCategories.Select(x=>x.Sales).Select(x=>(double)x).ToArray()"
+                          Labels="ViewModel!.SalesByCategories.Select(x=>x.CategoryName).ToArray()"></StupeniChart>
         </MudItem>
         <MudItem xs="12" lg="6" md="6">
             <MudPaper Class="d-flex flex-column justify-space-between p-2" Height="100%" Outlined="true">
@@ -50,10 +42,10 @@
             </MudPaper>
         </MudItem>
         <MudItem xs="6">
-            <MudPaper Class="d-flex flex-column align-center p-2" Outlined="true">
-                <MudText Typo="Typo.h6">Sales by countries (top 10)</MudText>
-                <MudChart ChartType="MudBlazor.ChartType.Donut" InputData="@ViewModel.SalesByCountries.Select(x=>(double)x.Sales).ToArray()" InputLabels="@ViewModel.SalesByCountries.Select(x=>x.CountryName).ToArray()" Width="100%" Height="100%"></MudChart>
-            </MudPaper>
+            <StupeniChart Title="Sales by countries (top 10)"
+                          ChartType="MudBlazor.ChartType.Donut"
+                          Data="ViewModel.SalesByCountries.Select(x=>(double)x.Sales).ToArray()"
+                          Labels="ViewModel.SalesByCountries.Select(x=>x.CountryName).ToArray()"></StupeniChart>
         </MudItem>
     </MudGrid>
 </StupeniCard>
