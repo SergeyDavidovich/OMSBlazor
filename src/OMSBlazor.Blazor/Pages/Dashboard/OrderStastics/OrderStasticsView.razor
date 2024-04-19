@@ -4,29 +4,34 @@
 
 <StupeniCard Icon="@Icons.Material.Filled.Edit" Title="Orders" IsWithButton="false">
     <MudGrid Justify="Justify.SpaceAround">
-        <MudItem xs="12" lg="6" md="6">
+        <MudItem xs="12" lg="3" md="3">
+            <StupeniSummaryItem Title="Overall" Icon="@Icons.Material.Filled.Money" IconColor="@MudBlazor.Color.Secondary" Value="@OverallSalesValue"></StupeniSummaryItem>
+        </MudItem>
+        <MudItem xs="12" lg="2" md="2">
+            <StupeniSummaryItem Title="Quantity" Icon="@Icons.Material.Filled.Numbers" IconColor="@MudBlazor.Color.Success" Value="@OrdersQuantityValue"></StupeniSummaryItem>
+        </MudItem>
+        <MudItem xs="12" lg="2" md="2">
+            <StupeniSummaryItem Title="Max" Icon="@Icons.Material.Filled.DonutLarge" IconColor="@MudBlazor.Color.Error" Value="@MaxCheckValue"></StupeniSummaryItem>
+        </MudItem>
+        <MudItem xs="12" lg="2" md="2">
+            <StupeniSummaryItem Title="Min" Icon="@Icons.Material.Filled.DonutSmall" IconColor="@MudBlazor.Color.Info" Value="@MinCheckValue"></StupeniSummaryItem>
+        </MudItem>
+        <MudItem xs="12" lg="3" md="3">
+            <StupeniSummaryItem Title="Average" Icon="@Icons.Material.Filled.PriceCheck" IconColor="@MudBlazor.Color.Warning" Value="@AverageCheckValue"></StupeniSummaryItem>
+        </MudItem>
+        <MudItem xs="12" lg="4" md="4">
             <StupeniChart Title="Orders by countries (top 10)"
                           ChartType="MudBlazor.ChartType.Pie"
                           Data="ViewModel!.OrdersByCountries.Select(x=>x.OrdersCount).Select(x=>(double)x).ToArray()"
                           Labels="ViewModel!.OrdersByCountries.Select(x=>x.CountryName).ToArray()"></StupeniChart>
         </MudItem>
-        <MudItem xs="12" lg="6" md="6">
+        <MudItem xs="12" lg="4" md="4">
             <StupeniChart Title="Sales by categories"
                           ChartType="MudBlazor.ChartType.Pie"
                           Data="ViewModel!.SalesByCategories.Select(x=>x.Sales).Select(x=>(double)x).ToArray()"
                           Labels="ViewModel!.SalesByCategories.Select(x=>x.CategoryName).ToArray()"></StupeniChart>
         </MudItem>
-        <MudItem xs="12" lg="6" md="6">
-            <MudPaper Class="d-flex flex-column justify-space-between p-2" Height="100%" Outlined="true">
-                <MudText Typo="Typo.h6" Class="align-self-center"> Summary </MudText>
-                <StupeniSummaryItem Title="Overall sales sum" Value="@OverallSalesValue"></StupeniSummaryItem>
-                <StupeniSummaryItem Title="Orders quantity" Value="@OrdersQuantityValue"></StupeniSummaryItem>
-                <StupeniSummaryItem Title="Average check" Value="@AverageCheckValue"></StupeniSummaryItem>
-                <StupeniSummaryItem Title="Max check" Value="@MaxCheckValue"></StupeniSummaryItem>
-                <StupeniSummaryItem Title="Min check" Value="@MinCheckValue"></StupeniSummaryItem>
-            </MudPaper>
-        </MudItem>
-        <MudItem xs="12" lg="6" md="6">
+        <MudItem xs="12" lg="4" md="4">
             <StupeniChart Title="Sales by countries (top 10)"
                           ChartType="MudBlazor.ChartType.Donut"
                           Data="ViewModel.SalesByCountries.Select(x=>(double)x.Sales).ToArray()"

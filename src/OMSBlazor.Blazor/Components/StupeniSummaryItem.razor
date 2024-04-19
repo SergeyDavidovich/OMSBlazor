@@ -1,9 +1,18 @@
-﻿<div class="d-flex flex-column border-b gap-2">
-    <MudText>@Title:</MudText>
-    <MudText Class="align-self-end" Style="color:red">@Value</MudText>
-</div>
+﻿<MudPaper Class="d-flex p-1 align-center justify-space-around" Style="height:100%; width:100%">
+    <MudIcon Size="MudBlazor.Size.Large" Icon="@Icon" Color="@IconColor"></MudIcon>
+    <div class="d-flex flex-column">
+        <MudText Typo="Typo.h6">@Title</MudText>
+        <MudText Typo="Typo.h5">@Value</MudText>
+    </div>
+</MudPaper>
 
 @code {
+    [Parameter]
+    public MudBlazor.Color IconColor { get; set; }
+
+    [Parameter]
+    public string Icon { get; set; }
+
     [Parameter]
     public string Title { get; set; }
 
