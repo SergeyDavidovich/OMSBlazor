@@ -1,4 +1,5 @@
 ﻿@using OMSBlazor.Blazor.Components
+@using OMSBlazor.Dto.Order.Stastics
 @using ReactiveUI.Blazor
 @inherits ReactiveComponentBase<OrderStasticsViewModel>
 
@@ -19,23 +20,50 @@
         <MudItem xs="12" lg="3" md="3">
             <StupeniSummaryItem Title="Average" Icon="@Icons.Material.Filled.PriceCheck" IconColor="@MudBlazor.Color.Warning" Value="@AverageCheckValue"></StupeniSummaryItem>
         </MudItem>
-        <MudItem xs="12" lg="4" md="4">
-            <StupeniChart Title="Orders by countries (top 10)"
-                          ChartType="MudBlazor.ChartType.Pie"
-                          Data="ViewModel!.OrdersByCountries.Select(x=>x.OrdersCount).Select(x=>(double)x).ToArray()"
-                          Labels="ViewModel!.OrdersByCountries.Select(x=>x.CountryName).ToArray()"></StupeniChart>
+        <MudItem xs="12" lg="6" md="6">
+            <MudPaper Outlined="true" Height="400px">
+                <ApexChart Title="Orders by countries (top 10)"
+                           TItem="OrdersByCountryDto"
+                           @ref="orderByCountriesChart"
+                           Height="@("100%")"
+                           Options="orderByCountriesOptions">
+                    <ApexPointSeries TItem="OrdersByCountryDto"
+                                     Items="@ViewModel!.OrdersByCountries"
+                                     XValue="x=>x.CountryName"
+                                     YValue="x=>x.OrdersCount"
+                                     SeriesType="SeriesType.Pie" />
+                </ApexChart>
+            </MudPaper>
         </MudItem>
-        <MudItem xs="12" lg="4" md="4">
-            <StupeniChart Title="Sales by categories"
-                          ChartType="MudBlazor.ChartType.Pie"
-                          Data="ViewModel!.SalesByCategories.Select(x=>x.Sales).Select(x=>(double)x).ToArray()"
-                          Labels="ViewModel!.SalesByCategories.Select(x=>x.CategoryName).ToArray()"></StupeniChart>
+        <MudItem xs="12" lg="6" md="6">
+            <MudPaper Outlined="true" Height="400px">
+                <ApexChart Title="Sales by categories"
+                           TItem="SalesByCategoryDto"
+                           Height="@("100%")"
+                           @ref="salesByCategoryChart"
+                           Options="salesByCategoryOptions">
+                    <ApexPointSeries TItem="SalesByCategoryDto"
+                                     Items="@ViewModel!.SalesByCategories"
+                                     XValue="x=>x.CategoryName"
+                                     YValue="x=>x.Sales"
+                                     SeriesType="SeriesType.Pie" />
+                </ApexChart>
+            </MudPaper>
         </MudItem>
-        <MudItem xs="12" lg="4" md="4">
-            <StupeniChart Title="Sales by countries (top 10)"
-                          ChartType="MudBlazor.ChartType.Donut"
-                          Data="ViewModel.SalesByCountries.Select(x=>(double)x.Sales).ToArray()"
-                          Labels="ViewModel.SalesByCountries.Select(x=>x.CountryName).ToArray()"></StupeniChart>
+        <MudItem xs="12" lg="12" md="12">
+            <MudPaper Outlined="true" Height="400px">
+                <ApexChart Title="Sales by countries"
+                           TItem="SalesByCountryDto"
+                           Height="@("100%")"
+                           @ref="salesByCountriesChart"
+                           Options="salesByCountriesOptions">
+                    <ApexPointSeries TItem="SalesByCountryDto" 
+                                     Items="ViewModel.SalesByCountries"
+                                     XValue="x=>x.CountryName"
+                                     YValue="x=>x.Sales"
+                                     SeriesType="SeriesType.Bar"/>
+                </ApexChart>
+            </MudPaper>
         </MudItem>
     </MudGrid>
 </StupeniCard>
@@ -47,6 +75,13 @@
 </style>
 
 @code {
+    ApexChart<SalesByCountryDto> salesByCountriesChart;
+    ApexChart<SalesByCategoryDto> salesByCategoryChart;
+    ApexChart<OrdersByCountryDto> orderByCountriesChart;
+    ApexChartOptions<OrdersByCountryDto> orderByCountriesOptions = new();
+    ApexChartOptions<SalesByCategoryDto> salesByCategoryOptions = new();
+    ApexChartOptions<SalesByCountryDto> salesByCountriesOptions;
+
     string OverallSalesValue;
     string OrdersQuantityValue;
     string AverageCheckValue;

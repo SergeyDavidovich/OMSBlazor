@@ -9,6 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Blazor-ApexCharts" Version="3.2.0" />
     <PackageReference Include="Blazorise.Bootstrap5" Version="1.4.0" />
     <PackageReference Include="Blazorise.Charts" Version="1.4.0" />
     <PackageReference Include="Blazorise.Icons.FontAwesome" Version="1.4.0" />

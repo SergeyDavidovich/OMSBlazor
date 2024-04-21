@@ -49,14 +49,12 @@ namespace OMSBlazor.Blazor.Pages.Dashboard.OrderStastics
 
             _salesByCountriesSource.Connect()
                 .Sort(SortExpressionComparer<SalesByCountryDto>.Descending(x => x.Sales))
-                .Top(10)
                 .Bind(out _salesByCountries)
                 .Subscribe();
 
             _summariesSource.Connect()
                 .Bind(out _summaries)
                 .Subscribe();
-
         }
 
         public async Task OnNavigatedTo()
