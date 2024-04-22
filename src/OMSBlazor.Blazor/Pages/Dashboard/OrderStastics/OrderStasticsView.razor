@@ -58,7 +58,7 @@
                            @ref="salesByCountriesChart"
                            Options="salesByCountriesOptions">
                     <ApexPointSeries TItem="SalesByCountryDto" 
-                                     Items="ViewModel.SalesByCountries"
+                                     Items="ViewModel!.SalesByCountries"
                                      XValue="x=>x.CountryName"
                                      YValue="x=>x.Sales"
                                      SeriesType="SeriesType.Bar"/>
