@@ -1,14 +1,25 @@
 ﻿@using OMSBlazor.Blazor.Components
+@using OMSBlazor.Dto.Product.Stastics
 @using ReactiveUI.Blazor
 @inherits ReactiveComponentBase<ProductStasticsViewModel>
 
 <StupeniCard Title="Products" IsWithButton="false" Icon="@Icons.Material.Filled.Shop">
-    <StupeniChart Title="Products by categories" 
-                  ChartType="MudBlazor.ChartType.Pie" 
-                  Labels="ViewModel.ProductsByCategories.Select(x=>x.CategoryName).ToArray()"
-                  Data="ViewModel.ProductsByCategories.Select(x=>(double)x.ProductsCount).ToArray()"></StupeniChart>
+    <MudPaper Height="400px" Outlined="true">
+        <ApexChart Title="Products by category"
+                   TItem="ProductsByCategoryDto"
+                   @ref="productsByCategoryChart"
+                   Height="@("100%")"
+                   Options="productsByCategoryOptions">
+            <ApexPointSeries TItem="ProductsByCategoryDto"
+                             Items="ViewModel!.ProductsByCategories" 
+                             XValue="x=>x.CategoryName"
+                             YValue="x=>x.ProductsCount"
+                             SeriesType="SeriesType.Pie"/>
+        </ApexChart>
+    </MudPaper>
 </StupeniCard>
 
 @code {
-
+    ApexChart<ProductsByCategoryDto> productsByCategoryChart;
+    ApexChartOptions<ProductsByCategoryDto> productsByCategoryOptions = new();
 }

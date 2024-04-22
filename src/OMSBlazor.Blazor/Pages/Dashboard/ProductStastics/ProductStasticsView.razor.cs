@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using ApexCharts;
+using System.Threading.Tasks;
 
 namespace OMSBlazor.Blazor.Pages.Dashboard.ProductStastics
 {
@@ -11,7 +12,12 @@ namespace OMSBlazor.Blazor.Pages.Dashboard.ProductStastics
 
         protected override async Task OnInitializedAsync()
         {
+            var legend = new Legend { Position = LegendPosition.Bottom, FontSize = "15px", HorizontalAlign = ApexCharts.Align.Center };
+            productsByCategoryOptions.Legend = legend;
+
             await ViewModel.OnNavigatedTo();
+
+            await productsByCategoryChart.UpdateOptionsAsync(true, true, true);
         }
     }
 }
