@@ -1,5 +1,7 @@
 ﻿using DynamicData;
+using DynamicData.Binding;
 using OMSBlazor.Application.Contracts.Interfaces;
+using OMSBlazor.Dto.Customer.Stastics;
 using OMSBlazor.Dto.Employee.Stastics;
 using ReactiveUI;
 using System;
@@ -24,6 +26,7 @@ namespace OMSBlazor.Blazor.Pages.Dashboard.EmployeeStastics
 
             _salesByEmployeeSource
                 .Connect()
+                .Sort(SortExpressionComparer<SalesByEmployeeDto>.Descending(x => x.Sales))
                 .Bind(out _salesByEmployee)
                 .Subscribe();
         }

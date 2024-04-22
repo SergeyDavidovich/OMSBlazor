@@ -12,6 +12,8 @@ namespace OMSBlazor.Blazor.Pages.Dashboard.EmployeeStastics
         protected async override Task OnInitializedAsync()
         {
             await ViewModel.OnNavigatedTo();
+
+            await salesByEmployeeChart.UpdateOptionsAsync(true, true, true);
         }
     }
 }
