@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using ApexCharts;
+using System.Threading.Tasks;
 
 namespace OMSBlazor.Blazor.Pages.Dashboard.EmployeeStastics
 {
@@ -11,8 +12,20 @@ namespace OMSBlazor.Blazor.Pages.Dashboard.EmployeeStastics
 
         protected async override Task OnInitializedAsync()
         {
+            var theme = new Theme
+            {
+                Palette = PaletteType.Palette1,
+                Mode = IsDarkMode ? Mode.Dark : Mode.Light
+            };
+            salesByEmployeeOptions.Theme = theme;
+
             await ViewModel.OnNavigatedTo();
 
+            await salesByEmployeeChart.UpdateOptionsAsync(true, true, true);
+        }
+
+        public async Task UpdateStastics()
+        {
             await salesByEmployeeChart.UpdateOptionsAsync(true, true, true);
         }
     }

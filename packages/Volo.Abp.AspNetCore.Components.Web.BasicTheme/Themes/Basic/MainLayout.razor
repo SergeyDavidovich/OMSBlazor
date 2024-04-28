@@ -25,7 +25,9 @@
     <MudMainContent>
         <MudContainer MaxWidth="MaxWidth.False" Class="mt-4">
             <PageAlert />
-            @Body
+            <CascadingValue Name="IsDarkMode" Value="IsDarkMode">
+                @Body
+            </CascadingValue>
             <UiMessageAlert />
             <UiNotificationAlert />
             <UiPageProgress />

@@ -1,4 +1,8 @@
-﻿using QuestPDF.Infrastructure;
+﻿using Microsoft.AspNetCore.WebSockets;
+using Microsoft.Extensions.DependencyInjection;
+using OMSBlazor.Interfaces.Services;
+using OMSBlazor.Services;
+using QuestPDF.Infrastructure;
 using Volo.Abp.Account;
 using Volo.Abp.AutoMapper;
 using Volo.Abp.FeatureManagement;
@@ -31,5 +35,7 @@ public class OMSBlazorApplicationModule : AbpModule
         {
             options.AddMaps<OMSBlazorApplicationModule>();
         });
+
+        context.Services.AddTransient<IStasticsRecalculator, StasticsRecalculator>();
     }
 }

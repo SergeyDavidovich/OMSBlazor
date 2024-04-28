@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Volo.Abp.Application.Services;
 
-namespace OMSBlazor.Application.Contracts.Interfaces
+namespace OMSBlazor.Interfaces.ApplicationServices
 {
     public interface ICustomerApplcationService : IApplicationService
     {

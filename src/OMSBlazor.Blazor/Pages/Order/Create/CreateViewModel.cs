@@ -13,8 +13,9 @@ using OMSBlazor.Dto.Employee;
 using OMSBlazor.Dto.Customer;
 using OMSBlazor.Dto.Product;
 using OMSBlazor.Dto.Order;
-using OMSBlazor.Application.Contracts.Interfaces;
 using Microsoft.AspNetCore.SignalR.Client;
+using OMSBlazor.Interfaces.ApplicationServices;
+using OMSBlazor.Interfaces.Services;
 
 namespace OMSBlazor.Blazor.Pages.Order.Create
 {
@@ -25,6 +26,8 @@ namespace OMSBlazor.Blazor.Pages.Order.Create
         private readonly IOrderApplicationService _orderApplicationService;
         private readonly IProductApplicationService _productApplicationService;
         private readonly ICustomerApplcationService _customerApplcationService;
+
+        private readonly IStasticsRecalculator _stasticsRecalculator;
 
         private readonly ReadOnlyObservableCollection<ProductInOrder> _productsInOrder;
         private readonly ReadOnlyObservableCollection<ProductOnStore> _productsInStore;
@@ -160,6 +163,8 @@ namespace OMSBlazor.Blazor.Pages.Order.Create
             OrderDate = null;
             SelectedCustomer = null;
             SelectedEmployee = null;
+
+            await _stasticsRecalculator.RecalculateStastics(orderDto);
 
             var arr = await _orderApplicationService.GetInvoiceAsync(orderDto.OrderId);
             return arr;

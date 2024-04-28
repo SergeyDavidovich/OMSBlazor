@@ -1,8 +1,8 @@
 ﻿using DynamicData;
 using DynamicData.Binding;
-using OMSBlazor.Application.Contracts.Interfaces;
 using OMSBlazor.Dto.Customer.Stastics;
 using OMSBlazor.Dto.Employee.Stastics;
+using OMSBlazor.Interfaces.ApplicationServices;
 using ReactiveUI;
 using System;
 using System.Collections.ObjectModel;

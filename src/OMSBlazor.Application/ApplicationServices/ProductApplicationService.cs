@@ -1,5 +1,4 @@
 ﻿using OMSBlazor.Dto.Product;
-using OMSBlazor.Application.Contracts.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +14,7 @@ using Microsoft.AspNetCore.SignalR.Client;
 using OMSBlazor.NotificationSender.Signalr;
 using OMSBlazor.Dto.Product.Stastics;
 using OMSBlazor.Northwind.Stastics;
+using OMSBlazor.Interfaces.ApplicationServices;
 
 namespace OMSBlazor.Application.ApplicationServices
 {

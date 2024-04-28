@@ -4,10 +4,10 @@ using System.Collections.Generic;
 using System.Data.Common;
 using System.Reactive;
 using System;
-using OMSBlazor.Application.Contracts.Interfaces;
 using System.Threading.Tasks;
 using System.Linq;
 using OMSBlazor.Dto.Order;
+using OMSBlazor.Interfaces.ApplicationServices;
 
 namespace OMSBlazor.Blazor.Pages.Order.Journal
 {

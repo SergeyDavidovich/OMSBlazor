@@ -1,4 +1,7 @@
 ﻿using ApexCharts;
+using ReactiveUI;
+using System;
+using System.Reactive.Linq;
 using System.Threading.Tasks;
 
 namespace OMSBlazor.Blazor.Pages.Dashboard.CustomerStastics
@@ -12,6 +15,15 @@ namespace OMSBlazor.Blazor.Pages.Dashboard.CustomerStastics
 
         protected override async Task OnInitializedAsync()
         {
+            var theme = new Theme
+            {
+                Palette = PaletteType.Palette1,
+                Mode = IsDarkMode ? Mode.Dark : Mode.Light
+            };
+
+            customersByCountriesOptions.Theme = theme;
+            purchasesByCustomersOptions.Theme = theme;
+
             var legend = new Legend { Position = LegendPosition.Bottom, FontSize = "15px", HorizontalAlign = ApexCharts.Align.Center };
             customersByCountriesOptions.Legend = legend;
 
@@ -19,6 +31,12 @@ namespace OMSBlazor.Blazor.Pages.Dashboard.CustomerStastics
 
             await purchasesByCustomersChart.UpdateOptionsAsync(true, true, true);
             await customersByCountriesChart.UpdateOptionsAsync(true, true, true);
+        }
+
+        public async Task UpdateStastics()
+        {
+            await UpdateStastics();
+            await purchasesByCustomersChart.UpdateSeriesAsync(true);
         }
     }
 }

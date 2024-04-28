@@ -8,7 +8,8 @@
         <ApexChart Title="Sales by employee"
                    TItem="SalesByEmployeeDto"
                    Height="@("100%")"
-                   @ref="salesByEmployeeChart">
+                   @ref="salesByEmployeeChart"
+                   Options="salesByEmployeeOptions">
             <ApexPointSeries TItem="SalesByEmployeeDto" 
                              Items="ViewModel!.SalesByEmployees"
                              XValue="x=>x.LastName"
@@ -19,5 +20,25 @@
 </StupeniCard>
 
 @code {
+    [CascadingParameter(Name = "IsDarkMode")]
+    private bool IsDarkMode { get; set; }
+    private bool isFirstRender = true;
+
     ApexChart<SalesByEmployeeDto> salesByEmployeeChart;
+    ApexChartOptions<SalesByEmployeeDto> salesByEmployeeOptions = new();
+
+    protected override async Task OnParametersSetAsync()
+    {
+        salesByEmployeeOptions.Theme.Mode = IsDarkMode ? Mode.Dark : Mode.Light;
+
+        if (!isFirstRender)
+        {
+            await salesByEmployeeChart.RenderAsync();
+        }
+
+        if (isFirstRender)
+        {
+            isFirstRender = false;
+        }
+    }
 }

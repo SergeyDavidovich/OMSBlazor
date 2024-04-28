@@ -1,6 +1,6 @@
 ﻿using DynamicData;
-using OMSBlazor.Application.Contracts.Interfaces;
 using OMSBlazor.Dto.Product.Stastics;
+using OMSBlazor.Interfaces.ApplicationServices;
 using ReactiveUI;
 using System;
 using System.Collections.ObjectModel;

@@ -1,5 +1,4 @@
 ﻿using OMSBlazor.Dto.Customer;
-using OMSBlazor.Application.Contracts.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +12,7 @@ using OMSBlazor.Northwind.OrderAggregate.Exceptions;
 using Volo.Abp.Domain.Entities;
 using OMSBlazor.Dto.Customer.Stastics;
 using OMSBlazor.Northwind.Stastics;
+using OMSBlazor.Interfaces.ApplicationServices;
 
 namespace OMSBlazor.Application.ApplicationServices
 {

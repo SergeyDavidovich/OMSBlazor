@@ -57,11 +57,11 @@
                            Height="@("100%")"
                            @ref="salesByCountriesChart"
                            Options="salesByCountriesOptions">
-                    <ApexPointSeries TItem="SalesByCountryDto" 
+                    <ApexPointSeries TItem="SalesByCountryDto"
                                      Items="ViewModel!.SalesByCountries"
                                      XValue="x=>x.CountryName"
                                      YValue="x=>x.Sales"
-                                     SeriesType="SeriesType.Bar"/>
+                                     SeriesType="SeriesType.Bar" />
                 </ApexChart>
             </MudPaper>
         </MudItem>
@@ -75,16 +75,39 @@
 </style>
 
 @code {
+    [CascadingParameter(Name = "IsDarkMode")]
+    private bool IsDarkMode { get; set; }
+    private bool isFirstRender = true;
+
     ApexChart<SalesByCountryDto> salesByCountriesChart;
     ApexChart<SalesByCategoryDto> salesByCategoryChart;
     ApexChart<OrdersByCountryDto> orderByCountriesChart;
     ApexChartOptions<OrdersByCountryDto> orderByCountriesOptions = new();
     ApexChartOptions<SalesByCategoryDto> salesByCategoryOptions = new();
-    ApexChartOptions<SalesByCountryDto> salesByCountriesOptions;
+    ApexChartOptions<SalesByCountryDto> salesByCountriesOptions = new();
 
     string OverallSalesValue;
     string OrdersQuantityValue;
     string AverageCheckValue;
     string MaxCheckValue;
     string MinCheckValue;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        orderByCountriesOptions.Theme.Mode = IsDarkMode ? Mode.Dark : Mode.Light;
+        salesByCountriesOptions.Theme.Mode = IsDarkMode ? Mode.Dark : Mode.Light;
+        salesByCategoryOptions.Theme.Mode = IsDarkMode ? Mode.Dark : Mode.Light;
+
+        if (!isFirstRender)
+        {
+            await salesByCountriesChart.RenderAsync();
+            await salesByCategoryChart.RenderAsync();
+            await orderByCountriesChart.RenderAsync();
+        }
+
+        if (isFirstRender)
+        {
+            isFirstRender = false;
+        }
+    }
 }

@@ -25,6 +25,7 @@ using OMSBlazor.Blazor.Pages.Dashboard.OrderStastics;
 using OMSBlazor.Blazor.Pages.Dashboard.CustomerStastics;
 using OMSBlazor.Blazor.Pages.Dashboard.EmployeeStastics;
 using OMSBlazor.Blazor.Pages.Dashboard.ProductStastics;
+using OMSBlazor.Interfaces.Services;
 
 namespace OMSBlazor.Blazor;
 

@@ -2,11 +2,12 @@
 using OMSBlazor.Dto.Order.Stastics;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Volo.Abp.Application.Services;
 
-namespace OMSBlazor.Application.Contracts.Interfaces
+namespace OMSBlazor.Interfaces.ApplicationServices
 {
     public interface IOrderApplicationService : IApplicationService
     {
@@ -27,5 +28,7 @@ namespace OMSBlazor.Application.Contracts.Interfaces
         public Task<IEnumerable<SalesByCountryDto>> GetSalesByCountriesAsync();
 
         public Task<IEnumerable<SummaryDto>> GetSummariesAsync();
+
+        public Task<IQueryable<OrderDto>> GetOrdersQueryableAsync();
     }
 }

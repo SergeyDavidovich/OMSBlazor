@@ -1,4 +1,5 @@
 ﻿@page "/dashboard"
+@using Microsoft.AspNetCore.SignalR.Client
 @using OMSBlazor.Blazor.Pages.Dashboard.EmployeeStastics
 @using OMSBlazor.Blazor.Pages.Dashboard.OrderStastics
 @using OMSBlazor.Blazor.Pages.Dashboard.CustomerStastics
@@ -6,15 +7,40 @@
 @attribute [Authorize]
 <MudGrid>
     <MudItem xs="12">
-        <OrderStasticsView></OrderStasticsView>
+        <OrderStasticsView @ref="orderStasticsView"></OrderStasticsView>
     </MudItem>
     <MudItem xs="12">
-        <CustomerStasticsView></CustomerStasticsView>
+        <CustomerStasticsView @ref="customerStasticsView"></CustomerStasticsView>
     </MudItem>
     <MudItem xs="12" lg="6" md="6">
-        <ProductStasticsView></ProductStasticsView>
+        <EmployeeStasticsView @ref="employeeStasticsView"></EmployeeStasticsView>
     </MudItem>
     <MudItem xs="12" lg="6" md="6">
-        <EmployeeStasticsView></EmployeeStasticsView>
+        <ProductStasticsView @ref="productStasticsView"></ProductStasticsView>
     </MudItem>
 </MudGrid>
+
+@code {
+    private OrderStasticsView orderStasticsView;
+    private CustomerStasticsView customerStasticsView;
+    private ProductStasticsView productStasticsView;
+    private EmployeeStasticsView employeeStasticsView;
+    private HubConnection hubConnection;
+
+    protected async override Task OnInitializedAsync()
+    {
+        hubConnection = new HubConnectionBuilder()
+                .WithUrl("https://localhost:44314/signalr-hubs/dashboard")
+                .Build();
+
+        hubConnection.On("UpdateDashboard", async () =>
+        {
+            //await orderStasticsView.UpdateStastics();
+            await customerStasticsView.UpdateStastics();
+            //await productStasticsView.UpdateStastics();
+            //await employeeStasticsView.UpdateStastics();
+        });
+
+        await hubConnection.StartAsync();
+    }
+}

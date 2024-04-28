@@ -1,6 +1,6 @@
-﻿using OMSBlazor.Application.Contracts.Interfaces;
-using OMSBlazor.DomainManagers.Category;
+﻿using OMSBlazor.DomainManagers.Category;
 using OMSBlazor.Dto.Category;
+using OMSBlazor.Interfaces.ApplicationServices;
 using OMSBlazor.Northwind.OrderAggregate;
 using System;
 using System.Collections.Generic;

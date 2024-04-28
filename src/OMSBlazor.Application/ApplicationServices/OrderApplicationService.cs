@@ -1,5 +1,4 @@
 ﻿using OMSBlazor.Dto.Order;
-using OMSBlazor.Application.Contracts.Interfaces;
 using OMSBlazor.Northwind.OrderAggregate;
 using System;
 using System.Collections.Generic;
@@ -13,6 +12,7 @@ using OMSBlazor.Blazor.Services;
 using QuestPDF.Fluent;
 using OMSBlazor.Dto.Order.Stastics;
 using OMSBlazor.Northwind.Stastics;
+using OMSBlazor.Interfaces.ApplicationServices;
 
 namespace OMSBlazor.Application.ApplicationServices
 {
@@ -162,6 +162,13 @@ namespace OMSBlazor.Application.ApplicationServices
             var stasticsDto = ObjectMapper.Map<List<Summary>, List<SummaryDto>>(stastics);
 
             return stasticsDto;
+        }
+
+        public async Task<IQueryable<OrderDto>> GetOrdersQueryableAsync()
+        {
+            var queryable = await _orderRepository.GetQueryableAsync();
+
+            return queryable.Select(x => ObjectMapper.Map<Order, OrderDto>(x));
         }
     }
 }

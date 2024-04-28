@@ -1,11 +1,12 @@
 ﻿using DynamicData;
 using DynamicData.Binding;
-using OMSBlazor.Application.Contracts.Interfaces;
 using OMSBlazor.Dto.Customer.Stastics;
 using OMSBlazor.Dto.Order.Stastics;
+using OMSBlazor.Interfaces.ApplicationServices;
 using ReactiveUI;
 using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace OMSBlazor.Blazor.Pages.Dashboard.CustomerStastics
@@ -50,5 +51,17 @@ namespace OMSBlazor.Blazor.Pages.Dashboard.CustomerStastics
         public ReadOnlyObservableCollection<CustomersByCountryDto> CustomersByCountries => _customersByCountries;
 
         public ReadOnlyObservableCollection<PurchasesByCustomerDto> PurchasesByCustomers => _purchasesByCustomers;
+
+        public async Task UpdateStastics()
+        {
+            Console.WriteLine("Stastic updated");
+            var newPurchasesByCustomers = await _customerApplicationService.GetPurchasesByCustomer();
+
+            foreach (var newPurchasesByCustomer in newPurchasesByCustomers)
+            {
+                var existingPurchasesByCustomer = _purchasesByCustomers.Single(x => x.CompanyName == newPurchasesByCustomer.CompanyName);
+                existingPurchasesByCustomer.Purchases = newPurchasesByCustomer.Purchases;
+            }
+        }
     }
 }
