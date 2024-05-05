@@ -6,6 +6,7 @@ using OMSBlazor.Interfaces.ApplicationServices;
 using ReactiveUI;
 using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace OMSBlazor.Blazor.Pages.Dashboard.EmployeeStastics
@@ -18,7 +19,7 @@ namespace OMSBlazor.Blazor.Pages.Dashboard.EmployeeStastics
 
         private readonly SourceCache<SalesByEmployeeDto, int> _salesByEmployeeSource;
 
-        public EmployeeStasticsViewModel(IEmployeeApplicationService employeeApplicationService) 
+        public EmployeeStasticsViewModel(IEmployeeApplicationService employeeApplicationService)
         {
             _employeeApplicationService = employeeApplicationService;
 
@@ -36,6 +37,17 @@ namespace OMSBlazor.Blazor.Pages.Dashboard.EmployeeStastics
             var salesByEmployees = await _employeeApplicationService.GetSalesByEmployees();
 
             _salesByEmployeeSource.AddOrUpdate(salesByEmployees);
+        }
+
+        public async Task UpdateStastics()
+        {
+            var newSalesByEmployee = await _employeeApplicationService.GetSalesByEmployees();
+
+            foreach (var saleByEmployee in _salesByEmployeeSource.Items.ToList())
+            {
+                saleByEmployee.Sales = newSalesByEmployee.Single(x => x.ID == saleByEmployee.ID).Sales;
+                _salesByEmployeeSource.Refresh(saleByEmployee);
+            }
         }
 
         public ReadOnlyObservableCollection<SalesByEmployeeDto> SalesByEmployees => _salesByEmployee;

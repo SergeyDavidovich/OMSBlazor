@@ -26,7 +26,8 @@ namespace OMSBlazor.Blazor.Pages.Dashboard.EmployeeStastics
 
         public async Task UpdateStastics()
         {
-            await salesByEmployeeChart.UpdateOptionsAsync(true, true, true);
+            await ViewModel.UpdateStastics();
+            await salesByEmployeeChart.UpdateSeriesAsync(true);
         }
     }
 }

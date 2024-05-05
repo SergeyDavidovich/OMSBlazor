@@ -38,9 +38,7 @@
             {
                 await orderStasticsView.UpdateStastics();
                 await customerStasticsView.UpdateStastics();
-                //await productStasticsView.UpdateStastics();
-                //await employeeStasticsView.UpdateStastics();
-
+                await employeeStasticsView.UpdateStastics();
             });
 
         await hubConnection.StartAsync();
