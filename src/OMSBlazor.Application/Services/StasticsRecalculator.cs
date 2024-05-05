@@ -20,7 +20,6 @@ using Volo.Abp.Identity;
 
 namespace OMSBlazor.Services
 {
-    [ExposeServices(typeof(IStasticsRecalculator))]
     public class StasticsRecalculator : IStasticsRecalculator, ITransientDependency
     {
         private readonly IRepository<Product,int> _productRepository;
@@ -34,6 +33,7 @@ namespace OMSBlazor.Services
         private readonly IRepository<SalesByCountry, string> _salesByCountryRepository;
         private readonly IRepository<SalesByEmployee, int> _salesByEmployeeRepository;
         private readonly IRepository<Summary, string> _summaryRepository;
+        private readonly IRepository<Order, int> _orderRepository;
         private readonly IRepository<OrderDetail> _orderDetailRepository;
 
         public StasticsRecalculator(
@@ -48,7 +48,8 @@ namespace OMSBlazor.Services
             IRepository<Category, int> categoryRepository,
             IRepository<Summary, string> summaryRepository,
             IRepository<Product, int> productRepository,
-            IRepository<OrderDetail> orderDetailRepository)
+            IRepository<OrderDetail> orderDetailRepository,
+            IRepository<Order,int> orderRepository)
         {
             _customersByCountryRepository = customersByCountryRepository;
             _ordersByCountryRepository = ordersByCountryRepository;
@@ -62,62 +63,63 @@ namespace OMSBlazor.Services
             _summaryRepository = summaryRepository;
             _productRepository = productRepository;
             _orderDetailRepository = orderDetailRepository;
+            _orderRepository = orderRepository;
         }
 
-        public async Task RecalculateStastics(OrderDto orderDto)
+        public async Task RecalculateStastics(int orderId)
         {
             var customers = await _customerRepostiory.GetListAsync();
             var categories = await _categoryRepository.GetListAsync();
             var products = await _productRepository.GetListAsync();
-            var orderDetails = await _orderDetailRepository.GetListAsync();
+            var allOrderDetails = await _orderDetailRepository.GetListAsync();
             var employees = await _employeeRepository.GetListAsync();
 
-            await RecalculateOrdersByCountries(orderDto, customers);
-            await RecalculateSalesByCategories(orderDto, categories, products);
-            await RecalculateSummaries(orderDto, orderDetails);
-            await RecalculateSalesByCountries(orderDto, customers);
-            await RecalculatePurchasesByCustomers(orderDto, customers);
-            await RecalculateSalesByEmployee(orderDto, employees);
+            var order = await _orderRepository.SingleAsync(x => x.Id == orderId);
+            var orderDetails = allOrderDetails.Where(x => x.OrderId == orderId).ToList();
+
+            await RecalculateOrdersByCountries(order, customers);
+            await RecalculateSalesByCategories(orderDetails, categories, products);
+            await RecalculateSummaries(order, allOrderDetails);
+            await RecalculateSalesByCountries(order, orderDetails, customers);
+            await RecalculatePurchasesByCustomers(order, orderDetails, customers);
+            await RecalculateSalesByEmployee(order, orderDetails);
         }
 
-        private async Task RecalculateSalesByEmployee(OrderDto orderDto, object employees)
+        private async Task RecalculateSalesByEmployee(Order order, List<OrderDetail> orderDetails)
         {
-            var check = orderDto.OrderDetails.Sum(x => x.Quantity * x.UnitPrice);
+            var check = orderDetails.Sum(x => x.Quantity * x.UnitPrice);
 
-            var oldSalesByEmployee = await _salesByEmployeeRepository.SingleAsync(x => x.Id == orderDto.EmployeeId);
-            var newSalesByEmployee = new SalesByEmployee(oldSalesByEmployee.Id, oldSalesByEmployee.LastName);
-            newSalesByEmployee.Sales = oldSalesByEmployee.Sales + (decimal)check;
+            var salesByEmployee = await _salesByEmployeeRepository.SingleAsync(x => x.ID == order.EmployeeId);
+            salesByEmployee.Sales = salesByEmployee.Sales + (decimal)check;
 
-            await _salesByEmployeeRepository.UpdateAsync(newSalesByEmployee);
+            await _salesByEmployeeRepository.UpdateAsync(salesByEmployee);
         }
 
-        private async Task RecalculatePurchasesByCustomers(OrderDto orderDto, List<Customer> customers)
+        private async Task RecalculatePurchasesByCustomers(Order order, List<OrderDetail> orderDetails, List<Customer> customers)
         {
-            var check = orderDto.OrderDetails.Sum(x => x.Quantity * x.UnitPrice);
+            var check = orderDetails.Sum(x => x.Quantity * x.UnitPrice);
 
-            var companyName = customers.Single(x => x.Id == orderDto.CustomerId).CompanyName;
-            var oldPurchasesByCustomer = await _purchasesByCustomerRepository.SingleAsync(x => x.CompanyName == companyName);
-            var newPurchasesByCustomer = new PurchasesByCustomer(companyName);
-            newPurchasesByCustomer.Purchases = oldPurchasesByCustomer.Purchases + (decimal)check;
+            var companyName = customers.Single(x => x.Id == order.CustomerId).CompanyName;
+            var purchasesByCustomer = await _purchasesByCustomerRepository.SingleAsync(x => x.CompanyName == companyName);
+            purchasesByCustomer.Purchases = purchasesByCustomer.Purchases + (decimal)check;
 
-            await _purchasesByCustomerRepository.UpdateAsync(newPurchasesByCustomer);
+            await _purchasesByCustomerRepository.UpdateAsync(purchasesByCustomer);
         }
 
-        private async Task RecalculateSalesByCountries(OrderDto orderDto, List<Customer> customers)
+        private async Task RecalculateSalesByCountries(Order order, List<OrderDetail> orderDetails, List<Customer> customers)
         {
-            var check = orderDto.OrderDetails.Sum(x => x.Quantity * x.UnitPrice);
+            var check = orderDetails.Sum(x => x.Quantity * x.UnitPrice);
 
-            var countryName = customers.Single(x => x.Id == orderDto.CustomerId).Country;
-            var oldSalesByCountry = await _salesByCountryRepository.SingleAsync(x => x.CountryName == countryName);
-            var newSalesByCountry = new SalesByCountry(countryName);
-            newSalesByCountry.Sales = oldSalesByCountry.Sales + (decimal)check;
+            var countryName = customers.Single(x => x.Id == order.CustomerId).Country;
+            var salesByCountry = await _salesByCountryRepository.SingleAsync(x => x.CountryName == countryName);
+            salesByCountry.Sales = salesByCountry.Sales + (decimal)check;
 
-            await _salesByCountryRepository.UpdateAsync(newSalesByCountry);
+            await _salesByCountryRepository.UpdateAsync(salesByCountry);
         }
 
-        private async Task RecalculateSummaries(OrderDto orderDto, List<OrderDetail> orderDetails)
+        private async Task RecalculateSummaries(Order order, List<OrderDetail> orderDetails)
         {
-            var check = orderDto.OrderDetails.Sum(x => x.Quantity * x.UnitPrice);
+            var check = orderDetails.Where(x => x.OrderId == order.Id).Sum(x => x.Quantity * x.UnitPrice);
 
             await UpdateOverallSales();
             await UpdateMaxCheck();
@@ -133,31 +135,25 @@ namespace OMSBlazor.Services
                     .Select(x => x.Sum(y => y.Discount * y.UnitPrice))
                     .Average());
 
-                await _summaryRepository.UpdateAsync(new Summary()
-                {
-                    SummaryName = OMSBlazorStasticsNames.AverageCheck,
-                    SummaryValue = averageCheck
-                });
+                var summary = await _summaryRepository.SingleAsync(x => x.SummaryName == OMSBlazorStasticsNames.AverageCheck);
+                summary.SummaryValue = averageCheck;
+
+                await _summaryRepository.UpdateAsync(summary);
             }
 
             async Task UpdateOrdersCount()
             {
-                var oldOrdersQuantity = await _summaryRepository.SingleAsync(x => x.SummaryName == OMSBlazorStasticsNames.OrdersQuantity);
+                var ordersQuantity = await _summaryRepository.SingleAsync(x => x.SummaryName == OMSBlazorStasticsNames.OrdersQuantity);
+                ordersQuantity.SummaryValue = ordersQuantity.SummaryValue + 1;
 
-                await _summaryRepository.UpdateAsync(new Summary()
-                {
-                    SummaryName = OMSBlazorStasticsNames.OrdersQuantity,
-                    SummaryValue = oldOrdersQuantity.SummaryValue + 1
-                });
+                await _summaryRepository.UpdateAsync(ordersQuantity);
             }
 
             async Task UpdateOverallSales()
             {
-                var oldOverallSales = await _summaryRepository.SingleAsync(x => x.SummaryName == OMSBlazorStasticsNames.OverallSales);
-                var newOverallSales = new Summary();
-                newOverallSales.SummaryName = OMSBlazorStasticsNames.OverallSales;
-                newOverallSales.SummaryValue = oldOverallSales.SummaryValue + check;
-                await _summaryRepository.UpdateAsync(newOverallSales);
+                var overallSales = await _summaryRepository.SingleAsync(x => x.SummaryName == OMSBlazorStasticsNames.OverallSales);
+                overallSales.SummaryValue = overallSales.SummaryValue + check;
+                await _summaryRepository.UpdateAsync(overallSales);
             }
 
             async Task UpdateMaxCheck()
@@ -165,11 +161,9 @@ namespace OMSBlazor.Services
                 var maxCheck = await _summaryRepository.SingleAsync(x => x.SummaryName == OMSBlazorStasticsNames.MaxCheck);
                 if (maxCheck.SummaryValue < check)
                 {
-                    var newMaxCheck = new Summary();
-                    newMaxCheck.SummaryName = OMSBlazorStasticsNames.MaxCheck;
-                    newMaxCheck.SummaryValue = check;
+                    maxCheck.SummaryValue = check;
 
-                    await _summaryRepository.UpdateAsync(newMaxCheck);
+                    await _summaryRepository.UpdateAsync(maxCheck);
                 }
             }
 
@@ -178,41 +172,36 @@ namespace OMSBlazor.Services
                 var minCheck = await _summaryRepository.SingleAsync(x => x.SummaryName == OMSBlazorStasticsNames.MinCheck);
                 if (minCheck.SummaryValue > check)
                 {
-                    var newMinCheck = new Summary();
-                    newMinCheck.SummaryName = OMSBlazorStasticsNames.MinCheck;
-                    newMinCheck.SummaryValue = check;
+                    minCheck.SummaryValue = check;
 
-                    await _summaryRepository.UpdateAsync(newMinCheck);
+                    await _summaryRepository.UpdateAsync(minCheck);
                 }
             }
         }
 
-        private async Task RecalculateSalesByCategories(OrderDto orderDto, List<Category> categories, List<Product> products)
+        private async Task RecalculateSalesByCategories(List<OrderDetail> orderDetails, List<Category> categories, List<Product> products)
         {
-            foreach(var orderDetail in orderDto.OrderDetails)
+            foreach(var orderDetail in orderDetails)
             {
                 var product = products.Single(x => x.Id == orderDetail.ProductId);
                 var categoryName = categories.Single(x => x.Id == product.CategoryId).CategoryName;
 
                 var sales = orderDetail.Quantity * orderDetail.UnitPrice;
 
-                var oldSalesByCategory = await _salesByCategoryRepository.SingleAsync(x => x.CategoryName == categoryName);
+                var salesByCategory = await _salesByCategoryRepository.SingleAsync(x => x.CategoryName == categoryName);
+                salesByCategory.Sales = salesByCategory.Sales + (decimal)sales;
 
-                var newSalesByCategory = new SalesByCategory(categoryName);
-                newSalesByCategory.Sales = oldSalesByCategory.Sales + (decimal)sales;
-
-                await _salesByCategoryRepository.UpdateAsync(newSalesByCategory);
+                await _salesByCategoryRepository.UpdateAsync(salesByCategory);
             }
         }
 
-        private async Task RecalculateOrdersByCountries(OrderDto order, List<Customer> customers)
+        private async Task RecalculateOrdersByCountries(Order order, List<Customer> customers)
         {
             var countryName = customers.Single(x => x.Id == order.CustomerId).Country;
-            var oldOrdersByCountry = await _ordersByCountryRepository.SingleAsync(x => x.CountryName == countryName);
-            var newOrdersByCountry = new OrdersByCountry(oldOrdersByCountry.CountryName);
-            newOrdersByCountry.OrdersCount = oldOrdersByCountry.OrdersCount + 1;
+            var ordersByCountry = await _ordersByCountryRepository.SingleAsync(x => x.CountryName == countryName);
+            ordersByCountry.OrdersCount = ordersByCountry.OrdersCount + 1;
 
-            await _ordersByCountryRepository.UpdateAsync(newOrdersByCountry);
+            await _ordersByCountryRepository.UpdateAsync(ordersByCountry);
         }
     }
 }

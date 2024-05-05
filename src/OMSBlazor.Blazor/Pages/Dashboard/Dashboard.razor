@@ -25,21 +25,24 @@
     private CustomerStasticsView customerStasticsView;
     private ProductStasticsView productStasticsView;
     private EmployeeStasticsView employeeStasticsView;
+
     private HubConnection hubConnection;
 
-    protected async override Task OnInitializedAsync()
+    protected override async Task OnInitializedAsync()
     {
         hubConnection = new HubConnectionBuilder()
                 .WithUrl("https://localhost:44314/signalr-hubs/dashboard")
                 .Build();
 
         hubConnection.On("UpdateDashboard", async () =>
-        {
-            //await orderStasticsView.UpdateStastics();
-            await customerStasticsView.UpdateStastics();
-            //await productStasticsView.UpdateStastics();
-            //await employeeStasticsView.UpdateStastics();
-        });
+            {
+                Console.WriteLine("Hello from handler");
+                //await orderStasticsView.UpdateStastics();
+                await customerStasticsView.UpdateStastics();
+                //await productStasticsView.UpdateStastics();
+                //await employeeStasticsView.UpdateStastics();
+
+            });
 
         await hubConnection.StartAsync();
     }

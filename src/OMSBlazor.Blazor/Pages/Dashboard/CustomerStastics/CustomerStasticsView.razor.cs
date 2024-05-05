@@ -35,7 +35,7 @@ namespace OMSBlazor.Blazor.Pages.Dashboard.CustomerStastics
 
         public async Task UpdateStastics()
         {
-            await UpdateStastics();
+            await ViewModel.UpdateStastics();
             await purchasesByCustomersChart.UpdateSeriesAsync(true);
         }
     }

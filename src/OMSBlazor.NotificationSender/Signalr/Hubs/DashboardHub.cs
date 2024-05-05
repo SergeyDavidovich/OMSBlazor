@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.SignalR;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +14,12 @@ namespace OMSBlazor.NotificationSender.Signalr.Hubs
         public async Task UpdateDashboard()
         {
             await Clients.All.SendAsync("UpdateDashboard");
+        }
+
+        public override Task OnConnectedAsync()
+        {
+            Logger.LogInformation("Connected to dashboard hub");
+            return base.OnConnectedAsync();
         }
     }
 }

@@ -54,13 +54,31 @@ namespace OMSBlazor.Blazor.Pages.Dashboard.CustomerStastics
 
         public async Task UpdateStastics()
         {
-            Console.WriteLine("Stastic updated");
             var newPurchasesByCustomers = await _customerApplicationService.GetPurchasesByCustomer();
+
+            foreach (var purchasesByCustomer in PurchasesByCustomers)
+            {
+                Console.WriteLine($"{purchasesByCustomer.CompanyName} - {purchasesByCustomer.Purchases}");
+            }
 
             foreach (var newPurchasesByCustomer in newPurchasesByCustomers)
             {
-                var existingPurchasesByCustomer = _purchasesByCustomers.Single(x => x.CompanyName == newPurchasesByCustomer.CompanyName);
-                existingPurchasesByCustomer.Purchases = newPurchasesByCustomer.Purchases;
+                try
+                {
+                    var existingPurchasesByCustomer = _purchasesByCustomersSource.Items.Single(x => x.CompanyName == newPurchasesByCustomer.CompanyName);
+                    existingPurchasesByCustomer.Purchases = newPurchasesByCustomer.Purchases;
+                    _purchasesByCustomersSource.Refresh(existingPurchasesByCustomer);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex);
+                }
+
+            }
+
+            foreach (var purchasesByCustomer in PurchasesByCustomers)
+            {
+                Console.WriteLine($"{purchasesByCustomer.CompanyName} - {purchasesByCustomer.Purchases}");
             }
         }
     }

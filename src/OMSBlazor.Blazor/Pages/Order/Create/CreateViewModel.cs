@@ -41,23 +41,29 @@ namespace OMSBlazor.Blazor.Pages.Order.Create
 
         private List<ProductDto> productsList;
 
-        private readonly HubConnection hubConnection;
+        private readonly HubConnection productHubConnection;
+        private readonly HubConnection dashboardHubConnection;
         #endregion
 
         public CreateViewModel(
             IEmployeeApplicationService employeeApplicationService,
             IOrderApplicationService orderApplicationService,
             IProductApplicationService productApplicationService,
-            ICustomerApplcationService customerApplcationService)
+            ICustomerApplcationService customerApplcationService,
+            IStasticsRecalculator stasticsRecalculator)
         {
-            this.hubConnection = new HubConnectionBuilder()
+            productHubConnection = new HubConnectionBuilder()
                 .WithUrl("https://localhost:44314/signalr-hubs/product")
+                .Build();
+            dashboardHubConnection = new HubConnectionBuilder()
+                .WithUrl("https://localhost:44314/signalr-hubs/dashboard")
                 .Build();
 
             _employeeApplicationService = employeeApplicationService;
             _orderApplicationService = orderApplicationService;
             _productApplicationService = productApplicationService;
             _customerApplcationService = customerApplcationService;
+            _stasticsRecalculator = stasticsRecalculator;
 
             products = new SourceCache<ProductOnStore, int>(p => p.ProductID);
             productsInOrder = new SourceCache<ProductInOrder, int>(p => p.ProductID);
@@ -164,7 +170,8 @@ namespace OMSBlazor.Blazor.Pages.Order.Create
             SelectedCustomer = null;
             SelectedEmployee = null;
 
-            await _stasticsRecalculator.RecalculateStastics(orderDto);
+            await _stasticsRecalculator.RecalculateStastics(orderDto.OrderId);
+            await dashboardHubConnection.SendAsync("UpdateDashboard");
 
             var arr = await _orderApplicationService.GetInvoiceAsync(orderDto.OrderId);
             return arr;
@@ -263,7 +270,7 @@ namespace OMSBlazor.Blazor.Pages.Order.Create
                     var product = productsList.First(x => x.ProductId == newProductInOrder.ProductID);
 
                     product.UnitsInStock -= (short)newValue;
-                    await hubConnection.SendAsync("UpdateProductUnitsInStock", hubConnection.ConnectionId, newProductInOrder.ProductID, newValue);
+                    await productHubConnection.SendAsync("UpdateProductUnitsInStock", productHubConnection.ConnectionId, newProductInOrder.ProductID, newValue);
                 });
         }
         #endregion
@@ -291,14 +298,15 @@ namespace OMSBlazor.Blazor.Pages.Order.Create
                 customers.AddRange(customerList);
             }
 
-            hubConnection.On<int, int>("UpdateQuantity", (productId, quantity) =>
+            productHubConnection.On<int, int>("UpdateQuantity", (productId, quantity) =>
             {
                 var product = ProductsInStore.Single(x => x.ProductID == productId);
                 product.UnitsInStock -= quantity;
                 this.RaisePropertyChanged(nameof(ProductsInStore));
             });
 
-            await hubConnection.StartAsync();
+            await productHubConnection.StartAsync();
+            await dashboardHubConnection.StartAsync();
         }
 
         #region Properties
