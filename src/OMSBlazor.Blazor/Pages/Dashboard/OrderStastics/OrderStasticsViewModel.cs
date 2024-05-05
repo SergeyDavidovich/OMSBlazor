@@ -28,7 +28,7 @@ namespace OMSBlazor.Blazor.Pages.Dashboard.OrderStastics
         private readonly SourceCache<SalesByCountryDto, string> _salesByCountriesSource;
         private readonly SourceCache<SummaryDto, string> _summariesSource;
 
-        public OrderStasticsViewModel(IOrderApplicationService orderApplicationService, ICustomerApplcationService customerApplicationService)
+        public OrderStasticsViewModel(IOrderApplicationService orderApplicationService)
         {
             _orderApplicationService = orderApplicationService;
 
@@ -68,6 +68,38 @@ namespace OMSBlazor.Blazor.Pages.Dashboard.OrderStastics
             _salesByCategoriesSource.AddOrUpdate(salesByCategories);
             _salesByCountriesSource.AddOrUpdate(salesByCountries);
             _summariesSource.AddOrUpdate(summaries);
+        }
+
+        public async Task UpdateStastics()
+        {
+            var newOrdersByCountries = await _orderApplicationService.GetOrdersByCountriesAsync();
+            var newSalesByCategories = await _orderApplicationService.GetSalesByCategoriesAsync();
+            var newSummaries = await _orderApplicationService.GetSummariesAsync();
+            var newSalesByCountries = await _orderApplicationService.GetSalesByCountriesAsync();
+
+            foreach (var summary in _summariesSource.Items.ToList())
+            {
+                summary.SummaryValue = newSummaries.Single(x => x.SummaryName == summary.SummaryName).SummaryValue;
+                _summariesSource.Refresh(summary);
+            }
+
+            foreach (var salesByCountry in _salesByCountriesSource.Items.ToList())
+            {
+                salesByCountry.Sales = newSalesByCountries.Single(x => x.CountryName == salesByCountry.CountryName).Sales;
+                _salesByCountriesSource.Refresh(salesByCountry);
+            }
+
+            foreach(var ordersByCountry in _ordersByCountriesSource.Items.ToList())
+            {
+                ordersByCountry.OrdersCount = newOrdersByCountries.Single(x => x.CountryName == ordersByCountry.CountryName).OrdersCount;
+                _ordersByCountriesSource.Refresh(ordersByCountry);
+            }
+
+            foreach(var salesByCategory in _salesByCategoriesSource.Items.ToList())
+            {
+                salesByCategory.Sales = newSalesByCategories.Single(x => x.CategoryName == salesByCategory.CategoryName).Sales;
+                _salesByCategoriesSource.Refresh(salesByCategory);
+            }
         }
 
         public ReadOnlyObservableCollection<OrdersByCountryDto> OrdersByCountries => _ordersByCountries;

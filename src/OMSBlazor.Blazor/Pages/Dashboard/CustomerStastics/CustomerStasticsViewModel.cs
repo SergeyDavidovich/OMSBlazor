@@ -56,29 +56,10 @@ namespace OMSBlazor.Blazor.Pages.Dashboard.CustomerStastics
         {
             var newPurchasesByCustomers = await _customerApplicationService.GetPurchasesByCustomer();
 
-            foreach (var purchasesByCustomer in PurchasesByCustomers)
+            foreach (var purchasesByCustomer in _purchasesByCustomersSource.Items.ToList())
             {
-                Console.WriteLine($"{purchasesByCustomer.CompanyName} - {purchasesByCustomer.Purchases}");
-            }
-
-            foreach (var newPurchasesByCustomer in newPurchasesByCustomers)
-            {
-                try
-                {
-                    var existingPurchasesByCustomer = _purchasesByCustomersSource.Items.Single(x => x.CompanyName == newPurchasesByCustomer.CompanyName);
-                    existingPurchasesByCustomer.Purchases = newPurchasesByCustomer.Purchases;
-                    _purchasesByCustomersSource.Refresh(existingPurchasesByCustomer);
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex);
-                }
-
-            }
-
-            foreach (var purchasesByCustomer in PurchasesByCustomers)
-            {
-                Console.WriteLine($"{purchasesByCustomer.CompanyName} - {purchasesByCustomer.Purchases}");
+                purchasesByCustomer.Purchases = newPurchasesByCustomers.Single(x => x.CompanyName == purchasesByCustomer.CompanyName).Purchases;
+                _purchasesByCustomersSource.Refresh(purchasesByCustomer);
             }
         }
     }

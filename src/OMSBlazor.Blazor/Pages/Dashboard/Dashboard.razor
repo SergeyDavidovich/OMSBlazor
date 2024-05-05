@@ -36,8 +36,7 @@
 
         hubConnection.On("UpdateDashboard", async () =>
             {
-                Console.WriteLine("Hello from handler");
-                //await orderStasticsView.UpdateStastics();
+                await orderStasticsView.UpdateStastics();
                 await customerStasticsView.UpdateStastics();
                 //await productStasticsView.UpdateStastics();
                 //await employeeStasticsView.UpdateStastics();

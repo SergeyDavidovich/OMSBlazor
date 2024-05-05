@@ -73,9 +73,20 @@ namespace OMSBlazor.Blazor.Pages.Dashboard.OrderStastics
 
         public async Task UpdateStastics()
         {
+            await ViewModel.UpdateStastics();
+
             await orderByCountriesChart.UpdateOptionsAsync(true, true, true);
             await salesByCategoryChart.UpdateOptionsAsync(true, true, true);
             await salesByCountriesChart.UpdateOptionsAsync(true, true, true);
+
+            OverallSalesValue = GetSummaryValue(OMSBlazorStasticsNames.OverallSales);
+            OrdersQuantityValue = GetSummaryValue(OMSBlazorStasticsNames.OrdersQuantity);
+            AverageCheckValue = GetSummaryValue(OMSBlazorStasticsNames.AverageCheck);
+            MaxCheckValue = GetSummaryValue(OMSBlazorStasticsNames.MaxCheck);
+            MinCheckValue = GetSummaryValue(OMSBlazorStasticsNames.MinCheck);
+
+            // In order to update summaries
+            await InvokeAsync(StateHasChanged);
         }
     }
 }
