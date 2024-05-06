@@ -240,7 +240,7 @@ namespace OMSBlazor.Blazor.Pages.Order.Create
                     newProductInOrder.Sum = sumOff;
                     TotalSum += sumToAdd;
 
-                    TotalSumString = TotalSum.ToString("C2");
+                    TotalSumString = TotalSum.ToString(OMSBlazorConstants.MoneyFormat);
 
                     return;
                 }
@@ -250,7 +250,7 @@ namespace OMSBlazor.Blazor.Pages.Order.Create
                 newProductInOrder.Sum += newValue;
                 TotalSum += newValue;
 
-                TotalSumString = TotalSum.ToString("C2");
+                TotalSumString = TotalSum.ToString(OMSBlazorConstants.MoneyFormat);
             });
 
             newProductInOrder.WhenAnyValue(x => x.SelectedQuantity)

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace OMSBlazor
 {
-    public static class OMSBlazorStasticsNames
+    public static class OMSBlazorConstants
     {
         public const string OverallSales = "OverallSales";
 
@@ -15,5 +15,7 @@ namespace OMSBlazor
         public const string AverageCheck = "AverageCheck";
 
         public const string MinCheck = "MinCheck";
+
+        public const string MoneyFormat = "$ ###,###.###";
     }
 }

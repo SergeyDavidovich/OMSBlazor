@@ -135,7 +135,7 @@ namespace OMSBlazor.Services
                     .Select(x => x.Sum(y => y.Discount * y.UnitPrice))
                     .Average());
 
-                var summary = await _summaryRepository.SingleAsync(x => x.SummaryName == OMSBlazorStasticsNames.AverageCheck);
+                var summary = await _summaryRepository.SingleAsync(x => x.SummaryName == OMSBlazorConstants.AverageCheck);
                 summary.SummaryValue = averageCheck;
 
                 await _summaryRepository.UpdateAsync(summary);
@@ -143,7 +143,7 @@ namespace OMSBlazor.Services
 
             async Task UpdateOrdersCount()
             {
-                var ordersQuantity = await _summaryRepository.SingleAsync(x => x.SummaryName == OMSBlazorStasticsNames.OrdersQuantity);
+                var ordersQuantity = await _summaryRepository.SingleAsync(x => x.SummaryName == OMSBlazorConstants.OrdersQuantity);
                 ordersQuantity.SummaryValue = ordersQuantity.SummaryValue + 1;
 
                 await _summaryRepository.UpdateAsync(ordersQuantity);
@@ -151,14 +151,14 @@ namespace OMSBlazor.Services
 
             async Task UpdateOverallSales()
             {
-                var overallSales = await _summaryRepository.SingleAsync(x => x.SummaryName == OMSBlazorStasticsNames.OverallSales);
+                var overallSales = await _summaryRepository.SingleAsync(x => x.SummaryName == OMSBlazorConstants.OverallSales);
                 overallSales.SummaryValue = overallSales.SummaryValue + check;
                 await _summaryRepository.UpdateAsync(overallSales);
             }
 
             async Task UpdateMaxCheck()
             {
-                var maxCheck = await _summaryRepository.SingleAsync(x => x.SummaryName == OMSBlazorStasticsNames.MaxCheck);
+                var maxCheck = await _summaryRepository.SingleAsync(x => x.SummaryName == OMSBlazorConstants.MaxCheck);
                 if (maxCheck.SummaryValue < check)
                 {
                     maxCheck.SummaryValue = check;
@@ -169,7 +169,7 @@ namespace OMSBlazor.Services
 
             async Task UpdateMinCheck()
             {
-                var minCheck = await _summaryRepository.SingleAsync(x => x.SummaryName == OMSBlazorStasticsNames.MinCheck);
+                var minCheck = await _summaryRepository.SingleAsync(x => x.SummaryName == OMSBlazorConstants.MinCheck);
                 if (minCheck.SummaryValue > check)
                 {
                     minCheck.SummaryValue = check;

@@ -24,7 +24,10 @@
         </StupeniCard>
     </MudItem>
     <MudItem xs="12" lg="6" md="6">
-        <StupeniCard Title="Products in Order" Icon="@Icons.Material.Filled.Timer" ButtonColor="MudBlazor.Color.Success" ButtonText="Create" IsButtonDisabled="@ViewModel!.CreateOrderButtonDisabled" OnClickCallBack="CreateOrderButtonClicked">
+        <StupeniCard Title="Products in Order" 
+            Icon="@Icons.Material.Filled.Timer"
+            ButtonColor="MudBlazor.Color.Success"
+            ButtonText="Create" IsButtonDisabled="@ViewModel!.CreateOrderButtonDisabled" OnClickCallBack="CreateOrderButtonClicked">
             <MudGrid Style="height:100%">
                 <MudItem xs="12">
                     <MudDatePicker @bind-Date="@ViewModel!.OrderDate" Label="Order date" ReadOnly="true" DisableToolbar="true" />
@@ -65,7 +68,7 @@
                     </MudDataGrid>
                 </MudItem>
                 <MudItem xs="12" Class="align-self-end">
-                    <MudTextField T="string" Value="@($"Total price: {ViewModel!.TotalSumString}")" Variant="Variant.Text" Disabled="true" />
+                    <MudText Typo="Typo.h6">@($"Total price: {ViewModel!.TotalSumString}")</MudText>
                 </MudItem>
             </MudGrid>
         </StupeniCard>

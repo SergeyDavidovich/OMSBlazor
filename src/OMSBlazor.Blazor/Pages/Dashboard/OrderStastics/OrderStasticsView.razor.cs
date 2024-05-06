@@ -13,8 +13,6 @@ namespace OMSBlazor.Blazor.Pages.Dashboard.OrderStastics
 {
     public partial class OrderStasticsView
     {
-        private readonly string format = "$ ###,###.###";
-
         public OrderStasticsView(OrderStasticsViewModel viewModel)
         {
             ViewModel = viewModel;
@@ -47,11 +45,11 @@ namespace OMSBlazor.Blazor.Pages.Dashboard.OrderStastics
 
             await ViewModel!.OnNavigatedTo();
 
-            OverallSalesValue = GetSummaryValue(OMSBlazorStasticsNames.OverallSales);
-            OrdersQuantityValue = GetSummaryValue(OMSBlazorStasticsNames.OrdersQuantity);
-            AverageCheckValue = GetSummaryValue(OMSBlazorStasticsNames.AverageCheck);
-            MaxCheckValue = GetSummaryValue(OMSBlazorStasticsNames.MaxCheck);
-            MinCheckValue = GetSummaryValue(OMSBlazorStasticsNames.MinCheck);
+            OverallSalesValue = GetSummaryValue(OMSBlazorConstants.OverallSales);
+            OrdersQuantityValue = GetSummaryValue(OMSBlazorConstants.OrdersQuantity);
+            AverageCheckValue = GetSummaryValue(OMSBlazorConstants.AverageCheck);
+            MaxCheckValue = GetSummaryValue(OMSBlazorConstants.MaxCheck);
+            MinCheckValue = GetSummaryValue(OMSBlazorConstants.MinCheck);
 
             StateHasChanged();
 
@@ -67,7 +65,7 @@ namespace OMSBlazor.Blazor.Pages.Dashboard.OrderStastics
             {
                 null => "No value",
                 not null when summaryName == "OrdersQuantity" => summary.SummaryValue.ToString(),
-                not null => summary.SummaryValue.ToString(format)
+                not null => summary.SummaryValue.ToString(OMSBlazorConstants.MoneyFormat)
             };
         }
 
@@ -79,11 +77,11 @@ namespace OMSBlazor.Blazor.Pages.Dashboard.OrderStastics
             await salesByCategoryChart.UpdateOptionsAsync(true, true, true);
             await salesByCountriesChart.UpdateOptionsAsync(true, true, true);
 
-            OverallSalesValue = GetSummaryValue(OMSBlazorStasticsNames.OverallSales);
-            OrdersQuantityValue = GetSummaryValue(OMSBlazorStasticsNames.OrdersQuantity);
-            AverageCheckValue = GetSummaryValue(OMSBlazorStasticsNames.AverageCheck);
-            MaxCheckValue = GetSummaryValue(OMSBlazorStasticsNames.MaxCheck);
-            MinCheckValue = GetSummaryValue(OMSBlazorStasticsNames.MinCheck);
+            OverallSalesValue = GetSummaryValue(OMSBlazorConstants.OverallSales);
+            OrdersQuantityValue = GetSummaryValue(OMSBlazorConstants.OrdersQuantity);
+            AverageCheckValue = GetSummaryValue(OMSBlazorConstants.AverageCheck);
+            MaxCheckValue = GetSummaryValue(OMSBlazorConstants.MaxCheck);
+            MinCheckValue = GetSummaryValue(OMSBlazorConstants.MinCheck);
 
             // In order to update summaries
             await InvokeAsync(StateHasChanged);

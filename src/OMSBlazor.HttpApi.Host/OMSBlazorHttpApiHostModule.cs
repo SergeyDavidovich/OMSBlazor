@@ -303,27 +303,27 @@ public class OMSBlazorHttpApiHostModule : AbpModule
 
             await context.Summaries.AddAsync(new Summary()
             {
-                SummaryName = OMSBlazorStasticsNames.OverallSales,
+                SummaryName = OMSBlazorConstants.OverallSales,
                 SummaryValue = overallSales
             });
             await context.Summaries.AddAsync(new Summary()
             {
-                SummaryName = OMSBlazorStasticsNames.OrdersQuantity,
+                SummaryName = OMSBlazorConstants.OrdersQuantity,
                 SummaryValue = ordersQuantity
             });
             await context.Summaries.AddAsync(new Summary()
             {
-                SummaryName = OMSBlazorStasticsNames.MaxCheck,
+                SummaryName = OMSBlazorConstants.MaxCheck,
                 SummaryValue = maxCheck
             });
             await context.Summaries.AddAsync(new Summary()
             {
-                SummaryName = OMSBlazorStasticsNames.AverageCheck,
+                SummaryName = OMSBlazorConstants.AverageCheck,
                 SummaryValue = averageCheck
             });
             await context.Summaries.AddAsync(new Summary()
             {
-                SummaryName = OMSBlazorStasticsNames.MinCheck,
+                SummaryName = OMSBlazorConstants.MinCheck,
                 SummaryValue = minCheck
             });
         }
