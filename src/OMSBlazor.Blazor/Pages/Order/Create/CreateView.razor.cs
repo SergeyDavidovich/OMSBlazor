@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace OMSBlazor.Blazor.Pages.Order.Create
 {
-    public partial class CreateView
+    public partial class CreateView : IAsyncDisposable
     {
         public CreateView(CreateViewModel createViewModel)
         {
@@ -27,6 +27,11 @@ namespace OMSBlazor.Blazor.Pages.Order.Create
         protected async override Task OnInitializedAsync()
         {
             await ViewModel!.OnNavigatedTo();
+        }
+
+        public async ValueTask DisposeAsync()
+        {
+            await ViewModel!.DisposeAsync();
         }
     }
 }

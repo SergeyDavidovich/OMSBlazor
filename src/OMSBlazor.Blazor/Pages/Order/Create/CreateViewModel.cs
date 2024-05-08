@@ -19,7 +19,7 @@ using OMSBlazor.Interfaces.Services;
 
 namespace OMSBlazor.Blazor.Pages.Order.Create
 {
-    public class CreateViewModel : ReactiveObject
+    public class CreateViewModel : ReactiveObject, IAsyncDisposable
     {
         #region Declarations
         private readonly IEmployeeApplicationService _employeeApplicationService;
@@ -307,6 +307,12 @@ namespace OMSBlazor.Blazor.Pages.Order.Create
 
             await productHubConnection.StartAsync();
             await dashboardHubConnection.StartAsync();
+        }
+
+        public async ValueTask DisposeAsync()
+        {
+            await productHubConnection.DisposeAsync();
+            await dashboardHubConnection.DisposeAsync();
         }
 
         #region Properties

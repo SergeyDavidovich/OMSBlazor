@@ -4,6 +4,7 @@
 @using OMSBlazor.Blazor.Pages.Dashboard.OrderStastics
 @using OMSBlazor.Blazor.Pages.Dashboard.CustomerStastics
 @using OMSBlazor.Blazor.Pages.Dashboard.ProductStastics
+@implements IAsyncDisposable 
 @attribute [Authorize]
 <MudGrid>
     <MudItem xs="12">
@@ -42,5 +43,10 @@
             });
 
         await hubConnection.StartAsync();
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        await hubConnection.DisposeAsync();
     }
 }
