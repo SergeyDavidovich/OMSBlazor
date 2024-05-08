@@ -91,6 +91,11 @@ in the `Default` connection string(this is how Abp works)
 
 Tutorial of integration MudBlazor is here - https://github.com/yellow-dragon-cloud/AbpMudBlazor
 
+#### How to access service from application layer that is NOT application laeyr
+Example of this service you can find [here](https://github.com/SergeyDavidovich/OMSBlazor/blob/68dce65d9325569c7212615a2f6dfb57ff8dd2c1/src/OMSBlazor.Application/Services/StasticsRecalculator.cs#L23).  
+Discussion about this you can find [here](https://github.com/abpframework/abp/issues/19638)
+> In a nutshell: your service should implement `IRemoteService`
+
 #### Migration notes
 
 - To .NET 8 migration notes: 
