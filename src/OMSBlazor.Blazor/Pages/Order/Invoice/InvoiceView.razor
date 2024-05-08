@@ -6,7 +6,9 @@
 <StupeniCard Title="Invoice" Icon="@Icons.Material.Filled.Pages" IsWithButton="false">
     @if (arr.Length == 0)
     {
-        <MudTextField T="string" Class="align-content-center justify-center" Text="If you create order or choose order from journal it will be viewed here" AutoGrow MaxLines="3" Variant="Variant.Text" Disabled="true" />
+        <MudText Typo="Typo.h6" Align="MudBlazor.Align.Center">
+            If you create order or choose order from journal it will be viewed here
+        </MudText>
     }
     else
     {   
