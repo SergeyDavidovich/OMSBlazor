@@ -206,7 +206,7 @@ public class OMSBlazorHttpApiHostModule : AbpModule
         });
     }
 
-    public override async Task OnApplicationInitializationAsync(ApplicationInitializationContext context)
+    public override void OnApplicationInitialization(ApplicationInitializationContext context)
     {
         var app = context.GetApplicationBuilder();
         var env = context.GetEnvironment();

@@ -133,6 +133,7 @@ namespace OMSBlazor.Blazor.Pages.Order.Create
             var listOfProducts = products.Items.ToList();
 
             listOfProducts.ForEach(product => { if (product.Added) product.Added = false; });
+            TotalSumString = string.Empty;
         }
         #endregion
 
