@@ -20,7 +20,12 @@ namespace OMSBlazor.Blazor.Pages.Dashboard.CustomerStastics
                 Palette = PaletteType.Palette1,
                 Mode = IsDarkMode ? Mode.Dark : Mode.Light
             };
+            var stroke = new Stroke
+            {
+                Show = false
+            };
 
+            customersByCountriesOptions.Stroke = stroke;
             customersByCountriesOptions.Theme = theme;
             purchasesByCustomersOptions.Theme = theme;
 

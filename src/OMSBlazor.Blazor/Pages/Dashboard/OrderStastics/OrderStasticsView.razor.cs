@@ -25,8 +25,15 @@ namespace OMSBlazor.Blazor.Pages.Dashboard.OrderStastics
                 Palette = PaletteType.Palette1,
                 Mode = IsDarkMode ? Mode.Dark : Mode.Light
             };
+            var stroke = new Stroke
+            {
+                Show = false
+            };
+
+            orderByCountriesOptions.Stroke = stroke;
             orderByCountriesOptions.Theme = theme;
             salesByCategoryOptions.Theme = theme;
+            salesByCategoryOptions.Stroke = stroke;
 
             var legend = new Legend { Position = LegendPosition.Bottom, FontSize = "15px", HorizontalAlign = ApexCharts.Align.Center };
             orderByCountriesOptions.Legend = legend;
