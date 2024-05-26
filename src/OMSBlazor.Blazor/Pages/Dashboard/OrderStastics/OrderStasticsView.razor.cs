@@ -29,6 +29,11 @@ namespace OMSBlazor.Blazor.Pages.Dashboard.OrderStastics
             {
                 Show = false
             };
+            var dataLables = new DataLabels
+            {
+                Enabled = true,
+                Formatter = "function (val, opts) { return opts.w.config.series[opts.seriesIndex]; }"
+            };
 
             orderByCountriesOptions.Stroke = stroke;
             orderByCountriesOptions.Theme = theme;
@@ -37,7 +42,9 @@ namespace OMSBlazor.Blazor.Pages.Dashboard.OrderStastics
 
             var legend = new Legend { Position = LegendPosition.Bottom, FontSize = "15px", HorizontalAlign = ApexCharts.Align.Center };
             orderByCountriesOptions.Legend = legend;
+            orderByCountriesOptions.DataLabels = dataLables;
             salesByCategoryOptions.Legend = legend;
+            salesByCategoryOptions.DataLabels = dataLables;
             salesByCountriesOptions = new ApexChartOptions<SalesByCountryDto>
             {
                 PlotOptions = new PlotOptions

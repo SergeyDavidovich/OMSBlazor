@@ -27,6 +27,11 @@ namespace OMSBlazor.Blazor.Pages.Dashboard.CustomerStastics
 
             customersByCountriesOptions.Stroke = stroke;
             customersByCountriesOptions.Theme = theme;
+            customersByCountriesOptions.DataLabels = new DataLabels
+            {
+                Enabled = true,
+                Formatter = "function (val, opts) { return opts.w.config.series[opts.seriesIndex]; }"
+            };
             purchasesByCustomersOptions.Theme = theme;
 
             var legend = new Legend { Position = LegendPosition.Bottom, FontSize = "15px", HorizontalAlign = ApexCharts.Align.Center };

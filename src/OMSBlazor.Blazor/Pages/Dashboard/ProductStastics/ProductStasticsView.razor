@@ -14,7 +14,8 @@
                              Items="ViewModel!.ProductsByCategories" 
                              XValue="x=>x.CategoryName"
                              YValue="x=>x.ProductsCount"
-                             SeriesType="SeriesType.Pie"/>
+                             SeriesType="SeriesType.Pie"
+                             ShowDataLabels/>
         </ApexChart>
     </MudPaper>
 </StupeniCard>
@@ -22,7 +23,6 @@
 @code {
     [CascadingParameter(Name = "IsDarkMode")]
     private bool IsDarkMode { get; set; }
-    private bool isFirstRender = true;
 
     ApexChart<ProductsByCategoryDto> productsByCategoryChart;
     ApexChartOptions<ProductsByCategoryDto> productsByCategoryOptions = new();
@@ -31,14 +31,9 @@
     {
         productsByCategoryOptions.Theme.Mode = IsDarkMode ? Mode.Dark : Mode.Light;
 
-        if (!isFirstRender)
+        if (productsByCategoryChart is not null)
         {
             await productsByCategoryChart.RenderAsync();
-        }
-
-        if (isFirstRender)
-        {
-            isFirstRender = false;
         }
     }
 }

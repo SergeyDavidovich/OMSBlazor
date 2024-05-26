@@ -22,7 +22,6 @@
 @code {
     [CascadingParameter(Name = "IsDarkMode")]
     private bool IsDarkMode { get; set; }
-    private bool isFirstRender = true;
 
     ApexChart<SalesByEmployeeDto> salesByEmployeeChart;
     ApexChartOptions<SalesByEmployeeDto> salesByEmployeeOptions = new();
@@ -31,14 +30,9 @@
     {
         salesByEmployeeOptions.Theme.Mode = IsDarkMode ? Mode.Dark : Mode.Light;
 
-        if (!isFirstRender)
+        if (salesByEmployeeChart is not null)
         {
             await salesByEmployeeChart.RenderAsync();
-        }
-
-        if (isFirstRender)
-        {
-            isFirstRender = false;
         }
     }
 }
