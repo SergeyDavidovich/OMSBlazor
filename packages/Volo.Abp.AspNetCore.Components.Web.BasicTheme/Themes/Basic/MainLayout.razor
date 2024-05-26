@@ -2,6 +2,8 @@
 @inject IJSRuntime JsRuntime
 
 <MudThemeProvider @bind-IsDarkMode="_isDarkMode"/>
+<MudSnackbarProvider />
+<MudDialogProvider/>
 
 <MudLayout>
     <MudAppBar Elevation="8">
@@ -28,8 +30,6 @@
             <CascadingValue Name="IsDarkMode" Value="IsDarkMode">
                 @Body
             </CascadingValue>
-            <UiMessageAlert />
-            <UiNotificationAlert />
             <UiPageProgress />
         </MudContainer>
     </MudMainContent>
