@@ -65,7 +65,7 @@ public class OMSBlazorMenuContributor : IMenuContributor
                 OMSBlazorMenus.Home,
                 "Dashboard",
                 "/dashboard",
-                icon: "fas fa-edit"
+                icon: "fas fa-chart-bar"
             )
         );
 
