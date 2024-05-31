@@ -5,10 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using Volo.Abp.Domain.Entities;
 using Volo.Abp.Domain.Values;
+using Volo.Abp.MultiTenancy;
 
 namespace OMSBlazor.Northwind.OrderAggregate
 {
-    public class OrderDetail : Entity
+    public class OrderDetail : Entity, IMultiTenant
     {
         public OrderDetail(
             int orderId, 
@@ -27,6 +28,8 @@ namespace OMSBlazor.Northwind.OrderAggregate
         public int Quantity { get; internal set; }
 
         public float Discount { get; internal set; }
+
+        public Guid? TenantId { get; set; }
 
         public override object[] GetKeys()
         {

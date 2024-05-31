@@ -5,10 +5,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Volo.Abp.Domain.Entities;
+using Volo.Abp.MultiTenancy;
 
 namespace OMSBlazor.Northwind.OrderAggregate
 {
-    public class Order : AggregateRoot<int>
+    public class Order : AggregateRoot<int>, IMultiTenant
     {
         private Order() { }
 
@@ -47,6 +48,8 @@ namespace OMSBlazor.Northwind.OrderAggregate
         public string? ShipCountry { get; set; }
 
         public virtual List<OrderDetail> OrderDetails { get; private set; } = new List<OrderDetail>();
+
+        public Guid? TenantId { get; set; }
 
         public void AddOrderDetail(int productId, int quantity, double unitPrice, float discount)
         {

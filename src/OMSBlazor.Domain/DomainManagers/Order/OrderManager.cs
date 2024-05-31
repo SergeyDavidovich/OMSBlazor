@@ -20,7 +20,9 @@ namespace OMSBlazor.DomainManagers.Order
 
         public async Task<Northwind.OrderAggregate.Order> CreateAsync(int employeeId, string customerId)
         {
-            var lastOrderId = (await _orderRepository.GetListAsync()).Last().Id;
+            var lastOrder = (await _orderRepository.GetListAsync()).LastOrDefault();
+
+            var lastOrderId = lastOrder is null ? 0 : lastOrder.Id;
 
             var order = new Northwind.OrderAggregate.Order(lastOrderId + 1, employeeId, customerId);
 

@@ -200,6 +200,10 @@ namespace OMSBlazor.Migrations
                     b.Property<string>("ShipRegion")
                         .HasColumnType("TEXT");
 
+                    b.Property<Guid?>("TenantId")
+                        .HasColumnType("TEXT")
+                        .HasColumnName("TenantId");
+
                     b.HasKey("Id");
 
                     b.ToTable("Orders");
@@ -218,6 +222,10 @@ namespace OMSBlazor.Migrations
 
                     b.Property<int>("Quantity")
                         .HasColumnType("INTEGER");
+
+                    b.Property<Guid?>("TenantId")
+                        .HasColumnType("TEXT")
+                        .HasColumnName("TenantId");
 
                     b.Property<double>("UnitPrice")
                         .HasColumnType("REAL");
@@ -348,6 +356,10 @@ namespace OMSBlazor.Migrations
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
 
                     b.Property<decimal>("Sales")
                         .HasColumnType("TEXT");
