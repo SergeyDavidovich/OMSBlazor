@@ -40,6 +40,7 @@ using OMSBlazor.NotificationSender;
 using System.Threading.Tasks;
 using OMSBlazor.Northwind.Stastics;
 using Microsoft.EntityFrameworkCore;
+using Volo.Abp.MultiTenancy;
 
 namespace OMSBlazor;
 
@@ -105,6 +106,15 @@ public class OMSBlazorHttpApiHostModule : AbpModule
         ConfigureVirtualFileSystem(context);
         ConfigureCors(context, configuration);
         ConfigureSwaggerServices(context, configuration);
+        ConfigureMultiTenancy(context, configuration);
+    }
+
+    private void ConfigureMultiTenancy(ServiceConfigurationContext context, IConfiguration configuration)
+    {
+        Configure<AbpMultiTenancyOptions>(options =>
+        {
+            options.IsEnabled = true;
+        });
     }
 
     private void ConfigureAuthentication(ServiceConfigurationContext context)
