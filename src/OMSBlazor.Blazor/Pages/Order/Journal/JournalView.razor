@@ -4,14 +4,13 @@
 @inherits ReactiveComponentBase<JournalViewModel>
 
 <StupeniCard Title="Orders journal" Icon="@Icons.Material.Filled.List" IsWithButton="false">
-    <MudDataGrid T="OrderDto" Items="@ViewModel.Orders" SelectedItemChanged="SelectedItemChanged">
+    <MudDataGrid T="OrderDto" Items="@ViewModel.Orders" RowClick="RowClicked">
         <ToolBarContent>
             <MudSpacer />
             <MudTextField @bind-Value="@ViewModel.SearchTerm" Placeholder="Search by customer id" Adornment="Adornment.Start" Immediate="true"
                           AdornmentIcon="@Icons.Material.Filled.Search" IconSize="MudBlazor.Size.Medium" Class="mt-0"></MudTextField>
         </ToolBarContent>
         <Columns>
-            <SelectColumn />
             <PropertyColumn Property="x => x.OrderId" Title="Id" />
             <PropertyColumn Property="x => x.CustomerId" Title="Customer id" />
             <PropertyColumn Property="x => x.EmployeeId" Title="Employee id" />
@@ -32,9 +31,9 @@
     [Parameter]
     public EventCallback<byte[]> OnSelectedOrderChanged { get; set; }
 
-    private async Task SelectedItemChanged(OrderDto order)
+    private async Task RowClicked(DataGridRowClickEventArgs<OrderDto> e)
     {
-        var arr = await ViewModel!.GetInvoice(order.OrderId);
-        await OnSelectedOrderChanged.InvokeAsync(arr);
+        var arr = await ViewModel!.GetInvoice(e.Item.OrderId);
+        await OnSelectedOrderChanged.InvokeAsync(arr);        
     }
 }
