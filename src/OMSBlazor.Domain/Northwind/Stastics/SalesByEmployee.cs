@@ -1,24 +1,25 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Volo.Abp.Domain.Entities;
+using Volo.Abp.MultiTenancy;
 
 namespace OMSBlazor.Northwind.Stastics
 {
-    public class SalesByEmployee : Entity<int>
+    public class SalesByEmployee : Entity<int>, IMultiTenant
     {
         private SalesByEmployee() { }
 
-        public SalesByEmployee(int id, string lastName)
+        public SalesByEmployee(int key, string lastName)
         {
-            ID = id;
+            Key = key;
             LastName = lastName;
         }
         
-        public int ID { get; private set; }
+        public int Key { get; set; }
+
         public string LastName { get; private set; }
-        public decimal Sales { get; set; }
+
+        public decimal Value { get; set; }
+
+        public Guid? TenantId { get; set; }
     }
 }

@@ -19,15 +19,15 @@ namespace OMSBlazor.Application.ApplicationServices
     public class CustomerApplicationService : ApplicationService, ICustomerApplcationService
     {
         private readonly IRepository<Customer, string> _customerRepository;
-        private readonly IRepository<CustomersByCountry, string> _customersByCountryRepository;
-        private readonly IRepository<PurchasesByCustomer, string> _purchasesByCustomerRepository;
+        private readonly IRepository<CustomersByCountry, int> _customersByCountryRepository;
+        private readonly IRepository<PurchasesByCustomer, int> _purchasesByCustomerRepository;
         private readonly ICustomerManager _customerManager;
 
         public CustomerApplicationService(
             IRepository<Customer, string> customerRepository,
             ICustomerManager customerManager,
-            IRepository<CustomersByCountry, string> customersByCountryRepository,
-            IRepository<PurchasesByCustomer, string> purchasesByCustomerRepository)
+            IRepository<CustomersByCountry, int> customersByCountryRepository,
+            IRepository<PurchasesByCustomer, int> purchasesByCustomerRepository)
         {
             _customerRepository = customerRepository;
             _customerManager = customerManager;
@@ -60,7 +60,7 @@ namespace OMSBlazor.Application.ApplicationServices
         public async Task<CustomerDto> GetCustomerAsync(string customerId)
         {
             var customer = await _customerRepository.GetAsync(customerId);
-            var customerDto = ObjectMapper.Map<Customer,  CustomerDto>(customer);
+            var customerDto = ObjectMapper.Map<Customer, CustomerDto>(customer);
 
             return customerDto;
         }

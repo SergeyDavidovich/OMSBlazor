@@ -4,19 +4,23 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Volo.Abp.Domain.Entities;
+using Volo.Abp.MultiTenancy;
 
 namespace OMSBlazor.Northwind.Stastics
 {
-    public class PurchasesByCustomer : Entity<string>
+    public class PurchasesByCustomer : Entity<int>, IMultiTenant
     {
         private PurchasesByCustomer() { }
 
         public PurchasesByCustomer(string companyName)
         {
-            CompanyName = companyName;
+            Key = companyName;
         }
 
-        public string CompanyName { get; }
-        public decimal Purchases { get; set; }
+        public string Key { get; set; }
+
+        public decimal Value { get; set; }
+
+        public Guid? TenantId { get; set; }
     }
 }

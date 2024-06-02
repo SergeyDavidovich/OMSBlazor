@@ -23,10 +23,10 @@ namespace OMSBlazor.Application.ApplicationServices
         private readonly IRepository<Customer, string> _customerRepository;
         private readonly IRepository<OrderDetail> _orderDetailsRepository;
         private readonly IRepository<Product, int> _productRepository;
-        private readonly IRepository<OrdersByCountry, string> _ordersByCountryRepository;
-        private readonly IRepository<SalesByCategory, string> _salesByCategoryRepository;
-        private readonly IRepository<SalesByCountry, string> _salesByCountryRepository;
-        private readonly IRepository<Summary, string> _summaryRepository;
+        private readonly IRepository<OrdersByCountry, int> _ordersByCountryRepository;
+        private readonly IRepository<SalesByCategory, int> _salesByCategoryRepository;
+        private readonly IRepository<SalesByCountry, int> _salesByCountryRepository;
+        private readonly IRepository<Summary, int> _summaryRepository;
         private readonly IOrderManager _orderManager;
 
         public OrderApplicationService(
@@ -36,10 +36,10 @@ namespace OMSBlazor.Application.ApplicationServices
             IRepository<Product, int> productRepository,
             IRepository<OrderDetail> orderDetailsRepository,
             IOrderManager orderManager,
-            IRepository<OrdersByCountry, string> ordersByCountryRepository,
-            IRepository<SalesByCategory, string> salesByCategoryRepository,
-            IRepository<SalesByCountry, string> salesByCountryRepository,
-            IRepository<Summary, string> summaryRepository)
+            IRepository<OrdersByCountry, int> ordersByCountryRepository,
+            IRepository<SalesByCategory, int> salesByCategoryRepository,
+            IRepository<SalesByCountry, int> salesByCountryRepository,
+            IRepository<Summary, int> summaryRepository)
         {
             _orderRepository = orderRepository;
             _customerRepository = customerRepository;

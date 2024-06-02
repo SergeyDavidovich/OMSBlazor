@@ -5,19 +5,23 @@ using System.Text;
 using System.Threading.Tasks;
 using Volo.Abp.Domain.Entities;
 using Volo.Abp.Domain.Values;
+using Volo.Abp.MultiTenancy;
 
 namespace OMSBlazor.Northwind.Stastics
 {
-    public class OrdersByCountry : Entity<string>
+    public class OrdersByCountry : Entity<int>, IMultiTenant
     {
         private OrdersByCountry() { }
 
         public OrdersByCountry(string countryName)
         {
-            CountryName = countryName;
+            Key = countryName;
         }
 
-        public string CountryName { get; }
-        public int OrdersCount { get; set; }
+        public string Key { get; set; }
+
+        public int Value { get; set; }
+
+        public Guid? TenantId { get; set; }
     }
 }

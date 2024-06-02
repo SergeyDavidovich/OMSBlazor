@@ -4,19 +4,23 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Volo.Abp.Domain.Entities;
+using Volo.Abp.MultiTenancy;
 
 namespace OMSBlazor.Northwind.Stastics
 {
-    public class ProductsByCategory : Entity<string>
+    public class ProductsByCategory : Entity<int>, IMultiTenant
     {
         private ProductsByCategory() { }
 
         public ProductsByCategory(string categoryName)
         {
-            CategoryName = categoryName;
+            Key = categoryName;
         }
 
-        public string CategoryName { get; }
-        public int ProductsCount { get; set; }
+        public string Key { get; set; }
+
+        public int Value { get; set; }
+
+        public Guid? TenantId { get; set; }
     }
 }

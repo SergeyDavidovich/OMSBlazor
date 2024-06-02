@@ -275,109 +275,203 @@ namespace OMSBlazor.Migrations
 
             modelBuilder.Entity("OMSBlazor.Northwind.Stastics.CustomersByCountry", b =>
                 {
-                    b.Property<string>("CountryName")
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("CustomersCount")
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.HasKey("CountryName");
+                    b.Property<string>("Key")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid?>("TenantId")
+                        .HasColumnType("TEXT")
+                        .HasColumnName("TenantId");
+
+                    b.Property<int>("Value")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Key", "TenantId")
+                        .IsUnique();
 
                     b.ToTable("CustomersByCountries");
                 });
 
             modelBuilder.Entity("OMSBlazor.Northwind.Stastics.OrdersByCountry", b =>
                 {
-                    b.Property<string>("CountryName")
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("OrdersCount")
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.HasKey("CountryName");
+                    b.Property<string>("Key")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid?>("TenantId")
+                        .HasColumnType("TEXT")
+                        .HasColumnName("TenantId");
+
+                    b.Property<int>("Value")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Key", "TenantId")
+                        .IsUnique();
 
                     b.ToTable("OrdersByCountries");
                 });
 
             modelBuilder.Entity("OMSBlazor.Northwind.Stastics.ProductsByCategory", b =>
                 {
-                    b.Property<string>("CategoryName")
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("ProductsCount")
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.HasKey("CategoryName");
+                    b.Property<string>("Key")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid?>("TenantId")
+                        .HasColumnType("TEXT")
+                        .HasColumnName("TenantId");
+
+                    b.Property<int>("Value")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Key", "TenantId")
+                        .IsUnique();
 
                     b.ToTable("ProductsByCategories");
                 });
 
             modelBuilder.Entity("OMSBlazor.Northwind.Stastics.PurchasesByCustomer", b =>
                 {
-                    b.Property<string>("CompanyName")
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Key")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<decimal>("Purchases")
+                    b.Property<Guid?>("TenantId")
+                        .HasColumnType("TEXT")
+                        .HasColumnName("TenantId");
+
+                    b.Property<decimal>("Value")
                         .HasColumnType("TEXT");
 
-                    b.HasKey("CompanyName");
+                    b.HasKey("Id");
+
+                    b.HasIndex("Key", "TenantId")
+                        .IsUnique();
 
                     b.ToTable("PurchasesByCustomers");
                 });
 
             modelBuilder.Entity("OMSBlazor.Northwind.Stastics.SalesByCategory", b =>
                 {
-                    b.Property<string>("CategoryName")
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Key")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<decimal>("Sales")
+                    b.Property<Guid?>("TenantId")
+                        .HasColumnType("TEXT")
+                        .HasColumnName("TenantId");
+
+                    b.Property<decimal>("Value")
                         .HasColumnType("TEXT");
 
-                    b.HasKey("CategoryName");
+                    b.HasKey("Id");
+
+                    b.HasIndex("Key", "TenantId")
+                        .IsUnique();
 
                     b.ToTable("SalesByCategories");
                 });
 
             modelBuilder.Entity("OMSBlazor.Northwind.Stastics.SalesByCountry", b =>
                 {
-                    b.Property<string>("CountryName")
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Key")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<decimal>("Sales")
+                    b.Property<Guid?>("TenantId")
+                        .HasColumnType("TEXT")
+                        .HasColumnName("TenantId");
+
+                    b.Property<decimal>("Value")
                         .HasColumnType("TEXT");
 
-                    b.HasKey("CountryName");
+                    b.HasKey("Id");
+
+                    b.HasIndex("Key", "TenantId")
+                        .IsUnique();
 
                     b.ToTable("SalesByCountries");
                 });
 
             modelBuilder.Entity("OMSBlazor.Northwind.Stastics.SalesByEmployee", b =>
                 {
-                    b.Property<int>("ID")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("Key")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("LastName")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<decimal>("Sales")
+                    b.Property<Guid?>("TenantId")
+                        .HasColumnType("TEXT")
+                        .HasColumnName("TenantId");
+
+                    b.Property<decimal>("Value")
                         .HasColumnType("TEXT");
 
-                    b.HasKey("ID");
+                    b.HasKey("Id");
+
+                    b.HasIndex("Key", "TenantId")
+                        .IsUnique();
 
                     b.ToTable("SalesByEmployees");
                 });
 
             modelBuilder.Entity("OMSBlazor.Northwind.Stastics.Summary", b =>
                 {
-                    b.Property<string>("SummaryName")
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Key")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<double>("SummaryValue")
+                    b.Property<Guid?>("TenantId")
+                        .HasColumnType("TEXT")
+                        .HasColumnName("TenantId");
+
+                    b.Property<double>("Value")
                         .HasColumnType("REAL");
 
-                    b.HasKey("SummaryName");
+                    b.HasKey("Id");
+
+                    b.HasIndex("Key", "TenantId")
+                        .IsUnique();
 
                     b.ToTable("Summaries");
                 });

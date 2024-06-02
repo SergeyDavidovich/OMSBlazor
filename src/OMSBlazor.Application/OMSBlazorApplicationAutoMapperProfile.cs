@@ -41,20 +41,36 @@ public class OMSBlazorApplicationAutoMapperProfile : Profile
 
         CreateMap<OrderDetail, OrderDetailDto>();
 
-        CreateMap<OrdersByCountry, OrdersByCountryDto>();
+        CreateMap<OrdersByCountry, OrdersByCountryDto>()
+            .ForMember(dest => dest.CountryName, src => src.MapFrom(x => x.Key))
+            .ForMember(dest => dest.OrdersCount, src => src.MapFrom(x => x.Value));
 
-        CreateMap<SalesByCategory, SalesByCategoryDto>();
+        CreateMap<SalesByCategory, SalesByCategoryDto>()
+            .ForMember(dest => dest.CategoryName, src => src.MapFrom(x => x.Key))
+            .ForMember(dest => dest.Sales, src => src.MapFrom(x => x.Value));
 
-        CreateMap<SalesByCountry, SalesByCountryDto>();
+        CreateMap<SalesByCountry, SalesByCountryDto>()
+            .ForMember(dest => dest.CountryName, src => src.MapFrom(x => x.Key))
+            .ForMember(dest => dest.Sales, src => src.MapFrom(x => x.Value));
 
-        CreateMap<Summary, SummaryDto>();
+        CreateMap<Summary, SummaryDto>()
+            .ForMember(dest => dest.SummaryName, src => src.MapFrom(x => x.Key))
+            .ForMember(dest => dest.SummaryValue, src => src.MapFrom(x => x.Value));
 
-        CreateMap<CustomersByCountry, CustomersByCountryDto>();
+        CreateMap<CustomersByCountry, CustomersByCountryDto>()
+            .ForMember(dest => dest.CountryName, src => src.MapFrom(x => x.Key))
+            .ForMember(dest => dest.CustomersCount, src => src.MapFrom(x => x.Value));
 
-        CreateMap<PurchasesByCustomer, PurchasesByCustomerDto>();
+        CreateMap<PurchasesByCustomer, PurchasesByCustomerDto>()
+            .ForMember(dest => dest.CompanyName, src => src.MapFrom(x => x.Key))
+            .ForMember(dest => dest.Purchases, src => src.MapFrom(x => x.Value));
 
-        CreateMap<SalesByEmployee, SalesByEmployeeDto>();
+        CreateMap<SalesByEmployee, SalesByEmployeeDto>()
+            .ForMember(dest => dest.ID, src => src.MapFrom(x => x.Key))
+            .ForMember(dest => dest.Sales, src => src.MapFrom(x => x.Value));
 
-        CreateMap<ProductsByCategory, ProductsByCategoryDto>();
+        CreateMap<ProductsByCategory, ProductsByCategoryDto>()
+            .ForMember(dest => dest.CategoryName, src => src.MapFrom(x => x.Key))
+            .ForMember(dest => dest.ProductsCount, src => src.MapFrom(x => x.Value));
     }
 }

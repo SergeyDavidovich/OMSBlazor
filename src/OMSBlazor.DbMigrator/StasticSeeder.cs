@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using Volo.Abp.Data;
 using Volo.Abp.DependencyInjection;
 using Volo.Abp.Domain.Repositories;
+using Volo.Abp.MultiTenancy;
 
 namespace OMSBlazor.DbMigrator
 {
@@ -22,30 +23,33 @@ namespace OMSBlazor.DbMigrator
         private readonly IRepository<Employee, int> _employeeRepository;
         private readonly IRepository<OrderDetail> _orderDetailsRepository;
 
-        private readonly IRepository<OrdersByCountry, string> _ordersByCountriesRepository;
-        private readonly IRepository<SalesByCategory, string> _salesByCategoriesRepository;
-        private readonly IRepository<SalesByCountry, string> _salesByCountriesRepository;
-        private readonly IRepository<CustomersByCountry, string> _customersByCountriesRepository;
-        private readonly IRepository<PurchasesByCustomer, string> _purchasesByCustomersRepository;
+        private readonly IRepository<OrdersByCountry, int> _ordersByCountriesRepository;
+        private readonly IRepository<SalesByCategory, int> _salesByCategoriesRepository;
+        private readonly IRepository<SalesByCountry, int> _salesByCountriesRepository;
+        private readonly IRepository<CustomersByCountry, int> _customersByCountriesRepository;
+        private readonly IRepository<PurchasesByCustomer, int> _purchasesByCustomersRepository;
         private readonly IRepository<SalesByEmployee, int> _salesByEmployeesRepository;
-        private readonly IRepository<ProductsByCategory, string> _productsByCatgoriesRepository;
-        private readonly IRepository<Summary, string> _summariesRepository;
+        private readonly IRepository<ProductsByCategory, int> _productsByCatgoriesRepository;
+        private readonly IRepository<Summary, int> _summariesRepository;
+
+        private readonly ICurrentTenant _currentTenant;
 
         public StasticSeeder(
             IRepository<Order, int> ordersRepository,
-            IRepository<OrdersByCountry, string> ordersByCountryRepository,
+            IRepository<OrdersByCountry, int> ordersByCountryRepository,
             IRepository<Customer, string> customersRepository,
             IRepository<OrderDetail> orderDetailsRepository,
-            IRepository<SalesByCategory, string> salesByCategoriesRepository,
+            IRepository<SalesByCategory, int> salesByCategoriesRepository,
             IRepository<Category, int> categoriesRepository,
             IRepository<Product, int> productsRepository,
-            IRepository<Summary, string> summariesRepository,
-            IRepository<SalesByCountry, string> salesByCountriesRepository,
-            IRepository<CustomersByCountry, string> customersByCountriesRepository,
-            IRepository<PurchasesByCustomer, string> purchasesByCustomersRepository,
+            IRepository<Summary, int> summariesRepository,
+            IRepository<SalesByCountry, int> salesByCountriesRepository,
+            IRepository<CustomersByCountry, int> customersByCountriesRepository,
+            IRepository<PurchasesByCustomer, int> purchasesByCustomersRepository,
             IRepository<Employee, int> employeeRepository,
             IRepository<SalesByEmployee, int> salesByEmployeesRepository,
-            IRepository<ProductsByCategory, string> productsByCatgoriesRepository)
+            IRepository<ProductsByCategory, int> productsByCatgoriesRepository,
+            ICurrentTenant currentTenant)
         {
             _ordersRepository = ordersRepository;
             _ordersByCountriesRepository = ordersByCountryRepository;
@@ -61,25 +65,29 @@ namespace OMSBlazor.DbMigrator
             _employeeRepository = employeeRepository;
             _salesByEmployeesRepository = salesByEmployeesRepository;
             _productsByCatgoriesRepository = productsByCatgoriesRepository;
+            _currentTenant = currentTenant;
         }
 
         public async Task SeedAsync(DataSeedContext context)
         {
-            var ordersQueryable = await _ordersRepository.GetQueryableAsync();
-            var orderDetailsQueryable = await _orderDetailsRepository.GetQueryableAsync();
-            var customersQueryable = await _customersRepository.GetQueryableAsync();
-            var categoriesQueryable = await _categoriesRepository.GetQueryableAsync();
-            var productsQueryable = await _productsRepository.GetQueryableAsync();
-            var employeesQueryable = await _employeeRepository.GetQueryableAsync();
+            using (_currentTenant.Change(context?.TenantId))
+            {
+                var ordersQueryable = await _ordersRepository.GetQueryableAsync();
+                var orderDetailsQueryable = await _orderDetailsRepository.GetQueryableAsync();
+                var customersQueryable = await _customersRepository.GetQueryableAsync();
+                var categoriesQueryable = await _categoriesRepository.GetQueryableAsync();
+                var productsQueryable = await _productsRepository.GetQueryableAsync();
+                var employeesQueryable = await _employeeRepository.GetQueryableAsync();
 
-            await SeedOrdersByCountryAsync(ordersQueryable, customersQueryable);
-            await SeedSalesByCategoriesAsync(orderDetailsQueryable, categoriesQueryable, productsQueryable);
-            await SeedStasticsAsync(orderDetailsQueryable, ordersQueryable);
-            await SeedSalesByCountriesAsync(orderDetailsQueryable, customersQueryable, ordersQueryable);
-            await SeedCustomersByCountriesAsync(customersQueryable);
-            await SeedPurchasesByCustomersAsync(orderDetailsQueryable, customersQueryable, ordersQueryable);
-            await SeedSalesByEmployeesAsync(orderDetailsQueryable, employeesQueryable, ordersQueryable);
-            await SeedProductsByCategoriesAsync(categoriesQueryable, productsQueryable);
+                await SeedOrdersByCountryAsync(ordersQueryable, customersQueryable);
+                await SeedSalesByCategoriesAsync(orderDetailsQueryable, categoriesQueryable, productsQueryable);
+                await SeedStasticsAsync(orderDetailsQueryable, ordersQueryable);
+                await SeedSalesByCountriesAsync(orderDetailsQueryable, customersQueryable, ordersQueryable);
+                await SeedCustomersByCountriesAsync(customersQueryable);
+                await SeedPurchasesByCustomersAsync(orderDetailsQueryable, customersQueryable, ordersQueryable);
+                await SeedSalesByEmployeesAsync(orderDetailsQueryable, employeesQueryable, ordersQueryable);
+                await SeedProductsByCategoriesAsync(categoriesQueryable, productsQueryable);
+            }
         }
 
         private async Task SeedProductsByCategoriesAsync(IQueryable<Category> categoriesQueryable, IQueryable<Product> productsQueryable)
@@ -89,7 +97,7 @@ namespace OMSBlazor.DbMigrator
                 var productsByCategories = await categoriesQueryable
                     .Select(category => new ProductsByCategory(category.CategoryName)
                     {
-                        ProductsCount = productsQueryable.Where(x => x.CategoryId == category.Id).Count()
+                        Value = productsQueryable.Where(x => x.CategoryId == category.Id).Count()
                     })
                     .ToListAsync();
 
@@ -111,7 +119,7 @@ namespace OMSBlazor.DbMigrator
                 var salesByEmployees = await groupedOrderDetails
                     .Select(orderDetailGroup => new SalesByEmployee(orderDetailGroup.Key.Id, orderDetailGroup.Key.LastName)
                     {
-                        Sales = (decimal)orderDetailGroup.Sum(orderDetail => orderDetail.Quantity * orderDetail.UnitPrice)
+                        Value = (decimal)orderDetailGroup.Sum(orderDetail => orderDetail.Quantity * orderDetail.UnitPrice)
                     })
                     .ToListAsync();
 
@@ -129,7 +137,7 @@ namespace OMSBlazor.DbMigrator
                 var purchasesByCustomers = await groupedOrderDetails
                     .Select(orderDetailGroup => new PurchasesByCustomer(orderDetailGroup.Key)
                     {
-                        Purchases = (decimal)orderDetailGroup.Sum(orderDetail => orderDetail.Quantity * orderDetail.UnitPrice)
+                        Value = (decimal)orderDetailGroup.Sum(orderDetail => orderDetail.Quantity * orderDetail.UnitPrice)
                     })
                     .ToListAsync();
 
@@ -147,7 +155,7 @@ namespace OMSBlazor.DbMigrator
                 var customersByCountries = await groupedCustomers
                     .Select(customerGroup => new CustomersByCountry(customerGroup.Key)
                     {
-                        CustomersCount = customerGroup.Count()
+                        Value = customerGroup.Count()
                     })
                     .ToListAsync();
 
@@ -165,7 +173,7 @@ namespace OMSBlazor.DbMigrator
                 var salesByCountries = await groupedOrderDetails
                     .Select(orderDetailGroup => new SalesByCountry(orderDetailGroup.Key)
                     {
-                        Sales = (decimal)orderDetailGroup.Sum(orderDetail => orderDetail.Quantity * orderDetail.UnitPrice)
+                        Value = (decimal)orderDetailGroup.Sum(orderDetail => orderDetail.Quantity * orderDetail.UnitPrice)
                     })
                     .ToListAsync();
 
@@ -187,35 +195,35 @@ namespace OMSBlazor.DbMigrator
 
                 await _summariesRepository.InsertAsync(new Summary()
                 {
-                    SummaryName = OMSBlazorConstants.OverallSales,
-                    SummaryValue = overallSales
+                    Key = OMSBlazorConstants.OverallSales,
+                    Value = overallSales
                 });
                 await _summariesRepository.InsertAsync(new Summary()
                 {
-                    SummaryName = OMSBlazorConstants.OrdersQuantity,
-                    SummaryValue = ordersQuantity
+                    Key = OMSBlazorConstants.OrdersQuantity,
+                    Value = ordersQuantity
                 });
                 await _summariesRepository.InsertAsync(new Summary()
                 {
-                    SummaryName = OMSBlazorConstants.MaxCheck,
-                    SummaryValue = maxCheck
+                    Key = OMSBlazorConstants.MaxCheck,
+                    Value = maxCheck
                 });
                 await _summariesRepository.InsertAsync(new Summary()
                 {
-                    SummaryName = OMSBlazorConstants.AverageCheck,
-                    SummaryValue = averageCheck
+                    Key = OMSBlazorConstants.AverageCheck,
+                    Value = averageCheck
                 });
                 await _summariesRepository.InsertAsync(new Summary()
                 {
-                    SummaryName = OMSBlazorConstants.MinCheck,
-                    SummaryValue = minCheck
+                    Key = OMSBlazorConstants.MinCheck,
+                    Value = minCheck
                 });
             }
         }
 
         private async Task SeedSalesByCategoriesAsync(
-            IQueryable<OrderDetail> orderDetailsQueryable, 
-            IQueryable<Category> categoriesQueryable, 
+            IQueryable<OrderDetail> orderDetailsQueryable,
+            IQueryable<Category> categoriesQueryable,
             IQueryable<Product> productsQueryable)
         {
             if (!await _salesByCategoriesRepository.AnyAsync())
@@ -226,7 +234,7 @@ namespace OMSBlazor.DbMigrator
                 var salesByCategories = await groupedOrderDetail
                     .Select(orderDetailGroup => new SalesByCategory(orderDetailGroup.Key)
                     {
-                        Sales = (decimal)orderDetailGroup.Sum(orderDetail => orderDetail.Quantity * orderDetail.UnitPrice)
+                        Value = (decimal)orderDetailGroup.Sum(orderDetail => orderDetail.Quantity * orderDetail.UnitPrice)
                     })
                     .ToListAsync();
 
@@ -244,7 +252,7 @@ namespace OMSBlazor.DbMigrator
                 var ordersByCountries = await groupedOrders
                     .Select(orderGroup => new OrdersByCountry(orderGroup.Key)
                     {
-                        OrdersCount = orderGroup.Count()
+                        Value = orderGroup.Count()
                     })
                     .ToListAsync();
 

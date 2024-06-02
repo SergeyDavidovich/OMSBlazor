@@ -129,42 +129,51 @@ public class OMSBlazorDbContext :
             .Ignore(x => x.ExtraProperties);
 
         builder.Entity<CustomersByCountry>()
-            .HasKey(x => x.CountryName);
+            .HasKey(x => x.Id);
         builder.Entity<CustomersByCountry>()
-            .Ignore(x => x.Id);
+            .HasIndex(x => new { x.Key, x.TenantId })
+            .IsUnique();
+
         builder.Entity<PurchasesByCustomer>()
-            .HasKey(x => x.CompanyName);
+            .HasKey(x => x.Id);
         builder.Entity<PurchasesByCustomer>()
-            .Ignore(x => x.Id);
+            .HasIndex(x => new { x.Key, x.TenantId })
+            .IsUnique();
 
         builder.Entity<OrdersByCountry>()
-            .HasKey(x => x.CountryName);
+            .HasKey(x => x.Id);
         builder.Entity<OrdersByCountry>()
-            .Ignore(x => x.Id);
+            .HasIndex(x => new { x.Key, x.TenantId })
+            .IsUnique();
 
         builder.Entity<ProductsByCategory>()
-            .HasKey(x => x.CategoryName);
+            .HasKey(x => x.Id);
         builder.Entity<ProductsByCategory>()
-            .Ignore(x => x.Id);
-        
+            .HasIndex(x => new { x.Key, x.TenantId })
+            .IsUnique();
+
         builder.Entity<SalesByCategory>()
-            .HasKey(x => x.CategoryName);
+            .HasKey(x => x.Id);
         builder.Entity<SalesByCategory>()
-            .Ignore(x => x.Id);
+            .HasIndex(x => new { x.Key, x.TenantId })
+            .IsUnique();
 
         builder.Entity<SalesByCountry>()
-            .HasKey(x => x.CountryName);
+            .HasKey(x => x.Id);
         builder.Entity<SalesByCountry>()
-            .Ignore(x => x.Id);
+            .HasIndex(x => new { x.Key, x.TenantId })
+            .IsUnique();
 
         builder.Entity<SalesByEmployee>()
-            .HasKey(x => x.ID);
+            .HasKey(x => x.Id);
         builder.Entity<SalesByEmployee>()
-            .Ignore(x => x.Id);
+            .HasIndex(x => new { x.Key, x.TenantId })
+            .IsUnique();
 
         builder.Entity<Summary>()
-            .HasKey(x => x.SummaryName);
+            .HasKey(x => x.Id);
         builder.Entity<Summary>()
-            .Ignore(x => x.Id);
+            .HasIndex(x => new { x.Key, x.TenantId })
+            .IsUnique();
     }
 }
