@@ -1,28 +1,34 @@
 ﻿@using OMSBlazor.Blazor.Components
 @using OMSBlazor.Dto.Order
 @using ReactiveUI.Blazor
+@using System.Reactive.Linq
 @inherits ReactiveComponentBase<JournalViewModel>
 
 <StupeniCard Title="Orders journal" Icon="@Icons.Material.Filled.List" IsWithButton="false">
-    <MudDataGrid T="OrderDto" Items="@ViewModel.Orders" RowClick="RowClicked">
+    <MudDataGrid T="SelectableOrderDto" Items="@ViewModel.Orders" RowClick="e=>ChangeSelectedOrder(e.Item.SourceOrderDto.OrderId)" Hover="true">
         <ToolBarContent>
             <MudSpacer />
             <MudTextField @bind-Value="@ViewModel.SearchTerm" Placeholder="Search by customer id" Adornment="Adornment.Start" Immediate="true"
                           AdornmentIcon="@Icons.Material.Filled.Search" IconSize="MudBlazor.Size.Medium" Class="mt-0"></MudTextField>
         </ToolBarContent>
         <Columns>
-            <PropertyColumn Property="x => x.OrderId" Title="Id" />
-            <PropertyColumn Property="x => x.CustomerId" Title="Customer id" />
-            <PropertyColumn Property="x => x.EmployeeId" Title="Employee id" />
-            <PropertyColumn Property="x => x.OrderDate" Title="Order date" />
-            <PropertyColumn Property="x => x.RequiredDate" Title="Required date" />
-            <PropertyColumn Property="x => x.ShipAddress" Title="Ship address" />
-            <PropertyColumn Property="x=>x.ShipName" Title="Ship name" />
-            <PropertyColumn Property="x=>x.ShipCity" Title="Ship city" />
-            <PropertyColumn Property="x=>x.ShipCountry" Title="Ship country" />
+            <TemplateColumn IsEditable="true">
+                <CellTemplate>
+                    <MudCheckBox T="bool" Value="context.Item.IsSelcted" ValueChanged="()=>ChangeSelectedOrder(context.Item.SourceOrderDto.OrderId)"></MudCheckBox>
+                </CellTemplate>
+            </TemplateColumn>
+            <PropertyColumn Property="x => x.SourceOrderDto.OrderId" Title="Id" />
+            <PropertyColumn Property="x => x.SourceOrderDto.CustomerId" Title="Customer id" />
+            <PropertyColumn Property="x => x.SourceOrderDto.EmployeeId" Title="Employee id" />
+            <PropertyColumn Property="x => x.SourceOrderDto.OrderDate" Title="Order date" />
+            <PropertyColumn Property="x => x.SourceOrderDto.RequiredDate" Title="Required date" />
+            <PropertyColumn Property="x => x.SourceOrderDto.ShipAddress" Title="Ship address" />
+            <PropertyColumn Property="x=>x.SourceOrderDto.ShipName" Title="Ship name" />
+            <PropertyColumn Property="x=>x.SourceOrderDto.ShipCity" Title="Ship city" />
+            <PropertyColumn Property="x=>x.SourceOrderDto.ShipCountry" Title="Ship country" />
         </Columns>
         <PagerContent>
-            <MudDataGridPager T="OrderDto" />
+            <MudDataGridPager T="SelectableOrderDto" />
         </PagerContent>
     </MudDataGrid>
 </StupeniCard>
@@ -31,9 +37,9 @@
     [Parameter]
     public EventCallback<byte[]> OnSelectedOrderChanged { get; set; }
 
-    private async Task RowClicked(DataGridRowClickEventArgs<OrderDto> e)
+    private async Task ChangeSelectedOrder(int orderId)
     {
-        var arr = await ViewModel!.GetInvoice(e.Item.OrderId);
-        await OnSelectedOrderChanged.InvokeAsync(arr);        
+        var arr = await ViewModel.ChangeSelectedOrderCommand.Execute(orderId);
+        await OnSelectedOrderChanged.InvokeAsync(arr);
     }
 }
