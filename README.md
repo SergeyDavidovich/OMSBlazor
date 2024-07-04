@@ -105,3 +105,8 @@ Discussion about this you can find [here](https://github.com/abpframework/abp/is
 **2.1** To do this you can just create empty migration for `OMSBlazorIdentityDbContext` and copy content of `20240116200534_AddLastPasswordChangeTimeColumn` (you can find this file on this path: `OMSBlazor.EntityFrameworkCore`-> `OMSBlazorIdentity`)
 3. Take instance of database that is now in `OMSBlazor.HttpApi.Host` and put it into the `bin` folder of the `OMSBlazor.DbMigrator` project and run `OMSBlazor.DbMigrator`. This project will add new tables to the existing database
 4. Copy back updated DBs to the `OMSBlazor.HttpApi.Host`
+
+# Deployment notes
+
+**Problem:** IIS cannot find `openiddict.pfx` certificate.  
+**Solution:** Turn on ***Load the user profile*** state on IIS
