@@ -31,8 +31,14 @@ namespace OMSBlazor.Client.Pages.Dashboard.EmployeeStastics
             {
                 throw new NullReferenceException(nameof(EmployeeStasticsViewModel.HttpClient));
             }
+
+            var options = new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true,
+            };
+
             var salesByEmployeesJson = await HttpClient.GetStringAsync(BackEndEnpointURLs.EmployeeEndpoints.SalesByEmployees);
-            var salesByEmployees = JsonSerializer.Deserialize<SalesByEmployeeDto>(salesByEmployeesJson);
+            var salesByEmployees = JsonSerializer.Deserialize<List<SalesByEmployeeDto>>(salesByEmployeesJson, options);
 
             _salesByEmployeeSource.AddOrUpdate(salesByEmployees);
         }

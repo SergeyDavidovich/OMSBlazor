@@ -39,11 +39,16 @@ namespace OMSBlazor.Client.Pages.Dashboard.CustomerStastics
                 throw new NullReferenceException(nameof(CustomerStasticsViewModel.HttpClient));
             }
 
+            var options = new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true,
+            };
+
             var purchasesByCustomersJson = await HttpClient.GetStringAsync(BackEndEnpointURLs.CustomersEndpoints.PurchasesByCustomers);
             var customersByCountriesJson = await HttpClient.GetStringAsync(BackEndEnpointURLs.CustomersEndpoints.CustomersByCountries);
 
-            var purchasesByCustomers = JsonSerializer.Deserialize<List<PurchasesByCustomerDto>>(purchasesByCustomersJson);
-            var customersByCountries = JsonSerializer.Deserialize<List<CustomersByCountryDto>>(customersByCountriesJson);
+            var purchasesByCustomers = JsonSerializer.Deserialize<List<PurchasesByCustomerDto>>(purchasesByCustomersJson, options);
+            var customersByCountries = JsonSerializer.Deserialize<List<CustomersByCountryDto>>(customersByCountriesJson, options);
 
             _purchasesByCustomersSource.AddOrUpdate(purchasesByCustomers);
             _customersByCountrySource.AddOrUpdate(customersByCountries);

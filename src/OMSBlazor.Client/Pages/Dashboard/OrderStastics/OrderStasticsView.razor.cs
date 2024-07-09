@@ -1,17 +1,22 @@
 ﻿using ApexCharts;
+using Microsoft.AspNetCore.Components;
 using OMSBlazor.Dto.Order.Stastics;
 
 namespace OMSBlazor.Client.Pages.Dashboard.OrderStastics
 {
     public partial class OrderStasticsView
     {
-        public OrderStasticsView(OrderStasticsViewModel viewModel)
-        {
-            ViewModel = viewModel;
-        }
+        [Inject]
+        private OrderStasticsViewModel OrderStasticsViewModel { get; set; }
+
+        [Inject]
+        private HttpClient HttpClient { get; set; }
 
         protected override async Task OnInitializedAsync()
         {
+            ViewModel = OrderStasticsViewModel;
+            ViewModel.HttpClient = HttpClient;
+
             var theme = new Theme
             {
                 Palette = PaletteType.Palette1,

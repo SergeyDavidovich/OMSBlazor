@@ -10,9 +10,9 @@
 
             public const string GetCustomers = $"{Base}/{CustomerBase}/customers";
 
-            public const string PurchasesByCustomers = $"{Base}/{CustomerBase}/customers-by-country";
+            public const string PurchasesByCustomers = $"{Base}/{CustomerBase}/purchases-by-customer";
 
-            public const string CustomersByCountries = $"{Base}/{CustomerBase}/purchases-by-customer";
+            public const string CustomersByCountries = $"{Base}/{CustomerBase}/customers-by-country";
         }
 
         public static class EmployeeEndpoints

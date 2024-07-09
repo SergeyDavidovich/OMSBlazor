@@ -30,8 +30,13 @@ namespace OMSBlazor.Client.Pages.Dashboard.ProductStastics
                 throw new NullReferenceException(nameof(ProductStasticsViewModel.HttpClient));
             }
 
+            var options = new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true,
+            };
+
             var productsByCategoriesJson = await HttpClient.GetStringAsync(BackEndEnpointURLs.ProductEndpoints.ProductByCategories);
-            var productsByCategories = JsonSerializer.Deserialize<List<ProductsByCategoryDto>>(productsByCategoriesJson);
+            var productsByCategories = JsonSerializer.Deserialize<List<ProductsByCategoryDto>>(productsByCategoriesJson, options);
 
             _productsByCategoriesSource.AddOrUpdate(productsByCategories);
         }

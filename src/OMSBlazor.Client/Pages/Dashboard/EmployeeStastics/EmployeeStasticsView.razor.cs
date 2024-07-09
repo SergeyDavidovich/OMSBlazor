@@ -1,16 +1,21 @@
 ﻿using ApexCharts;
+using Microsoft.AspNetCore.Components;
 
 namespace OMSBlazor.Client.Pages.Dashboard.EmployeeStastics
 {
     public partial class EmployeeStasticsView
     {
-        public EmployeeStasticsView(EmployeeStasticsViewModel viewModel)
-        {
-            ViewModel = viewModel;
-        }
+        [Inject]
+        private EmployeeStasticsViewModel EmployeeStasticsViewModel { get; set; }
+
+        [Inject]
+        private HttpClient HttpClient { get; set; }
 
         protected async override Task OnInitializedAsync()
         {
+            ViewModel = EmployeeStasticsViewModel;
+            ViewModel.HttpClient = HttpClient;
+
             var theme = new Theme
             {
                 Palette = PaletteType.Palette1,
