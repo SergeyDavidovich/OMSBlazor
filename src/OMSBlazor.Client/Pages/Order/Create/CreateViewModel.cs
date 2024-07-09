@@ -161,7 +161,9 @@ namespace OMSBlazor.Client.Pages.Order.Create
             await HttpClient.PostAsync($"{BackEndEnpointURLs.StasticsRecalculator.RecalculateStatistics}/{orderDto.OrderId}", null);
             await dashboardHubConnection.SendAsync("UpdateDashboard");
 
-            var arr = await HttpClient.GetByteArrayAsync(BackEndEnpointURLs.OrderEndpoints.GetUrlForInvoice(orderDto.OrderId));
+            var getInvoiceResponse = await HttpClient.GetAsync(BackEndEnpointURLs.OrderEndpoints.GetUrlForInvoice(orderDto.OrderId));
+            var arr = await getInvoiceResponse.Content.ReadFromJsonAsync<byte[]>();
+
             return arr;
         }
         #endregion

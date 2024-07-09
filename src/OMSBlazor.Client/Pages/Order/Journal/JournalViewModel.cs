@@ -5,6 +5,7 @@ using System.Collections.ObjectModel;
 using System.Text.Json;
 using OMSBlazor.Client.Constants;
 using OMSBlazor.Dto.Order;
+using System.Net.Http.Json;
 
 namespace OMSBlazor.Client.Pages.Order.Journal
 {
@@ -73,8 +74,13 @@ namespace OMSBlazor.Client.Pages.Order.Journal
                 throw new NullReferenceException(nameof(JournalViewModel.HttpClient));
             }
 
+            var options = new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true,
+            };
+
             var ordersJson = await HttpClient.GetStringAsync(BackEndEnpointURLs.OrderEndpoints.GetOrders);
-            var orders = JsonSerializer.Deserialize<List<OrderDto>>(ordersJson);
+            var orders = JsonSerializer.Deserialize<List<OrderDto>>(ordersJson, options);
 
             var selectablesOrders = orders.Select(x => new SelectableOrderDto(x)).ToList();
             _cachedCollection = selectablesOrders;
@@ -101,7 +107,8 @@ namespace OMSBlazor.Client.Pages.Order.Journal
             var order = _sourceOrders.Items.Single(x => x.SourceOrderDto.OrderId == orderId);
             order.IsSelcted = true;
 
-            var arr = await HttpClient.GetByteArrayAsync(BackEndEnpointURLs.OrderEndpoints.GetUrlForInvoice(order.SourceOrderDto.OrderId));
+            var response = await HttpClient.GetAsync(BackEndEnpointURLs.OrderEndpoints.GetUrlForInvoice(order.SourceOrderDto.OrderId));
+            var arr = await response.Content.ReadFromJsonAsync<byte[]>();
 
             return arr;
         }
