@@ -12,8 +12,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using OMSBlazor.EntityFrameworkCore;
 using OMSBlazor.MultiTenancy;
-using Volo.Abp.AspNetCore.Mvc.UI.Theme.Basic;
-using Volo.Abp.AspNetCore.Mvc.UI.Theme.Basic.Bundling;
 using Microsoft.OpenApi.Models;
 using OpenIddict.Validation.AspNetCore;
 using Volo.Abp;
@@ -21,11 +19,9 @@ using Volo.Abp.Account;
 using Volo.Abp.Account.Web;
 using Volo.Abp.AspNetCore.MultiTenancy;
 using Volo.Abp.AspNetCore.Mvc;
-using Volo.Abp.AspNetCore.Mvc.UI.Bundling;
 using Volo.Abp.AspNetCore.Mvc.UI.Theme.Shared;
 using Volo.Abp.AspNetCore.Serilog;
 using Volo.Abp.Autofac;
-using Volo.Abp.Localization;
 using Volo.Abp.Modularity;
 using Volo.Abp.Swashbuckle;
 using Volo.Abp.UI.Navigation.Urls;
@@ -37,9 +33,6 @@ using System.Security.Cryptography.X509Certificates;
 using System.Security.Cryptography;
 using Volo.Abp.AspNetCore.SignalR;
 using OMSBlazor.NotificationSender;
-using System.Threading.Tasks;
-using OMSBlazor.Northwind.Stastics;
-using Microsoft.EntityFrameworkCore;
 using Volo.Abp.MultiTenancy;
 
 namespace OMSBlazor;
@@ -50,7 +43,6 @@ namespace OMSBlazor;
     typeof(AbpAspNetCoreMultiTenancyModule),
     typeof(OMSBlazorApplicationModule),
     typeof(OMSBlazorEntityFrameworkCoreModule),
-    typeof(AbpAspNetCoreMvcUiBasicThemeModule),
     typeof(AbpAccountWebOpenIddictModule),
     typeof(AbpAspNetCoreSerilogModule),
     typeof(AbpSwashbuckleModule),
@@ -100,7 +92,6 @@ public class OMSBlazorHttpApiHostModule : AbpModule
 
 
         ConfigureAuthentication(context);
-        ConfigureBundles();
         ConfigureUrls(configuration);
         ConfigureConventionalControllers();
         ConfigureVirtualFileSystem(context);
@@ -120,20 +111,6 @@ public class OMSBlazorHttpApiHostModule : AbpModule
     private void ConfigureAuthentication(ServiceConfigurationContext context)
     {
         context.Services.ForwardIdentityAuthenticationForBearer(OpenIddictValidationAspNetCoreDefaults.AuthenticationScheme);
-    }
-
-    private void ConfigureBundles()
-    {
-        Configure<AbpBundlingOptions>(options =>
-        {
-            options.StyleBundles.Configure(
-                BasicThemeBundles.Styles.Global,
-                bundle =>
-                {
-                    bundle.AddFiles("/global-styles.css");
-                }
-            );
-        });
     }
 
     private void ConfigureUrls(IConfiguration configuration)

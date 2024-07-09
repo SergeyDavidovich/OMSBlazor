@@ -21,10 +21,6 @@
   </ItemGroup>
 
   <ItemGroup>
-	<PackageReference Include="Volo.Abp.AspNetCore.Mvc.UI.Theme.Basic" Version="8.0.1" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\OMSBlazor.Application\OMSBlazor.Application.csproj" />
     <ProjectReference Include="..\OMSBlazor.EntityFrameworkCore\OMSBlazor.EntityFrameworkCore.csproj" />
     <ProjectReference Include="..\OMSBlazor.HttpApi\OMSBlazor.HttpApi.csproj" />
