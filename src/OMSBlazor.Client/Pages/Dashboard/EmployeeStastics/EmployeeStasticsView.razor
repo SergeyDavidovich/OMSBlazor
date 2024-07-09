@@ -1,0 +1,42 @@
+﻿@using OMSBlazor.Dto.Employee.Stastics
+@inherits ReactiveComponentBase<EmployeeStasticsViewModel>
+
+<StupeniCard Title="Employee" IsWithButton="false" Icon="@Icons.Material.Filled.People">
+    <MudPaper Height="400px" Outlined="true">
+        <ApexChart Title="Sales by employee"
+                   TItem="SalesByEmployeeDto"
+                   Height="@("100%")"
+                   @ref="salesByEmployeeChart"
+                   Options="salesByEmployeeOptions">
+            <ApexPointSeries TItem="SalesByEmployeeDto"
+                             Items="ViewModel!.SalesByEmployees"
+                             XValue="x=>x.LastName"
+                             YValue="x=>x.Sales"
+                             SeriesType="SeriesType.Bar" />
+        </ApexChart>
+    </MudPaper>
+</StupeniCard>
+
+@code {
+    [CascadingParameter(Name = "IsDarkMode")]
+    private bool IsDarkMode { get; set; }
+    private bool isFirstRender = true;
+
+    ApexChart<SalesByEmployeeDto> salesByEmployeeChart;
+    ApexChartOptions<SalesByEmployeeDto> salesByEmployeeOptions = new();
+
+    protected override async Task OnParametersSetAsync()
+    {
+        salesByEmployeeOptions.Theme.Mode = IsDarkMode ? Mode.Dark : Mode.Light;
+
+        if (!isFirstRender)
+        {
+            await salesByEmployeeChart.RenderAsync();
+        }
+
+        if (isFirstRender)
+        {
+            isFirstRender = false;
+        }
+    }
+}

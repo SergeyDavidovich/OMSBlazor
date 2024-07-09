@@ -1,0 +1,68 @@
+﻿@using OMSBlazor.Dto.Customer.Stastics
+@inherits ReactiveComponentBase<CustomerStasticsViewModel>
+
+<StupeniCard Icon="@Icons.Material.Filled.Contacts" Title="Customers" IsWithButton="false">
+    <MudGrid>
+        <MudItem xs="12" lg="6" md="6">
+            <MudPaper Height="400px" Outlined="true">
+                <ApexChart Title="Customers by countries"
+                           TItem="CustomersByCountryDto"
+                           @ref="customersByCountriesChart"
+                           Height="@("100%")"
+                           Options="customersByCountriesOptions">
+                    <ApexPointSeries TItem="CustomersByCountryDto"
+                                     Items="ViewModel!.CustomersByCountries"
+                                     SeriesType="SeriesType.Pie"
+                                     XValue="x=>x.CountryName"
+                                     YValue="x=>x.CustomersCount"
+                                     ShowDataLabels/>
+                </ApexChart>
+            </MudPaper>
+        </MudItem>
+        <MudItem xs="12" lg="6" md="6">
+            <MudPaper Height="400px" Outlined="true">
+                <ApexChart Title="Purchases by customers (Top 10)"
+                           TItem="PurchasesByCustomerDto"
+                           @ref="purchasesByCustomersChart"
+                           Height="@("100%")"
+                           Options="purchasesByCustomersOptions">
+                    <ApexPointSeries TItem="PurchasesByCustomerDto"
+                                     Items="ViewModel!.PurchasesByCustomers"
+                                     XValue="x=>x.CompanyName"
+                                     YValue="x=>x.Purchases"
+                                     SeriesType="SeriesType.Bar" />
+                </ApexChart>
+            </MudPaper>
+        </MudItem>
+    </MudGrid>
+</StupeniCard>
+
+@code {
+    [CascadingParameter(Name = "IsDarkMode")]
+    private bool IsDarkMode { get; set; }
+    private bool isFirstRender = true;
+
+    private int i = 1;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        customersByCountriesOptions.Theme.Mode = IsDarkMode ? Mode.Dark : Mode.Light;
+        purchasesByCustomersOptions.Theme.Mode = IsDarkMode ? Mode.Dark : Mode.Light;
+        if (!isFirstRender)
+        {
+            await customersByCountriesChart.RenderAsync();
+            await purchasesByCustomersChart.RenderAsync();
+        }
+
+        if (isFirstRender)
+        {
+            isFirstRender = false;
+        }
+    }
+
+    ApexChart<PurchasesByCustomerDto> purchasesByCustomersChart;
+    ApexChartOptions<PurchasesByCustomerDto> purchasesByCustomersOptions = new();
+
+    ApexChart<CustomersByCountryDto> customersByCountriesChart;
+    ApexChartOptions<CustomersByCountryDto> customersByCountriesOptions = new();
+}

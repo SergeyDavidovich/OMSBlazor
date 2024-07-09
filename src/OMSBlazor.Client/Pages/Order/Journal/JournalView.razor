@@ -1,0 +1,42 @@
+﻿@using System.Reactive.Linq
+@inherits ReactiveComponentBase<JournalViewModel>
+
+<StupeniCard Title="Orders journal" Icon="@Icons.Material.Filled.List" IsWithButton="false">
+    <MudDataGrid T="SelectableOrderDto" Items="@ViewModel.Orders" RowClick="e=>ChangeSelectedOrder(e.Item.SourceOrderDto.OrderId)" Hover="true">
+        <ToolBarContent>
+            <MudSpacer />
+            <MudTextField @bind-Value="@ViewModel.SearchTerm" Placeholder="Search by customer id" Adornment="Adornment.Start" Immediate="true"
+                          AdornmentIcon="@Icons.Material.Filled.Search" IconSize="MudBlazor.Size.Medium" Class="mt-0"></MudTextField>
+        </ToolBarContent>
+        <Columns>
+            <TemplateColumn Editable="true">
+                <CellTemplate>
+                    <MudCheckBox T="bool" Value="context.Item.IsSelcted" ValueChanged="()=>ChangeSelectedOrder(context.Item.SourceOrderDto.OrderId)"></MudCheckBox>
+                </CellTemplate>
+            </TemplateColumn>
+            <PropertyColumn Property="x => x.SourceOrderDto.OrderId" Title="Id" />
+            <PropertyColumn Property="x => x.SourceOrderDto.CustomerId" Title="Customer id" />
+            <PropertyColumn Property="x => x.SourceOrderDto.EmployeeId" Title="Employee id" />
+            <PropertyColumn Property="x => x.SourceOrderDto.OrderDate" Title="Order date" />
+            <PropertyColumn Property="x => x.SourceOrderDto.RequiredDate" Title="Required date" />
+            <PropertyColumn Property="x => x.SourceOrderDto.ShipAddress" Title="Ship address" />
+            <PropertyColumn Property="x=>x.SourceOrderDto.ShipName" Title="Ship name" />
+            <PropertyColumn Property="x=>x.SourceOrderDto.ShipCity" Title="Ship city" />
+            <PropertyColumn Property="x=>x.SourceOrderDto.ShipCountry" Title="Ship country" />
+        </Columns>
+        <PagerContent>
+            <MudDataGridPager T="SelectableOrderDto" />
+        </PagerContent>
+    </MudDataGrid>
+</StupeniCard>
+
+@code {
+    [Parameter]
+    public EventCallback<byte[]> OnSelectedOrderChanged { get; set; }
+
+    private async Task ChangeSelectedOrder(int orderId)
+    {
+        var arr = await ViewModel.ChangeSelectedOrderCommand.Execute(orderId);
+        await OnSelectedOrderChanged.InvokeAsync(arr);
+    }
+}

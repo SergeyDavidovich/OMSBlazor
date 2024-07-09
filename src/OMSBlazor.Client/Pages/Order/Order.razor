@@ -1,0 +1,30 @@
+﻿@page "/orders"
+@attribute [Authorize]
+@using Microsoft.AspNetCore.Authorization
+@using OMSBlazor.Client.Pages.Order.Create
+@using OMSBlazor.Client.Pages.Order.Invoice
+@using OMSBlazor.Client.Pages.Order.Journal
+
+<h3>Orders</h3>
+
+<MudGrid>
+    <MudItem xs="12" md="8" lg="9">
+        <StupeniFlipFlopCard MainContentTitle="Orders managment - Create" AlternativeContentTitle="Orders managment - Journal" Icon="@Icons.Material.Filled.Edit" ButtonColor="MudBlazor.Color.Secondary" MainContentButtonText="To journal" AlternativeContentButtonText="To creation">
+            <MainChildContent>
+                <CreateView PdfGenerated="@invoiceView.ShowPdf"></CreateView>
+            </MainChildContent>
+            <AlternativeChildContent>
+                <JournalView OnSelectedOrderChanged="@invoiceView.ShowPdf"></JournalView>
+            </AlternativeChildContent>
+        </StupeniFlipFlopCard>
+    </MudItem>
+    <MudItem xs="12" md="4" lg="3">
+        <InvoiceView @ref="invoiceView">
+        </InvoiceView>
+    </MudItem>
+</MudGrid>
+
+@code {
+    InvoiceView invoiceView;
+
+}
