@@ -10,6 +10,8 @@ namespace OMSBlazor.Client.Pages.Dashboard.OrderStastics
 {
     public class OrderStasticsViewModel : ReactiveObject
     {
+        private readonly HttpClient _httpClient;
+
         private readonly ReadOnlyObservableCollection<OrdersByCountryDto> _ordersByCountries;
         private readonly ReadOnlyObservableCollection<SalesByCategoryDto> _salesByCategories;
         private readonly ReadOnlyObservableCollection<SalesByCountryDto> _salesByCountries;
@@ -20,8 +22,10 @@ namespace OMSBlazor.Client.Pages.Dashboard.OrderStastics
         private readonly SourceCache<SalesByCountryDto, string> _salesByCountriesSource;
         private readonly SourceCache<SummaryDto, string> _summariesSource;
 
-        public OrderStasticsViewModel()
+        public OrderStasticsViewModel(HttpClient httpClient)
         {
+            _httpClient = httpClient;
+
             _ordersByCountriesSource = new(x => x.CountryName);
             _salesByCategoriesSource = new(x => x.CategoryName);
             _salesByCountriesSource = new(x => x.CountryName);
@@ -49,15 +53,10 @@ namespace OMSBlazor.Client.Pages.Dashboard.OrderStastics
 
         public async Task OnNavigatedTo()
         {
-            if (HttpClient is null)
-            {
-                throw new NullReferenceException(nameof(OrderStasticsViewModel.HttpClient));
-            }
-
-            var ordersByCountriesJson = await HttpClient.GetStringAsync(BackEndEnpointURLs.OrderEndpoints.OrdersByCountries);
-            var salesByCategoriesJson = await HttpClient.GetStringAsync(BackEndEnpointURLs.OrderEndpoints.SalesByCategories);
-            var salesByCountriesJson = await HttpClient.GetStringAsync(BackEndEnpointURLs.OrderEndpoints.SalesByCountries);
-            var summariesJson = await HttpClient.GetStringAsync(BackEndEnpointURLs.OrderEndpoints.Summaries);
+            var ordersByCountriesJson = await _httpClient.GetStringAsync(BackEndEnpointURLs.OrderEndpoints.OrdersByCountries);
+            var salesByCategoriesJson = await _httpClient.GetStringAsync(BackEndEnpointURLs.OrderEndpoints.SalesByCategories);
+            var salesByCountriesJson = await _httpClient.GetStringAsync(BackEndEnpointURLs.OrderEndpoints.SalesByCountries);
+            var summariesJson = await _httpClient.GetStringAsync(BackEndEnpointURLs.OrderEndpoints.Summaries);
 
             var options = new JsonSerializerOptions
             {
@@ -77,15 +76,10 @@ namespace OMSBlazor.Client.Pages.Dashboard.OrderStastics
 
         public async Task UpdateStastics()
         {
-            if (HttpClient is null)
-            {
-                throw new NullReferenceException(nameof(OrderStasticsViewModel.HttpClient));
-            }
-
-            var newOrdersByCountriesJson = await HttpClient.GetStringAsync(BackEndEnpointURLs.OrderEndpoints.OrdersByCountries);
-            var newSalesByCategoriesJson = await HttpClient.GetStringAsync(BackEndEnpointURLs.OrderEndpoints.SalesByCategories);
-            var newSalesByCountriesJson = await HttpClient.GetStringAsync(BackEndEnpointURLs.OrderEndpoints.SalesByCountries);
-            var newSummariesJson = await HttpClient.GetStringAsync(BackEndEnpointURLs.OrderEndpoints.Summaries);
+            var newOrdersByCountriesJson = await _httpClient.GetStringAsync(BackEndEnpointURLs.OrderEndpoints.OrdersByCountries);
+            var newSalesByCategoriesJson = await _httpClient.GetStringAsync(BackEndEnpointURLs.OrderEndpoints.SalesByCategories);
+            var newSalesByCountriesJson = await _httpClient.GetStringAsync(BackEndEnpointURLs.OrderEndpoints.SalesByCountries);
+            var newSummariesJson = await _httpClient.GetStringAsync(BackEndEnpointURLs.OrderEndpoints.Summaries);
 
             var options = new JsonSerializerOptions
             {
@@ -129,7 +123,5 @@ namespace OMSBlazor.Client.Pages.Dashboard.OrderStastics
         public ReadOnlyObservableCollection<SalesByCountryDto> SalesByCountries => _salesByCountries;
 
         public ReadOnlyObservableCollection<SummaryDto> Summaries => _summaries;
-
-        public HttpClient? HttpClient { get; set; }
     }
 }

@@ -10,12 +10,16 @@ namespace OMSBlazor.Client.Pages.Dashboard.EmployeeStastics
 {
     public class EmployeeStasticsViewModel : ReactiveObject
     {
+        private readonly HttpClient _httpClient;
+
         private readonly ReadOnlyObservableCollection<SalesByEmployeeDto> _salesByEmployee;
 
         private readonly SourceCache<SalesByEmployeeDto, int> _salesByEmployeeSource;
 
-        public EmployeeStasticsViewModel()
+        public EmployeeStasticsViewModel(HttpClient httpClient)
         {
+            _httpClient = httpClient;   
+
             _salesByEmployeeSource = new(x => x.ID);
 
             _salesByEmployeeSource
@@ -27,17 +31,12 @@ namespace OMSBlazor.Client.Pages.Dashboard.EmployeeStastics
 
         public async Task OnNavigatedTo()
         {
-            if (HttpClient is null)
-            {
-                throw new NullReferenceException(nameof(EmployeeStasticsViewModel.HttpClient));
-            }
-
             var options = new JsonSerializerOptions
             {
                 PropertyNameCaseInsensitive = true,
             };
 
-            var salesByEmployeesJson = await HttpClient.GetStringAsync(BackEndEnpointURLs.EmployeeEndpoints.SalesByEmployees);
+            var salesByEmployeesJson = await _httpClient.GetStringAsync(BackEndEnpointURLs.EmployeeEndpoints.SalesByEmployees);
             var salesByEmployees = JsonSerializer.Deserialize<List<SalesByEmployeeDto>>(salesByEmployeesJson, options);
 
             _salesByEmployeeSource.AddOrUpdate(salesByEmployees);
@@ -45,12 +44,7 @@ namespace OMSBlazor.Client.Pages.Dashboard.EmployeeStastics
 
         public async Task UpdateStastics()
         {
-            if (HttpClient is null)
-            {
-                throw new NullReferenceException(nameof(EmployeeStasticsViewModel.HttpClient));
-            }
-
-            var newSalesByEmployeesJson = await HttpClient.GetStringAsync(BackEndEnpointURLs.EmployeeEndpoints.SalesByEmployees);
+            var newSalesByEmployeesJson = await _httpClient.GetStringAsync(BackEndEnpointURLs.EmployeeEndpoints.SalesByEmployees);
             var newSalesByEmployee = JsonSerializer.Deserialize<List<SalesByEmployeeDto>>(newSalesByEmployeesJson);
 
             foreach (var saleByEmployee in _salesByEmployeeSource.Items.ToList())
@@ -61,7 +55,5 @@ namespace OMSBlazor.Client.Pages.Dashboard.EmployeeStastics
         }
 
         public ReadOnlyObservableCollection<SalesByEmployeeDto> SalesByEmployees => _salesByEmployee;
-
-        public HttpClient? HttpClient { get; set; }
     }
 }

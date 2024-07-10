@@ -9,13 +9,9 @@ namespace OMSBlazor.Client.Pages.Dashboard.OrderStastics
         [Inject]
         private OrderStasticsViewModel OrderStasticsViewModel { get; set; }
 
-        [Inject]
-        private HttpClient HttpClient { get; set; }
-
         protected override async Task OnInitializedAsync()
         {
             ViewModel = OrderStasticsViewModel;
-            ViewModel.HttpClient = HttpClient;
 
             var theme = new Theme
             {

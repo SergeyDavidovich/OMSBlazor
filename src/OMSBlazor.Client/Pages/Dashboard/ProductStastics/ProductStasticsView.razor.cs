@@ -8,13 +8,9 @@ namespace OMSBlazor.Client.Pages.Dashboard.ProductStastics
         [Inject]
         private ProductStasticsViewModel ProductStasticsViewModel { get; set; }
 
-        [Inject]
-        private HttpClient HttpClient { get; set; }
-
         protected override async Task OnInitializedAsync()
         {
             ViewModel = ProductStasticsViewModel;
-            ViewModel.HttpClient = HttpClient;
 
             var theme = new Theme
             {

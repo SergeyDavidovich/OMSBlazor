@@ -9,12 +9,16 @@ namespace OMSBlazor.Client.Pages.Dashboard.ProductStastics
 {
     public class ProductStasticsViewModel : ReactiveObject
     {
+        private readonly HttpClient _httpClient;
+
         private readonly ReadOnlyObservableCollection<ProductsByCategoryDto> _productsByCategories;
 
         private readonly SourceCache<ProductsByCategoryDto, string> _productsByCategoriesSource;
 
-        public ProductStasticsViewModel()
+        public ProductStasticsViewModel(HttpClient httpClient)
         {
+            _httpClient = httpClient;
+
             _productsByCategoriesSource = new(x => x.CategoryName);
 
             _productsByCategoriesSource
@@ -25,24 +29,17 @@ namespace OMSBlazor.Client.Pages.Dashboard.ProductStastics
 
         public async Task OnNavigatedTo()
         {
-            if (HttpClient is null)
-            {
-                throw new NullReferenceException(nameof(ProductStasticsViewModel.HttpClient));
-            }
-
             var options = new JsonSerializerOptions
             {
                 PropertyNameCaseInsensitive = true,
             };
 
-            var productsByCategoriesJson = await HttpClient.GetStringAsync(BackEndEnpointURLs.ProductEndpoints.ProductByCategories);
+            var productsByCategoriesJson = await _httpClient.GetStringAsync(BackEndEnpointURLs.ProductEndpoints.ProductByCategories);
             var productsByCategories = JsonSerializer.Deserialize<List<ProductsByCategoryDto>>(productsByCategoriesJson, options);
 
             _productsByCategoriesSource.AddOrUpdate(productsByCategories);
         }
 
         public ReadOnlyObservableCollection<ProductsByCategoryDto> ProductsByCategories => _productsByCategories;
-
-        public HttpClient? HttpClient { get; set; } 
     }
 }

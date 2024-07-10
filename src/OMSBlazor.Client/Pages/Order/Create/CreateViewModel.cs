@@ -18,6 +18,8 @@ namespace OMSBlazor.Client.Pages.Order.Create
     public class CreateViewModel : ReactiveObject, IAsyncDisposable
     {
         #region Declarations
+        private readonly HttpClient _httpClient;
+
         private readonly ReadOnlyObservableCollection<ProductInOrder> _productsInOrder;
         private readonly ReadOnlyObservableCollection<ProductOnStore> _productsInStore;
         private readonly ReadOnlyObservableCollection<EmployeeDto> _employees;
@@ -29,12 +31,14 @@ namespace OMSBlazor.Client.Pages.Order.Create
         private readonly SourceList<CustomerDto> customers;
         private List<ProductDto> productsList;
 
-        private HubConnection productHubConnection;
-        private HubConnection dashboardHubConnection;
+        private readonly HubConnection productHubConnection;
+        private readonly HubConnection dashboardHubConnection;
         #endregion
 
-        public CreateViewModel(IConfiguration configuration)
+        public CreateViewModel(HttpClient httpClient, IConfiguration configuration)
         {
+            _httpClient = httpClient;
+
             productHubConnection = new HubConnectionBuilder()
                 .WithUrl($"{configuration["BackendUrl"]}signalr-hubs/product")
                 .Build();
@@ -119,10 +123,6 @@ namespace OMSBlazor.Client.Pages.Order.Create
 
         private async Task<byte[]> CreateOrderExecute()
         {
-            if (HttpClient is null)
-            {
-                throw new NullReferenceException(nameof(CreateViewModel.HttpClient));
-            }
             CreateOrderDto newOrder = new CreateOrderDto();
             string shipCountry = "USA";
 
@@ -147,7 +147,7 @@ namespace OMSBlazor.Client.Pages.Order.Create
             newOrder.OrderDetails = orderDetails;
 
             using StringContent jsonContent = new(JsonSerializer.Serialize(newOrder), Encoding.UTF8, "application/json");
-            var response = await HttpClient.PostAsync(BackEndEnpointURLs.OrderEndpoints.SaveOrder, jsonContent);
+            var response = await _httpClient.PostAsync(BackEndEnpointURLs.OrderEndpoints.SaveOrder, jsonContent);
             var orderDtoJson = await response.Content.ReadAsStringAsync();
 
             var options = new JsonSerializerOptions
@@ -163,10 +163,10 @@ namespace OMSBlazor.Client.Pages.Order.Create
             SelectedCustomer = null;
             SelectedEmployee = null;
 
-            await HttpClient.PostAsync($"{BackEndEnpointURLs.StasticsRecalculator.RecalculateStatistics}/{orderDto.OrderId}", null);
+            await _httpClient.PostAsync($"{BackEndEnpointURLs.StasticsRecalculator.RecalculateStatistics}/{orderDto.OrderId}", null);
             await dashboardHubConnection.SendAsync("UpdateDashboard");
 
-            var getInvoiceResponse = await HttpClient.GetAsync(BackEndEnpointURLs.OrderEndpoints.GetUrlForInvoice(orderDto.OrderId));
+            var getInvoiceResponse = await _httpClient.GetAsync(BackEndEnpointURLs.OrderEndpoints.GetUrlForInvoice(orderDto.OrderId));
             var arr = await getInvoiceResponse.Content.ReadFromJsonAsync<byte[]>();
 
             return arr;
@@ -276,11 +276,6 @@ namespace OMSBlazor.Client.Pages.Order.Create
         /// <returns></returns>
         public async Task OnNavigatedTo()
         {
-            if (HttpClient is null)
-            {
-                throw new NullReferenceException(nameof(CreateViewModel.HttpClient));
-            }
-
             var options = new JsonSerializerOptions
             {
                 PropertyNameCaseInsensitive = true,
@@ -288,7 +283,7 @@ namespace OMSBlazor.Client.Pages.Order.Create
 
             if (products.Count == 0)
             {
-                var productsJson = await HttpClient.GetStringAsync(BackEndEnpointURLs.ProductEndpoints.GetProducts);
+                var productsJson = await _httpClient.GetStringAsync(BackEndEnpointURLs.ProductEndpoints.GetProducts);
 
                 productsList = JsonSerializer.Deserialize<List<ProductDto>>(productsJson, options);
                 var listOfProductsOnStore = productsList.Select(b => new ProductOnStore(b));
@@ -296,14 +291,14 @@ namespace OMSBlazor.Client.Pages.Order.Create
             }
             if (employees.Count == 0)
             {
-                var employeesJson = await HttpClient.GetStringAsync(BackEndEnpointURLs.EmployeeEndpoints.GetEmployees);
+                var employeesJson = await _httpClient.GetStringAsync(BackEndEnpointURLs.EmployeeEndpoints.GetEmployees);
 
                 var employeesList = JsonSerializer.Deserialize<List<EmployeeDto>>(employeesJson, options);
                 employees.AddRange(employeesList);
             }
             if (customers.Count == 0)
             {
-                var customersJson = await HttpClient.GetStringAsync(BackEndEnpointURLs.CustomersEndpoints.GetCustomers);
+                var customersJson = await _httpClient.GetStringAsync(BackEndEnpointURLs.CustomersEndpoints.GetCustomers);
 
                 var customerList = JsonSerializer.Deserialize<List<CustomerDto>>(customersJson, options);
                 customers.AddRange(customerList);
@@ -380,8 +375,6 @@ namespace OMSBlazor.Client.Pages.Order.Create
             get { return createOrderButtonDisabled.Value; }
         }
         private decimal TotalSum { set; get; }
-
-        public HttpClient HttpClient { get; set; }
         #endregion
 
         #region Screen objects

@@ -8,13 +8,9 @@ namespace OMSBlazor.Client.Pages.Dashboard.EmployeeStastics
         [Inject]
         private EmployeeStasticsViewModel EmployeeStasticsViewModel { get; set; }
 
-        [Inject]
-        private HttpClient HttpClient { get; set; }
-
         protected async override Task OnInitializedAsync()
         {
             ViewModel = EmployeeStasticsViewModel;
-            ViewModel.HttpClient = HttpClient;
 
             var theme = new Theme
             {

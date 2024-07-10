@@ -12,14 +12,16 @@ namespace OMSBlazor.Client.Pages.Order.Journal
     public class JournalViewModel : ReactiveObject
     {
         #region Declarations
+        private readonly HttpClient _httpClient;
         List<SelectableOrderDto> _cachedCollection;
 
         SourceCache<SelectableOrderDto, int> _sourceOrders;
         #endregion
 
         #region Construct
-        public JournalViewModel()
+        public JournalViewModel(HttpClient httpClient)
         {
+            _httpClient = httpClient;
             _cachedCollection = new List<SelectableOrderDto>();
             _sourceOrders = new SourceCache<SelectableOrderDto, int>(x => x.SourceOrderDto.OrderId);
 
@@ -69,17 +71,12 @@ namespace OMSBlazor.Client.Pages.Order.Journal
 
         public async Task OnNavigatedTo()
         {
-            if (HttpClient is null)
-            {
-                throw new NullReferenceException(nameof(JournalViewModel.HttpClient));
-            }
-
             var options = new JsonSerializerOptions
             {
                 PropertyNameCaseInsensitive = true,
             };
 
-            var ordersJson = await HttpClient.GetStringAsync(BackEndEnpointURLs.OrderEndpoints.GetOrders);
+            var ordersJson = await _httpClient.GetStringAsync(BackEndEnpointURLs.OrderEndpoints.GetOrders);
             var orders = JsonSerializer.Deserialize<List<OrderDto>>(ordersJson, options);
 
             var selectablesOrders = orders.Select(x => new SelectableOrderDto(x)).ToList();
@@ -92,11 +89,6 @@ namespace OMSBlazor.Client.Pages.Order.Journal
 
         private async Task<byte[]> ChangeSelectOrderHandler(int orderId)
         {
-            if (HttpClient is null)
-            {
-                throw new NullReferenceException(nameof(JournalViewModel.HttpClient));
-            }
-
             var previouSelectedOrder = _sourceOrders.Items.SingleOrDefault(x => x.IsSelcted);
 
             if (previouSelectedOrder is not null)
@@ -107,14 +99,12 @@ namespace OMSBlazor.Client.Pages.Order.Journal
             var order = _sourceOrders.Items.Single(x => x.SourceOrderDto.OrderId == orderId);
             order.IsSelcted = true;
 
-            var response = await HttpClient.GetAsync(BackEndEnpointURLs.OrderEndpoints.GetUrlForInvoice(order.SourceOrderDto.OrderId));
+            var response = await _httpClient.GetAsync(BackEndEnpointURLs.OrderEndpoints.GetUrlForInvoice(order.SourceOrderDto.OrderId));
             var arr = await response.Content.ReadFromJsonAsync<byte[]>();
 
             return arr;
         }
         #endregion
-
-        public HttpClient? HttpClient { get; set; }
     }
 
     public class SelectableOrderDto : AbstractNotifyPropertyChanged

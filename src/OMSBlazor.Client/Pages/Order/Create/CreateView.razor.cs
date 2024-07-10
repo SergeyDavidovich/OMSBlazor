@@ -9,9 +9,6 @@ namespace OMSBlazor.Client.Pages.Order.Create
         [Inject]
         private CreateViewModel CreateViewModel { get; set; }
 
-        [Inject]
-        private HttpClient HttpClient { get; set; }
-
         private async Task CreateOrderButtonClicked()
         {
             var result = await ViewModel!.CreateOrderCommand.Execute();
@@ -27,7 +24,6 @@ namespace OMSBlazor.Client.Pages.Order.Create
         protected async override Task OnInitializedAsync()
         {
             ViewModel = CreateViewModel;
-            ViewModel.HttpClient = HttpClient;
             await ViewModel!.OnNavigatedTo();
         }
 

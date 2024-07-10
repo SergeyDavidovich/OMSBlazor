@@ -10,14 +10,18 @@ namespace OMSBlazor.Client.Pages.Dashboard.CustomerStastics
 {
     public class CustomerStasticsViewModel : ReactiveObject
     {
+        private readonly HttpClient _httpClient;
+
         private readonly ReadOnlyObservableCollection<CustomersByCountryDto> _customersByCountries;
         private readonly ReadOnlyObservableCollection<PurchasesByCustomerDto> _purchasesByCustomers;
 
         private readonly SourceCache<PurchasesByCustomerDto, string> _purchasesByCustomersSource;
         private readonly SourceCache<CustomersByCountryDto, string> _customersByCountrySource;
 
-        public CustomerStasticsViewModel()
+        public CustomerStasticsViewModel(HttpClient httpClient)
         {
+            _httpClient = httpClient;
+
             _customersByCountrySource = new(x => x.CountryName);
             _purchasesByCustomersSource = new(x => x.CompanyName);
 
@@ -34,18 +38,13 @@ namespace OMSBlazor.Client.Pages.Dashboard.CustomerStastics
 
         public async Task OnNavigatedTo()
         {
-            if (HttpClient is null)
-            {
-                throw new NullReferenceException(nameof(CustomerStasticsViewModel.HttpClient));
-            }
-
             var options = new JsonSerializerOptions
             {
                 PropertyNameCaseInsensitive = true,
             };
 
-            var purchasesByCustomersJson = await HttpClient.GetStringAsync(BackEndEnpointURLs.CustomersEndpoints.PurchasesByCustomers);
-            var customersByCountriesJson = await HttpClient.GetStringAsync(BackEndEnpointURLs.CustomersEndpoints.CustomersByCountries);
+            var purchasesByCustomersJson = await _httpClient.GetStringAsync(BackEndEnpointURLs.CustomersEndpoints.PurchasesByCustomers);
+            var customersByCountriesJson = await _httpClient.GetStringAsync(BackEndEnpointURLs.CustomersEndpoints.CustomersByCountries);
 
             var purchasesByCustomers = JsonSerializer.Deserialize<List<PurchasesByCustomerDto>>(purchasesByCustomersJson, options);
             var customersByCountries = JsonSerializer.Deserialize<List<CustomersByCountryDto>>(customersByCountriesJson, options);
@@ -58,16 +57,9 @@ namespace OMSBlazor.Client.Pages.Dashboard.CustomerStastics
 
         public ReadOnlyObservableCollection<PurchasesByCustomerDto> PurchasesByCustomers => _purchasesByCustomers;
 
-        public HttpClient? HttpClient { get; set; }
-
         public async Task UpdateStastics()
         {
-            if (HttpClient is null)
-            {
-                throw new NullReferenceException(nameof(CustomerStasticsViewModel.HttpClient));
-            }
-
-            var newPurchasesByCustomersJson = await HttpClient.GetStringAsync(BackEndEnpointURLs.CustomersEndpoints.PurchasesByCustomers);
+            var newPurchasesByCustomersJson = await _httpClient.GetStringAsync(BackEndEnpointURLs.CustomersEndpoints.PurchasesByCustomers);
 
             var newPurchasesByCustomers = JsonSerializer.Deserialize<List<PurchasesByCustomerDto>>(newPurchasesByCustomersJson);
 
