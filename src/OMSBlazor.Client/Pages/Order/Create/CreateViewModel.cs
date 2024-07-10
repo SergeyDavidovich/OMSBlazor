@@ -11,6 +11,7 @@ using OMSBlazor.Dto.Employee;
 using OMSBlazor.Dto.Customer;
 using OMSBlazor.Dto.Product;
 using OMSBlazor.Dto.Order;
+using System.Text;
 
 namespace OMSBlazor.Client.Pages.Order.Create
 {
@@ -146,10 +147,15 @@ namespace OMSBlazor.Client.Pages.Order.Create
 
             newOrder.OrderDetails = orderDetails;
 
-            var httpContent = JsonContent.Create(newOrder);
-            var response = await HttpClient.PostAsJsonAsync(BackEndEnpointURLs.OrderEndpoints.SaveOrder, httpContent);
+            using StringContent jsonContent = new(JsonSerializer.Serialize(newOrder), Encoding.UTF8, "application/json");
+            var response = await HttpClient.PostAsync(BackEndEnpointURLs.OrderEndpoints.SaveOrder, jsonContent);
             var orderDtoJson = await response.Content.ReadAsStringAsync();
-            var orderDto = JsonSerializer.Deserialize<OrderDto>(orderDtoJson);
+
+            var options = new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true,
+            };
+            var orderDto = JsonSerializer.Deserialize<OrderDto>(orderDtoJson, options);
 
             RemoveAllCommand.Execute().Subscribe();
 
