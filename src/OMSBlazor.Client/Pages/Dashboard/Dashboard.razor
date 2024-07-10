@@ -34,7 +34,7 @@
     protected override async Task OnInitializedAsync()
     {
         hubConnection = new HubConnectionBuilder()
-                .WithUrl($"https://localhost:44314/signalr-hubs/dashboard")
+                .WithUrl($"{Configuration["BackendUrl"]}signalr-hubs/dashboard")
                 .Build();
 
         hubConnection.On("UpdateDashboard", async () =>
