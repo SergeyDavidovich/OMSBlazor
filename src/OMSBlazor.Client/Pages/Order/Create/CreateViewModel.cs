@@ -27,11 +27,10 @@ namespace OMSBlazor.Client.Pages.Order.Create
         private readonly SourceCache<ProductInOrder, int> productsInOrder;
         private readonly SourceList<EmployeeDto> employees;
         private readonly SourceList<CustomerDto> customers;
-
         private List<ProductDto> productsList;
 
-        private readonly HubConnection productHubConnection;
-        private readonly HubConnection dashboardHubConnection;
+        private HubConnection productHubConnection;
+        private HubConnection dashboardHubConnection;
         #endregion
 
         public CreateViewModel(IConfiguration configuration)

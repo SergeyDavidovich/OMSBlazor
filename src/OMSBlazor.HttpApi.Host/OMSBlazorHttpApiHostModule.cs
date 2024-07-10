@@ -179,6 +179,7 @@ public class OMSBlazorHttpApiHostModule : AbpModule
         {
             options.AddDefaultPolicy(builder =>
             {
+                // https://stackoverflow.com/a/66620352
                 builder
                     .WithOrigins(configuration["App:CorsOrigins"]?
                         .Split(",", StringSplitOptions.RemoveEmptyEntries)

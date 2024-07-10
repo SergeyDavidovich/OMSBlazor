@@ -19,11 +19,23 @@ namespace OMSBlazor.Client
         {
             var builder = WebAssemblyHostBuilder.CreateDefault(args);
 
+            var http = new HttpClient() { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) };
+
+            builder.Services.AddScoped(sp => http);
+
+            using var response = await http.GetAsync("appsettings.json");
+            using var stream = await response.Content.ReadAsStreamAsync();
+
+            builder.Configuration.AddJsonStream(stream);
+
+            builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.Configuration["BackendUrl"]) });
             builder.Services.AddMudServices();
 
             builder.Services.AddAuthorizationCore();
             builder.Services.AddCascadingAuthenticationState();
             builder.Services.AddSingleton<AuthenticationStateProvider, PersistentAuthenticationStateProvider>();
+
+            builder.Services.AddScoped<CreateViewModel>();
 
             await builder.Build().RunAsync();
         }
