@@ -7,6 +7,7 @@
 @using OMSBlazor.Client.Pages.Dashboard.ProductStastics
 @implements IAsyncDisposable 
 @attribute [Authorize]
+@inject IConfiguration Configuration
 <MudGrid>
     <MudItem xs="12">
         <OrderStasticsView @ref="orderStasticsView"></OrderStasticsView>
@@ -33,7 +34,7 @@
     protected override async Task OnInitializedAsync()
     {
         hubConnection = new HubConnectionBuilder()
-                .WithUrl("https://localhost:44314/signalr-hubs/dashboard")
+                .WithUrl($"https://localhost:44314/signalr-hubs/dashboard")
                 .Build();
 
         hubConnection.On("UpdateDashboard", async () =>

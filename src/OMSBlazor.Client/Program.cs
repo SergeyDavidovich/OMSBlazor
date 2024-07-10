@@ -19,6 +19,7 @@ namespace OMSBlazor.Client
         {
             var builder = WebAssemblyHostBuilder.CreateDefault(args);
 
+            // https://learn.microsoft.com/en-us/aspnet/core/blazor/fundamentals/configuration?view=aspnetcore-8.0#app-settings-configuration
             var http = new HttpClient() { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) };
 
             builder.Services.AddScoped(sp => http);
@@ -35,6 +36,13 @@ namespace OMSBlazor.Client
             builder.Services.AddCascadingAuthenticationState();
             builder.Services.AddSingleton<AuthenticationStateProvider, PersistentAuthenticationStateProvider>();
 
+            // We register view models on server too because server need them for pre-render
+            // Please read this for further understanding - https://stackoverflow.com/a/78535224
+            builder.Services.AddScoped<CustomerStasticsViewModel>();
+            builder.Services.AddScoped<EmployeeStasticsViewModel>();
+            builder.Services.AddScoped<OrderStasticsViewModel>();
+            builder.Services.AddScoped<ProductStasticsViewModel>();
+            builder.Services.AddScoped<JournalViewModel>();
             builder.Services.AddScoped<CreateViewModel>();
 
             await builder.Build().RunAsync();

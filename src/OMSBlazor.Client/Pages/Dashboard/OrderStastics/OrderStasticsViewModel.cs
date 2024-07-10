@@ -87,10 +87,15 @@ namespace OMSBlazor.Client.Pages.Dashboard.OrderStastics
             var newSalesByCountriesJson = await HttpClient.GetStringAsync(BackEndEnpointURLs.OrderEndpoints.SalesByCountries);
             var newSummariesJson = await HttpClient.GetStringAsync(BackEndEnpointURLs.OrderEndpoints.Summaries);
 
-            var newOrdersByCountries = JsonSerializer.Deserialize<List<OrdersByCountryDto>>(newOrdersByCountriesJson);
-            var newSalesByCategories = JsonSerializer.Deserialize<List<SalesByCategoryDto>>(newSalesByCategoriesJson);
-            var newSalesByCountries = JsonSerializer.Deserialize<List<SalesByCountryDto>>(newSalesByCountriesJson);
-            var newSummaries = JsonSerializer.Deserialize<List<SummaryDto>>(newSummariesJson);
+            var options = new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true,
+            };
+
+            var newOrdersByCountries = JsonSerializer.Deserialize<List<OrdersByCountryDto>>(newOrdersByCountriesJson, options);
+            var newSalesByCategories = JsonSerializer.Deserialize<List<SalesByCategoryDto>>(newSalesByCategoriesJson, options);
+            var newSalesByCountries = JsonSerializer.Deserialize<List<SalesByCountryDto>>(newSalesByCountriesJson, options);
+            var newSummaries = JsonSerializer.Deserialize<List<SummaryDto>>(newSummariesJson, options);
 
             foreach (var summary in _summariesSource.Items.ToList())
             {

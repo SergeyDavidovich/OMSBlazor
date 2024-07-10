@@ -59,7 +59,7 @@
         {
             private const string StasticsBase = "stastics-recalculator";
 
-            public const string RecalculateStatistics = $"{Base}/{StasticsBase}/recalculateStastics";
+            public const string RecalculateStatistics = $"{Base}/{StasticsBase}/recalculate-Stastics";
         }
     }
 }
