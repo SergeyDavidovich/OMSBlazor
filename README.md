@@ -106,7 +106,29 @@ Discussion about this you can find [here](https://github.com/abpframework/abp/is
 3. Take instance of database that is now in `OMSBlazor.HttpApi.Host` and put it into the `bin` folder of the `OMSBlazor.DbMigrator` project and run `OMSBlazor.DbMigrator`. This project will add new tables to the existing database
 4. Copy back updated DBs to the `OMSBlazor.HttpApi.Host`
 
-# Deployment notes
+# Deployment notes 
 
-**Problem:** IIS cannot find `openiddict.pfx` certificate.  
+There is a list of problems that you may encounter during publication. List of problems and theirs solutions
+
+## IIS cannot find `openiddict.pfx` certificate when publicating on ***Plesk(Adaptive web hosting)***  
 **Solution:** Turn on ***Load the user profile*** state on IIS
+
+- On Plesk pannel of your domain you will find tab ***Hosting & DNS*** press it
+- Then you will see ***Dedicated IIS Application pool for Website*** press
+- There you will see checkbox - ***Load the user profile***, check it
+
+## OpenIddict requires some sertificates but you don't need OpenIddict
+
+**Solution:** Go to class where you add `OpenIddict` to your DI. In my case this is `OMSBlazorHttpApiHostModule`
+and comment the line which adds dependency to the `OpenIddict`. 
+
+```
+[DependsOn(
+    ...
+    //typeof(AbpAccountWebOpenIddictModule),
+    ...
+)]
+public class OMSBlazorHttpApiHostModule : AbpModule
+{
+}
+```
