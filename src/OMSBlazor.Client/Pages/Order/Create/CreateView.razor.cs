@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
+using MudBlazor;
+using OMSBlazor.Client.Components;
 using System.Reactive.Linq;
 
 namespace OMSBlazor.Client.Pages.Order.Create
@@ -9,9 +11,17 @@ namespace OMSBlazor.Client.Pages.Order.Create
         [Inject]
         private CreateViewModel CreateViewModel { get; set; }
 
+        [Inject]
+        ISnackbar Snackbar { get; set; }
+
+        [Inject]
+        IDialogService DialogService { get; set; }
+
         private async Task CreateOrderButtonClicked()
         {
             var result = await ViewModel!.CreateOrderCommand.Execute();
+
+            Snackbar.Add("Order created successfully", Severity.Success);
 
             await PdfGenerated.InvokeAsync(result);
         }
@@ -24,6 +34,11 @@ namespace OMSBlazor.Client.Pages.Order.Create
         protected async override Task OnInitializedAsync()
         {
             ViewModel = CreateViewModel;
+            ViewModel.CreateOrderCommand.ThrownExceptions.Subscribe(async e =>
+            {
+                var parameters = new DialogParameters<ErrorMessageBox> { { x => x.ErrorMessage, e.Message } };
+                await DialogService.ShowAsync<ErrorMessageBox>("Order not created", parameters);
+            });
             await ViewModel!.OnNavigatedTo();
         }
 

@@ -12,11 +12,9 @@
                             <MudCheckBox @bind-Value="context.Item.Added" />
                         </CellTemplate>
                     </TemplateColumn>
-                    <PropertyColumn Title="Id" Property="x=>x.ProductID" />
                     <PropertyColumn Title="Product name" Property="x => x.ProductName" />
                     <PropertyColumn Title="Unit price" Property="x => x.UnitPrice" />
                     <PropertyColumn Title="Unit in stock" Property="x=>x.UnitsInStock" />
-                    <PropertyColumn Title="Unit on order" Property="x=>x.UnitsOnOrder" />
                 </Columns>
             </MudDataGrid>
         </StupeniCard>
@@ -50,7 +48,6 @@
                     <MudItem xs="12">
                         <MudDataGrid Items="@ViewModel!.ProductsInOrder" Virtualize="true" FixedHeader="true" Height="400px">
                             <Columns>
-                                <PropertyColumn Title="Id" Property="x => x.ProductID" />
                                 <PropertyColumn Title="Product name" Property="x => x.ProductName" />
                                 <PropertyColumn Title="Unit price" Property="x=>x.UnitPrice" />
                                 <TemplateColumn Title="Quantity">

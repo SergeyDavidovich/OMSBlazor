@@ -1,0 +1,18 @@
+﻿<MudDialog>
+    <DialogContent>
+        @ErrorMessage
+    </DialogContent>
+    <DialogActions>
+        <MudButton Color="MudBlazor.Color.Primary" OnClick="Ok">Ok</MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code {
+    [CascadingParameter]
+    private MudDialogInstance MudDialog { get; set; }
+
+    [Parameter]
+    public string ErrorMessage { get; set; }
+
+    private void Ok() => MudDialog.Close(DialogResult.Ok(true));
+}
