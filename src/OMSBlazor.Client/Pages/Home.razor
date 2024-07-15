@@ -1,7 +1,125 @@
 ﻿@page "/"
 
-<PageTitle>Home</PageTitle>
-
-<MudText Typo="Typo.h3" GutterBottom="true">Hello, world!</MudText>
-<MudText Class="mb-8">Welcome to your new app, powered by MudBlazor and the .NET 8 Template!</MudText>
-
+<MudGrid>
+    <MudItem xs="12" md="6">
+        <MudText Class="mt-10 ml-6 mr-6" Style="font-family: Space Grotesk; font-style: normal; font-weight: 700; text-transform: none;" Typo="Typo.h3">
+            Create, analyze and store your
+            <MudText Typo="Typo.h3" Style="-webkit-background-clip: text !important; -webkit-text-fill-color: transparent; background: linear-gradient(128.87deg,#d600aa 14.05%,#cb4150 89.3%);font-family: Space Grotesk; font-style: normal; font-weight: 700; text-transform: none;">Orders</MudText>
+            better with
+            <MudText Typo="Typo.h3" Style="font-family: Space Grotesk; font-style: normal; font-weight: 700; text-transform: none">Order Managment System</MudText>
+        </MudText>
+        <MudText Class="mt-4 ml-6 mr-6" Style="font-family: Open Sans; font-style: normal; font-weight: 600; text-transform: none;">
+            Our application is good for your if you want to know in what state your buisiness is at the current second
+        </MudText>
+        <div class="d-flex flex-row mt-4 ml-6 gap-2 mr-6">
+            <MudButton Href="/orders"
+                       Variant="Variant.Filled"
+                       Color="MudBlazor.Color.Primary"
+                       Size="MudBlazor.Size.Large">
+                Create your first order
+            </MudButton>
+            <MudButton Href="https://github.com/SergeyDavidovich/OMSBlazor"
+                       Target="_blank"
+                       Variant="Variant.Outlined"
+                       Size="MudBlazor.Size.Large"
+                       EndIcon="@Icons.Custom.Brands.GitHub">
+                GitHub Link
+            </MudButton>
+        </div>
+    </MudItem>
+    <MudItem xs="12" md="6" Class="d-flex justify-center align-center">
+        <MudImage Src="Images/order-management.jpeg" Width="400" Height="400" Elevation="25" Class="rounded-lg mt-10" />
+    </MudItem>
+    <MudItem xs="12" md="4">
+        <div class="ml-6 mt-10">
+            <MudIcon Icon="@Icons.Material.Rounded.Timeline" Color="MudBlazor.Color.Info" Size="MudBlazor.Size.Large"></MudIcon>
+            <MudText Typo="Typo.h6" Style="font-family: Space Grotesk; font-style: normal; font-weight: 700; text-transform: none">Real-time</MudText>
+            <MudText Style="font-family: Open Sans; font-style: normal; font-weight: 600; text-transform: none;">
+                This application works in real-time. That means that all the changes that occur on another instance of this application
+                make changes on your application. That means that you will always have fresh data with which you can work
+            </MudText>
+        </div>
+    </MudItem>
+    <MudItem xs="12" md="4">
+        <div class="ml-6 mt-10">
+            <MudIcon Icon="@Icons.Material.Rounded.DesktopWindows" Color="MudBlazor.Color.Primary" Size="MudBlazor.Size.Large"></MudIcon>
+            <MudText Typo="Typo.h6" Style="font-family: Space Grotesk; font-style: normal; font-weight: 700; text-transform: none">Run anywhere</MudText>
+            <MudText Style="font-family: Open Sans; font-style: normal; font-weight: 600; text-transform: none;">
+                This application is adapted to work on desktop as well as on mobile phone. So fill free to open this app on smartphone too
+            </MudText>
+        </div>
+    </MudItem>
+    <MudItem xs="12" md="4">
+        <div class="ml-6 mt-10">
+            <MudIcon Icon="@Icons.Material.Rounded.Login" Color="MudBlazor.Color.Secondary" Size="MudBlazor.Size.Large"></MudIcon>
+            <MudText Typo="Typo.h6" Style="font-family: Space Grotesk; font-style: normal; font-weight: 700; text-transform: none">Protect your data</MudText>
+            <MudText Style="font-family: Open Sans; font-style: normal; font-weight: 600; text-transform: none;">
+                Your data and your progress is under protection of the authentication system. You can profile for yourself and 
+                be sure that only you are able to have access to your progress
+            </MudText>
+        </div>
+    </MudItem>
+    <MudItem xs="12">
+        <MudText Typo="Typo.h4" Class="ml-6 mr-6 mt-10" Style="font-family: Space Grotesk; font-style: normal; font-weight: 700; text-transform: none">
+            Powered by
+        </MudText>
+        <MudCarousel TData="object" Style="height:100px;" Class="ml-6 mt-10 mud-width-full" ShowBullets="false" EnableSwipeGesture="true" ShowArrows="false" AutoCycle="true">
+            <MudCarouselItem Style="height:100%">
+                <div class="d-flex flex-row gap-9 align-center">
+                    <MudImage Src="Images/abp-logo.png" Height="100" Width="100" />
+                    <div class="d-flex flex-column">
+                        <MudText Typo="Typo.h6" Style="font-family: Space Grotesk; font-style: normal; font-weight: 700; text-transform: none">ABP</MudText>
+                        <MudText Typo="Typo.body1">
+                            ABP Framework is a complete infrastructure for creating software solutions with modern architectures based on the ASP.NET Core platform.
+                        </MudText>
+                    </div>
+                </div>
+            </MudCarouselItem>
+            <MudCarouselItem Style="height: 100%">
+                <div class="d-flex flex-row gap-9 align-center">
+                    <MudImage Src="Images/reactiveui.png" Height="100" Width="100" />
+                    <div class="d-flex flex-column">
+                        <MudText Typo="Typo.h6" Style="font-family: Space Grotesk; font-style: normal; font-weight: 700; text-transform: none">ReactiveUI</MudText>
+                        <MudText Typo="Typo.body1">An advanced, composable, functional reactive model-view-viewmodel framework for all .NET platforms!</MudText>
+                    </div>
+                </div>
+            </MudCarouselItem>
+            <MudCarouselItem Style="height: 100%">
+                <div class="d-flex flex-row gap-9 align-center">
+                    <MudImage Src="Images/apexcharts.png" Height="100" Width="100" />
+                    <div class="d-flex flex-column">
+                        <MudText Typo="Typo.h6" Style="font-family: Space Grotesk; font-style: normal; font-weight: 700; text-transform: none">Apex Charts</MudText>
+                        <MudText Typo="Typo.body1">
+                            ApexCharts is a modern charting library that helps developers to create beautiful and interactive visualizations for web pages.
+                        </MudText>
+                    </div>
+                </div>
+            </MudCarouselItem>
+            <MudCarouselItem Style="height: 100%">
+                <div class="d-flex flex-row gap-9 align-center">
+                    <MudImage Src="Images/MudBlazor.png" Height="100" Width="100" />
+                    <div class="d-flex flex-column">
+                        <MudText Typo="Typo.h6" Style="font-family: Space Grotesk; font-style: normal; font-weight: 700; text-transform: none">MudBlazor</MudText>
+                        <MudText Typo="Typo.body1">
+                            MudBlazor is an ambitious Material Design component framework for Blazor with an emphasis on ease of use and clear structure. 
+                        </MudText>
+                    </div>
+                </div>
+            </MudCarouselItem>
+        </MudCarousel>
+    </MudItem>
+    <MudItem xs="12">
+        <MudPaper Class="pa-4 mt-10" Style="background: linear-gradient(128.87deg,#d600aa 14.05%,#cb4150 89.3%);">
+            <div class="d-flex flex-row justify-space-around">
+                <MudText Typo="Typo.h4" Style="color:white; font-family: Space Grotesk; font-style: normal; font-weight: 700; text-transform: none;">
+                    Want to contact us?
+                </MudText>
+                <div class="d-flex gap-1 flex-column">
+                    <MudText Style="color:white; font-family: Open Sans; font-style: normal; font-weight: 600; text-transform: none;">email1@email.com</MudText>
+                    <MudText Style="color:white; font-family: Open Sans; font-style: normal; font-weight: 600; text-transform: none;">email2@email.com</MudText>
+                    <MudText Style="color:white; font-family: Open Sans; font-style: normal; font-weight: 600; text-transform: none;">email3@email.com</MudText>
+                </div>
+            </div>
+        </MudPaper>
+    </MudItem>
+</MudGrid>
