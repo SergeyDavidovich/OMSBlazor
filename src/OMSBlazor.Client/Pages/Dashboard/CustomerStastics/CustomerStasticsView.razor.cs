@@ -12,6 +12,8 @@ namespace OMSBlazor.Client.Pages.Dashboard.CustomerStastics
         {
             ViewModel = CustomerStasticsViewModel;
 
+            await ViewModel.OnNavigatedTo();
+
             var theme = new Theme
             {
                 Palette = PaletteType.Palette1,

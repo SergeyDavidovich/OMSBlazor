@@ -8,7 +8,6 @@
 @implements IAsyncDisposable 
 @attribute [Authorize]
 @inject IConfiguration Configuration
-@inject ILogger<Dashboard> Logger
 <MudGrid>
     <MudItem xs="12">
         <OrderStasticsView @ref="orderStasticsView"></OrderStasticsView>
