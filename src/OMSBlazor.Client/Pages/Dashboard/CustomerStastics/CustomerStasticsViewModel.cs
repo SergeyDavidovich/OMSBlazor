@@ -43,14 +43,21 @@ namespace OMSBlazor.Client.Pages.Dashboard.CustomerStastics
                 PropertyNameCaseInsensitive = true,
             };
 
-            var purchasesByCustomersJson = await _httpClient.GetStringAsync(BackEndEnpointURLs.CustomersEndpoints.PurchasesByCustomers);
-            var customersByCountriesJson = await _httpClient.GetStringAsync(BackEndEnpointURLs.CustomersEndpoints.CustomersByCountries);
+            try
+            {
+                var purchasesByCustomersJson = await _httpClient.GetStringAsync(BackEndEnpointURLs.CustomersEndpoints.PurchasesByCustomers);
+                var customersByCountriesJson = await _httpClient.GetStringAsync(BackEndEnpointURLs.CustomersEndpoints.CustomersByCountries);
 
-            var purchasesByCustomers = JsonSerializer.Deserialize<List<PurchasesByCustomerDto>>(purchasesByCustomersJson, options);
-            var customersByCountries = JsonSerializer.Deserialize<List<CustomersByCountryDto>>(customersByCountriesJson, options);
+                var purchasesByCustomers = JsonSerializer.Deserialize<List<PurchasesByCustomerDto>>(purchasesByCustomersJson, options);
+                var customersByCountries = JsonSerializer.Deserialize<List<CustomersByCountryDto>>(customersByCountriesJson, options);
 
-            _purchasesByCustomersSource.AddOrUpdate(purchasesByCustomers);
-            _customersByCountrySource.AddOrUpdate(customersByCountries);
+                _purchasesByCustomersSource.AddOrUpdate(purchasesByCustomers);
+                _customersByCountrySource.AddOrUpdate(customersByCountries);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Exception is thrown in the {nameof(this.OnNavigatedTo)} method of the {nameof(CustomerStasticsViewModel)}", ex);
+            }
         }
 
         public ReadOnlyObservableCollection<CustomersByCountryDto> CustomersByCountries => _customersByCountries;
@@ -59,14 +66,21 @@ namespace OMSBlazor.Client.Pages.Dashboard.CustomerStastics
 
         public async Task UpdateStastics()
         {
-            var newPurchasesByCustomersJson = await _httpClient.GetStringAsync(BackEndEnpointURLs.CustomersEndpoints.PurchasesByCustomers);
-
-            var newPurchasesByCustomers = JsonSerializer.Deserialize<List<PurchasesByCustomerDto>>(newPurchasesByCustomersJson);
-
-            foreach (var purchasesByCustomer in _purchasesByCustomersSource.Items.ToList())
+            try
             {
-                purchasesByCustomer.Purchases = newPurchasesByCustomers.Single(x => x.CompanyName == purchasesByCustomer.CompanyName).Purchases;
-                _purchasesByCustomersSource.Refresh(purchasesByCustomer);
+                var newPurchasesByCustomersJson = await _httpClient.GetStringAsync(BackEndEnpointURLs.CustomersEndpoints.PurchasesByCustomers);
+
+                var newPurchasesByCustomers = JsonSerializer.Deserialize<List<PurchasesByCustomerDto>>(newPurchasesByCustomersJson);
+
+                foreach (var purchasesByCustomer in _purchasesByCustomersSource.Items.ToList())
+                {
+                    purchasesByCustomer.Purchases = newPurchasesByCustomers.Single(x => x.CompanyName == purchasesByCustomer.CompanyName).Purchases;
+                    _purchasesByCustomersSource.Refresh(purchasesByCustomer);
+                }
+            }
+            catch (Exception e)
+            {
+                throw new Exception($"Exception is thrown in the {nameof(this.UpdateStastics)} method of the {nameof(CustomerStasticsViewModel)}", e);
             }
         }
     }

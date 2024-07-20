@@ -1,6 +1,6 @@
 ﻿@inherits LayoutComponentBase
 
-<MudThemeProvider @bind-IsDarkMode="_isDarkMode"/>
+<MudThemeProvider @bind-IsDarkMode="_isDarkMode" />
 <MudPopoverProvider />
 <MudDialogProvider />
 <MudSnackbarProvider />
@@ -16,9 +16,28 @@
         <NavMenu />
     </MudDrawer>
     <MudMainContent Class="mt-16 pa-4">
-        <CascadingValue Name="IsDarkMode" Value="_isDarkMode">
-            @Body
-        </CascadingValue>
+        <ErrorBoundary>
+            <ChildContent>
+                <CascadingValue Name="IsDarkMode" Value="_isDarkMode">
+                    @Body
+                </CascadingValue>
+            </ChildContent>
+            <ErrorContent>
+                <p>Exception occured on the client side</p>
+                @if(context.InnerException is not null)
+                {
+                    @* Here we are interested in exceptions that are re-thrown from catch block *@
+                    @* Exception message contains the class and method names where exception occured *@
+                    <p>Exception message: @context.Message</p> 
+                    @* Inner exception message contains message of the exception that breaked application *@
+                    <p>Inner exception message: @context.InnerException.Message</p>
+                }
+                else
+                {
+                    <p>Exception message: @context.Message</p>
+                }
+            </ErrorContent>
+        </ErrorBoundary>
     </MudMainContent>
 </MudLayout>
 

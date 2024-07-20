@@ -34,8 +34,6 @@ namespace OMSBlazor.Client.Pages.Dashboard.CustomerStastics
             var legend = new Legend { Position = LegendPosition.Bottom, FontSize = "15px", HorizontalAlign = ApexCharts.Align.Center };
             customersByCountriesOptions.Legend = legend;
 
-            await ViewModel!.OnNavigatedTo();
-
             await purchasesByCustomersChart.UpdateOptionsAsync(true, true, true);
             await customersByCountriesChart.UpdateOptionsAsync(true, true, true);
         }

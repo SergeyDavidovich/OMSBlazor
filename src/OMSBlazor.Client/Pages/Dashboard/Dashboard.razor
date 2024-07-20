@@ -8,6 +8,7 @@
 @implements IAsyncDisposable 
 @attribute [Authorize]
 @inject IConfiguration Configuration
+@inject ILogger<Dashboard> Logger
 <MudGrid>
     <MudItem xs="12">
         <OrderStasticsView @ref="orderStasticsView"></OrderStasticsView>
@@ -33,18 +34,25 @@
 
     protected override async Task OnInitializedAsync()
     {
-        hubConnection = new HubConnectionBuilder()
-                .WithUrl($"{Configuration["BackendUrl"]}signalr-hubs/dashboard")
-                .Build();
+        try
+        {
+            hubConnection = new HubConnectionBuilder()
+                        .WithUrl($"{Configuration["BackendUrl"]}signalr-hubs/dashboard")
+                        .Build();
 
-        hubConnection.On("UpdateDashboard", async () =>
-            {
-                await orderStasticsView.UpdateStastics();
-                await customerStasticsView.UpdateStastics();
-                await employeeStasticsView.UpdateStastics();
-            });
+            hubConnection.On("UpdateDashboard", async () =>
+                {
+                    await orderStasticsView.UpdateStastics();
+                    await customerStasticsView.UpdateStastics();
+                    await employeeStasticsView.UpdateStastics();
+                });
 
-        await hubConnection.StartAsync();
+            await hubConnection.StartAsync();
+        }
+        catch (Exception e)
+        {
+            throw new Exception($"Exception is thrown in the {nameof(this.OnInitializedAsync)} method of the {nameof(Dashboard)}", e);
+        }
     }
 
     public async ValueTask DisposeAsync()

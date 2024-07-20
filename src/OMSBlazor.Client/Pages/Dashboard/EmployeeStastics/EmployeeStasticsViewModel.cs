@@ -5,6 +5,7 @@ using System.Collections.ObjectModel;
 using System.Text.Json;
 using OMSBlazor.Client.Constants;
 using OMSBlazor.Dto.Employee.Stastics;
+using OMSBlazor.Client.Pages.Dashboard.CustomerStastics;
 
 namespace OMSBlazor.Client.Pages.Dashboard.EmployeeStastics
 {
@@ -18,7 +19,7 @@ namespace OMSBlazor.Client.Pages.Dashboard.EmployeeStastics
 
         public EmployeeStasticsViewModel(HttpClient httpClient)
         {
-            _httpClient = httpClient;   
+            _httpClient = httpClient;
 
             _salesByEmployeeSource = new(x => x.ID);
 
@@ -31,26 +32,40 @@ namespace OMSBlazor.Client.Pages.Dashboard.EmployeeStastics
 
         public async Task OnNavigatedTo()
         {
-            var options = new JsonSerializerOptions
+            try
             {
-                PropertyNameCaseInsensitive = true,
-            };
+                var options = new JsonSerializerOptions
+                {
+                    PropertyNameCaseInsensitive = true,
+                };
 
-            var salesByEmployeesJson = await _httpClient.GetStringAsync(BackEndEnpointURLs.EmployeeEndpoints.SalesByEmployees);
-            var salesByEmployees = JsonSerializer.Deserialize<List<SalesByEmployeeDto>>(salesByEmployeesJson, options);
+                var salesByEmployeesJson = await _httpClient.GetStringAsync(BackEndEnpointURLs.EmployeeEndpoints.SalesByEmployees);
+                var salesByEmployees = JsonSerializer.Deserialize<List<SalesByEmployeeDto>>(salesByEmployeesJson, options);
 
-            _salesByEmployeeSource.AddOrUpdate(salesByEmployees);
+                _salesByEmployeeSource.AddOrUpdate(salesByEmployees);
+            }
+            catch (Exception e)
+            {
+                throw new Exception($"Exception is thrown in the {nameof(this.OnNavigatedTo)} method of the {nameof(EmployeeStasticsViewModel)}", e);
+            }
         }
 
         public async Task UpdateStastics()
         {
-            var newSalesByEmployeesJson = await _httpClient.GetStringAsync(BackEndEnpointURLs.EmployeeEndpoints.SalesByEmployees);
-            var newSalesByEmployee = JsonSerializer.Deserialize<List<SalesByEmployeeDto>>(newSalesByEmployeesJson);
-
-            foreach (var saleByEmployee in _salesByEmployeeSource.Items.ToList())
+            try
             {
-                saleByEmployee.Sales = newSalesByEmployee.Single(x => x.ID == saleByEmployee.ID).Sales;
-                _salesByEmployeeSource.Refresh(saleByEmployee);
+                var newSalesByEmployeesJson = await _httpClient.GetStringAsync(BackEndEnpointURLs.EmployeeEndpoints.SalesByEmployees);
+                var newSalesByEmployee = JsonSerializer.Deserialize<List<SalesByEmployeeDto>>(newSalesByEmployeesJson);
+
+                foreach (var saleByEmployee in _salesByEmployeeSource.Items.ToList())
+                {
+                    saleByEmployee.Sales = newSalesByEmployee.Single(x => x.ID == saleByEmployee.ID).Sales;
+                    _salesByEmployeeSource.Refresh(saleByEmployee);
+                }
+            }
+            catch (Exception e)
+            {
+                throw new Exception($"Exception is thrown in the {nameof(this.UpdateStastics)} method of the {nameof(EmployeeStasticsViewModel)}", e);
             }
         }
 

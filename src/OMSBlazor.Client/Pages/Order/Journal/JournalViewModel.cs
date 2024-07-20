@@ -6,6 +6,7 @@ using System.Text.Json;
 using OMSBlazor.Client.Constants;
 using OMSBlazor.Dto.Order;
 using System.Net.Http.Json;
+using OMSBlazor.Client.Pages.Order.Create;
 
 namespace OMSBlazor.Client.Pages.Order.Journal
 {
@@ -13,6 +14,7 @@ namespace OMSBlazor.Client.Pages.Order.Journal
     {
         #region Declarations
         private readonly HttpClient _httpClient;
+
         List<SelectableOrderDto> _cachedCollection;
 
         SourceCache<SelectableOrderDto, int> _sourceOrders;
@@ -22,6 +24,7 @@ namespace OMSBlazor.Client.Pages.Order.Journal
         public JournalViewModel(HttpClient httpClient)
         {
             _httpClient = httpClient;
+
             _cachedCollection = new List<SelectableOrderDto>();
             _sourceOrders = new SourceCache<SelectableOrderDto, int>(x => x.SourceOrderDto.OrderId);
 
@@ -71,17 +74,24 @@ namespace OMSBlazor.Client.Pages.Order.Journal
 
         public async Task OnNavigatedTo()
         {
-            var options = new JsonSerializerOptions
+            try
             {
-                PropertyNameCaseInsensitive = true,
-            };
+                var options = new JsonSerializerOptions
+                {
+                    PropertyNameCaseInsensitive = true,
+                };
 
-            var ordersJson = await _httpClient.GetStringAsync(BackEndEnpointURLs.OrderEndpoints.GetOrders);
-            var orders = JsonSerializer.Deserialize<List<OrderDto>>(ordersJson, options);
+                var ordersJson = await _httpClient.GetStringAsync(BackEndEnpointURLs.OrderEndpoints.GetOrders);
+                var orders = JsonSerializer.Deserialize<List<OrderDto>>(ordersJson, options);
 
-            var selectablesOrders = orders.Select(x => new SelectableOrderDto(x)).ToList();
-            _cachedCollection = selectablesOrders;
-            _sourceOrders.AddOrUpdate(selectablesOrders);
+                var selectablesOrders = orders.Select(x => new SelectableOrderDto(x)).ToList();
+                _cachedCollection = selectablesOrders;
+                _sourceOrders.AddOrUpdate(selectablesOrders);
+            }
+            catch (Exception e)
+            {
+                throw new Exception($"Exception is thrown in the {nameof(this.OnNavigatedTo)} method of the {nameof(JournalViewModel)}", e);
+            }
         }
 
         #region Commands
@@ -89,20 +99,27 @@ namespace OMSBlazor.Client.Pages.Order.Journal
 
         private async Task<byte[]> ChangeSelectOrderHandler(int orderId)
         {
-            var previouSelectedOrder = _sourceOrders.Items.SingleOrDefault(x => x.IsSelcted);
-
-            if (previouSelectedOrder is not null)
+            try
             {
-                previouSelectedOrder.IsSelcted = false;
+                var previouSelectedOrder = _sourceOrders.Items.SingleOrDefault(x => x.IsSelcted);
+
+                if (previouSelectedOrder is not null)
+                {
+                    previouSelectedOrder.IsSelcted = false;
+                }
+
+                var order = _sourceOrders.Items.Single(x => x.SourceOrderDto.OrderId == orderId);
+                order.IsSelcted = true;
+
+                var response = await _httpClient.GetAsync(BackEndEnpointURLs.OrderEndpoints.GetUrlForInvoice(order.SourceOrderDto.OrderId));
+                var arr = await response.Content.ReadFromJsonAsync<byte[]>();
+
+                return arr;
             }
-
-            var order = _sourceOrders.Items.Single(x => x.SourceOrderDto.OrderId == orderId);
-            order.IsSelcted = true;
-
-            var response = await _httpClient.GetAsync(BackEndEnpointURLs.OrderEndpoints.GetUrlForInvoice(order.SourceOrderDto.OrderId));
-            var arr = await response.Content.ReadFromJsonAsync<byte[]>();
-
-            return arr;
+            catch (Exception e)
+            {
+                throw new Exception($"Exception is thrown in the {nameof(this.ChangeSelectedOrderCommand)} method of the {nameof(JournalViewModel)}", e);
+            }
         }
         #endregion
     }

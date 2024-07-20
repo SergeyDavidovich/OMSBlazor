@@ -13,6 +13,7 @@ using OMSBlazor.Dto.Product;
 using OMSBlazor.Dto.Order;
 using System.Text;
 using MudBlazor;
+using OMSBlazor.Client.Pages.Dashboard.OrderStastics;
 
 namespace OMSBlazor.Client.Pages.Order.Create
 {
@@ -124,6 +125,9 @@ namespace OMSBlazor.Client.Pages.Order.Create
 
         private async Task<byte[]> CreateOrderExecute()
         {
+            // When user clicks on "create order" button this function is runed
+            // And if exception occurs, this exception will be pushed to the ThrowException observable
+            // I subscribe to this observable in the code-behind so there is no need to use try-catch contstruction here
             CreateOrderDto newOrder = new CreateOrderDto();
             string shipCountry = "USA";
 
@@ -277,43 +281,50 @@ namespace OMSBlazor.Client.Pages.Order.Create
         /// <returns></returns>
         public async Task OnNavigatedTo()
         {
-            var options = new JsonSerializerOptions
+            try
             {
-                PropertyNameCaseInsensitive = true,
-            };
+                var options = new JsonSerializerOptions
+                {
+                    PropertyNameCaseInsensitive = true,
+                };
 
-            if (products.Count == 0)
-            {
-                var productsJson = await _httpClient.GetStringAsync(BackEndEnpointURLs.ProductEndpoints.GetProducts);
+                if (products.Count == 0)
+                {
+                    var productsJson = await _httpClient.GetStringAsync(BackEndEnpointURLs.ProductEndpoints.GetProducts);
 
-                productsList = JsonSerializer.Deserialize<List<ProductDto>>(productsJson, options);
-                var listOfProductsOnStore = productsList.Select(b => new ProductOnStore(b));
-                products.AddOrUpdate(listOfProductsOnStore);
+                    productsList = JsonSerializer.Deserialize<List<ProductDto>>(productsJson, options);
+                    var listOfProductsOnStore = productsList.Select(b => new ProductOnStore(b));
+                    products.AddOrUpdate(listOfProductsOnStore);
+                }
+                if (employees.Count == 0)
+                {
+                    var employeesJson = await _httpClient.GetStringAsync(BackEndEnpointURLs.EmployeeEndpoints.GetEmployees);
+
+                    var employeesList = JsonSerializer.Deserialize<List<EmployeeDto>>(employeesJson, options);
+                    employees.AddRange(employeesList);
+                }
+                if (customers.Count == 0)
+                {
+                    var customersJson = await _httpClient.GetStringAsync(BackEndEnpointURLs.CustomersEndpoints.GetCustomers);
+
+                    var customerList = JsonSerializer.Deserialize<List<CustomerDto>>(customersJson, options);
+                    customers.AddRange(customerList);
+                }
+
+                productHubConnection.On<int, int>("UpdateQuantity", (productId, quantity) =>
+                {
+                    var product = ProductsInStore.Single(x => x.ProductID == productId);
+                    product.UnitsInStock -= quantity;
+                    this.RaisePropertyChanged(nameof(ProductsInStore));
+                });
+
+                await productHubConnection.StartAsync();
+                await dashboardHubConnection.StartAsync();
             }
-            if (employees.Count == 0)
+            catch (Exception e)
             {
-                var employeesJson = await _httpClient.GetStringAsync(BackEndEnpointURLs.EmployeeEndpoints.GetEmployees);
-
-                var employeesList = JsonSerializer.Deserialize<List<EmployeeDto>>(employeesJson, options);
-                employees.AddRange(employeesList);
+                throw new Exception($"Exception is thrown in the {nameof(this.OnNavigatedTo)} method of the {nameof(CreateViewModel)}", e);
             }
-            if (customers.Count == 0)
-            {
-                var customersJson = await _httpClient.GetStringAsync(BackEndEnpointURLs.CustomersEndpoints.GetCustomers);
-
-                var customerList = JsonSerializer.Deserialize<List<CustomerDto>>(customersJson, options);
-                customers.AddRange(customerList);
-            }
-
-            productHubConnection.On<int, int>("UpdateQuantity", (productId, quantity) =>
-            {
-                var product = ProductsInStore.Single(x => x.ProductID == productId);
-                product.UnitsInStock -= quantity;
-                this.RaisePropertyChanged(nameof(ProductsInStore));
-            });
-
-            await productHubConnection.StartAsync();
-            await dashboardHubConnection.StartAsync();
         }
 
         public async ValueTask DisposeAsync()

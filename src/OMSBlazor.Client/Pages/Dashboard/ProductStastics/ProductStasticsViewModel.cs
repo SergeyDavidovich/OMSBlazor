@@ -1,5 +1,6 @@
 ﻿using DynamicData;
 using OMSBlazor.Client.Constants;
+using OMSBlazor.Client.Pages.Dashboard.OrderStastics;
 using OMSBlazor.Dto.Product.Stastics;
 using ReactiveUI;
 using System.Collections.ObjectModel;
@@ -29,15 +30,22 @@ namespace OMSBlazor.Client.Pages.Dashboard.ProductStastics
 
         public async Task OnNavigatedTo()
         {
-            var options = new JsonSerializerOptions
+            try
             {
-                PropertyNameCaseInsensitive = true,
-            };
+                var options = new JsonSerializerOptions
+                {
+                    PropertyNameCaseInsensitive = true,
+                };
 
-            var productsByCategoriesJson = await _httpClient.GetStringAsync(BackEndEnpointURLs.ProductEndpoints.ProductByCategories);
-            var productsByCategories = JsonSerializer.Deserialize<List<ProductsByCategoryDto>>(productsByCategoriesJson, options);
+                var productsByCategoriesJson = await _httpClient.GetStringAsync(BackEndEnpointURLs.ProductEndpoints.ProductByCategories);
+                var productsByCategories = JsonSerializer.Deserialize<List<ProductsByCategoryDto>>(productsByCategoriesJson, options);
 
-            _productsByCategoriesSource.AddOrUpdate(productsByCategories);
+                _productsByCategoriesSource.AddOrUpdate(productsByCategories);
+            }
+            catch (Exception e)
+            {
+                throw new Exception($"Exception is thrown in the {nameof(this.OnNavigatedTo)} method of the {nameof(ProductStasticsViewModel)}", e);
+            }
         }
 
         public ReadOnlyObservableCollection<ProductsByCategoryDto> ProductsByCategories => _productsByCategories;

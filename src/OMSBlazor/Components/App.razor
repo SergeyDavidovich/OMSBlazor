@@ -14,7 +14,26 @@
 </head>
 
 <body>
-    <Routes @rendermode="RenderModeForPage" />
+    <ErrorBoundary>
+        <ChildContent>
+            <Routes @rendermode="RenderModeForPage" />
+        </ChildContent>
+        <ErrorContent>
+            <p>Exception occured on the server side</p>
+            @if (context.InnerException is not null)
+            {
+                @* Here we are interested in exceptions that are re-thrown from catch block *@
+                @* Exception message contains the class and method names where exception occured *@
+                <p>Exception message: @context.Message</p>
+                @* Inner exception message contains message of the exception that breaked application *@
+                <p>Inner exception message: @context.InnerException.Message</p>
+            }
+            else
+            {
+                <p>Exception message: @context.Message</p>
+            }
+        </ErrorContent>
+    </ErrorBoundary>
     <script src="_framework/blazor.web.js"></script>
     <script src="_content/MudBlazor/MudBlazor.min.js"></script>
 </body>
