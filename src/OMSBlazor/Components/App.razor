@@ -14,9 +14,21 @@
 </head>
 
 <body>
+    <MudThemeProvider />
+    <MudPopoverProvider />
+    <MudDialogProvider />
+    <MudSnackbarProvider />
+
     <ErrorBoundary>
         <ChildContent>
-            <Routes @rendermode="RenderModeForPage" />
+            @if (HttpContext.Request.Path.StartsWithSegments("/"))
+            {
+                <OMSBlazor.Client.Pages.Home @rendermode="InteractiveAuto"></OMSBlazor.Client.Pages.Home>
+            }
+            else
+            {   
+                <Routes @rendermode="RenderModeForPage" />
+            }
         </ChildContent>
         <ErrorContent>
             <p>Exception occured on the server side</p>
@@ -34,6 +46,7 @@
             }
         </ErrorContent>
     </ErrorBoundary>
+
     <script src="_framework/blazor.web.js"></script>
     <script src="_content/MudBlazor/MudBlazor.min.js"></script>
 </body>

@@ -1,6 +1,6 @@
 ﻿@page "/"
 
-<MudGrid>
+<MudGrid Style="--tw-bg-opacity: 1; background-color: rgb(250 250 250 / var(--tw-bg-opacity));">
     <MudItem xs="12" md="6">
         <MudText Class="mt-10 ml-6 mr-6" Style="font-family: 'Space Grotesk'; font-style: normal; font-weight: 700; text-transform: none;" Typo="Typo.h3">
             Create, analyze and store your
@@ -37,40 +37,69 @@
         <MudImage Src="Images/order-management.jpeg" Width="400" Height="400" Elevation="25" Class="rounded-lg mt-10" />
     </MudItem>
     <MudItem xs="12" md="4">
-        <div class="ml-6 mt-10">
-            <MudIcon Icon="@Icons.Material.Rounded.Timeline" Color="MudBlazor.Color.Info" Size="MudBlazor.Size.Large"></MudIcon>
-            <MudText Typo="Typo.h6" Style="font-family: 'Space Grotesk'; font-style: normal; font-weight: 700; text-transform: none">Real-time</MudText>
-            <MudText Style="font-family: 'Open Sans'; font-style: normal; font-weight: 600; text-transform: none;">
-                This application works in real-time. That means that all the changes that occur on another instance of this application
-                make changes on your application. That means that you will always have fresh data with which you can work
-            </MudText>
+        <div class="ml-6 mt-10" style="height:100%">
+            <MudCard Elevation="3" Style="height: 100%">
+                <MudCardHeader>
+                    <CardHeaderContent>
+                        <div class="d-flex flex-column align-center">
+                            <MudIcon Icon="@Icons.Material.Rounded.Timeline" Color="MudBlazor.Color.Info" Size="MudBlazor.Size.Large"></MudIcon>
+                            <MudText Typo="Typo.h6" Style="font-family: 'Space Grotesk'; font-style: normal; font-weight: 700; text-transform: none">Real-time</MudText>
+                        </div>
+                    </CardHeaderContent>
+                </MudCardHeader>
+                <MudCardContent>
+                    <MudText Align="MudBlazor.Align.Center" Style="font-family: 'Open Sans'; font-style: normal; font-weight: 600; text-transform: none;">
+                        This application works in real-time. That means that all the changes that occur on another instance of this application
+                        make changes on your application. 
+                    </MudText>
+                </MudCardContent>
+            </MudCard>
         </div>
     </MudItem>
     <MudItem xs="12" md="4">
-        <div class="ml-6 mt-10">
-            <MudIcon Icon="@Icons.Material.Rounded.DesktopWindows" Color="MudBlazor.Color.Primary" Size="MudBlazor.Size.Large"></MudIcon>
-            <MudText Typo="Typo.h6" Style="font-family: 'Space Grotesk'; font-style: normal; font-weight: 700; text-transform: none">Run anywhere</MudText>
-            <MudText Style="font-family: 'Open Sans'; font-style: normal; font-weight: 600; text-transform: none;">
-                This application is adapted to work on desktop as well as on mobile phone. So fill free to open this app on smartphone too
-            </MudText>
+        <div class="ml-6 mt-10" style="height:100%">
+            <MudCard Elevation="3" Style="height: 100%">
+                <MudCardHeader>
+                    <CardHeaderContent>
+                        <div class="d-flex flex-column align-center">
+                            <MudIcon Icon="@Icons.Material.Rounded.DesktopWindows" Color="MudBlazor.Color.Primary" Size="MudBlazor.Size.Large"></MudIcon>
+                            <MudText Typo="Typo.h6" Style="font-family: 'Space Grotesk'; font-style: normal; font-weight: 700; text-transform: none">Run anywhere</MudText>
+                        </div>
+                    </CardHeaderContent>
+                </MudCardHeader>
+                <MudCardContent>
+                    <MudText Align="MudBlazor.Align.Center" Style="font-family: 'Open Sans'; font-style: normal; font-weight: 600; text-transform: none;">
+                        This application is adapted to work on desktop as well as on mobile phone. So fill free to open this app on smartphone too
+                    </MudText>
+                </MudCardContent>
+            </MudCard>
         </div>
     </MudItem>
     <MudItem xs="12" md="4">
-        <div class="ml-6 mt-10">
-            <MudIcon Icon="@Icons.Material.Rounded.Login" Color="MudBlazor.Color.Secondary" Size="MudBlazor.Size.Large"></MudIcon>
-            <MudText Typo="Typo.h6" Style="font-family: 'Space Grotesk'; font-style: normal; font-weight: 700; text-transform: none">Protect your data</MudText>
-            <MudText Style="font-family: 'Open Sans'; font-style: normal; font-weight: 600; text-transform: none;">
-                Your data and your progress is under protection of the authentication system. You can profile for yourself and
-                be sure that only you are able to have access to your progress
-            </MudText>
+        <div class="ml-6 mr-6 mt-10" style="height:100%">
+            <MudCard Style="height:100%" Elevation="3">
+                <MudCardHeader>
+                    <CardHeaderContent>
+                        <div class="d-flex flex-column align-center">
+                            <MudIcon Icon="@Icons.Material.Rounded.Login" Color="MudBlazor.Color.Secondary" Size="MudBlazor.Size.Large"></MudIcon>
+                            <MudText Typo="Typo.h6" Style="font-family: 'Space Grotesk'; font-style: normal; font-weight: 700; text-transform: none">Protect your data</MudText>
+                        </div>
+                    </CardHeaderContent>
+                </MudCardHeader>
+                <MudCardContent>
+                    <MudText Align="MudBlazor.Align.Center" Style="font-family: 'Open Sans'; font-style: normal; font-weight: 600; text-transform: none;">
+                        Your data and your progress is under protection of the authentication system. Be sure that only you are able to have access to your progress
+                    </MudText>
+                </MudCardContent>
+            </MudCard>
         </div>
     </MudItem>
     <MudItem xs="12">
-        <MudText Typo="Typo.h4" Class="ml-6 mr-6 mt-10" Style="font-family: 'Space Grotesk'; font-style: normal; font-weight: 700; text-transform: none">
+        <MudText Typo="Typo.h4" Class="ml-6 mt-10" Style="font-family: 'Space Grotesk'; font-style: normal; font-weight: 700; text-transform: none">
             Powered by
         </MudText>
         <MudCarousel TData="object" Style="height:200px;" Class="ml-6 mr-6 mt-10 mud-width-full" ShowBullets="false" EnableSwipeGesture="true" ShowArrows="false" AutoCycle="true">
-            <MudCarouselItem Style="height:100%">
+            <MudCarouselItem Style="height:100%" Transition="Transition.Fade">
                 <div class="d-flex flex-row gap-9 ma-5 align-center">
                     <MudImage Src="Images/abp-logo.png" Height="100" Width="100" />
                     <div class="d-flex flex-column">
@@ -81,7 +110,7 @@
                     </div>
                 </div>
             </MudCarouselItem>
-            <MudCarouselItem Style="height: 100%">
+            <MudCarouselItem Style="height: 100%" Transition="Transition.Fade">
                 <div class="d-flex flex-row gap-9 ma-5 align-center">
                     <MudImage Src="Images/reactiveui.png" Height="100" Width="100" />
                     <div class="d-flex flex-column">
@@ -90,7 +119,7 @@
                     </div>
                 </div>
             </MudCarouselItem>
-            <MudCarouselItem Style="height: 100%">
+            <MudCarouselItem Style="height: 100%" Transition="Transition.Fade">
                 <div class="d-flex flex-row gap-9 ma-5 align-center">
                     <MudImage Src="Images/apexcharts.png" Height="100" Width="100" />
                     <div class="d-flex flex-column">
@@ -101,7 +130,7 @@
                     </div>
                 </div>
             </MudCarouselItem>
-            <MudCarouselItem Style="height: 100%">
+            <MudCarouselItem Style="height: 100%" Transition="Transition.Fade">
                 <div class="d-flex flex-row gap-9 ma-5 align-center">
                     <MudImage Src="Images/MudBlazor.png" Height="100" Width="100" />
                     <div class="d-flex flex-column">
@@ -115,7 +144,7 @@
         </MudCarousel>
     </MudItem>
     <MudItem xs="12">
-        <MudPaper Class="pa-4 mt-10" Style="background: linear-gradient(128.87deg,#d600aa 14.05%,#cb4150 89.3%);">
+        <MudPaper Class="pa-4 ma-10" Style="background: linear-gradient(128.87deg,#d600aa 14.05%,#cb4150 89.3%);">
             <div class="d-flex flex-row justify-space-around">
                 <MudText Typo="Typo.h4" Style="color:white; font-family: 'Space Grotesk'; font-style: normal; font-weight: 700; text-transform: none;">
                     Want to contact us?
