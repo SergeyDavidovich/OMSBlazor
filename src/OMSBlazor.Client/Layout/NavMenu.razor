@@ -3,14 +3,20 @@
 @inject NavigationManager NavigationManager
 
 <MudNavMenu Class="z-10">
-    <MudNavLink Href="orders" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Edit">Orders</MudNavLink>
-    <MudNavLink Href="dashboard" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Dashboard">Dashboard</MudNavLink>
-
-    <MudDivider DividerType="DividerType.Inset" />
 
     <AuthorizeView>
         <Authorized>
-            <MudNavLink Href="Account/Manage" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Person">@context.User.Identity?.Name</MudNavLink>
+            <MudContainer>
+                <MudStack Class="m-2" Row="true">
+                    <MudBadge Color="MudBlazor.Color.Success" Overlap="true" Bordered="true">
+                        <MudAvatar Size="MudBlazor.Size.Medium">
+                            <MudImage Src="Images/avatar1.png"></MudImage>
+                        </MudAvatar>
+                    </MudBadge>
+                    <MudLink Typo="Typo.h6" Href="Account/Manage">@context.User.Identity?.Name</MudLink>
+                </MudStack>
+            </MudContainer>
+
             <MudMenuItem>
                 <form action="Account/Logout" method="post">
                     <AntiforgeryToken />
@@ -24,6 +30,12 @@
             <MudNavLink Href="Account/Login" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Password">Login</MudNavLink>
         </NotAuthorized>
     </AuthorizeView>
+
+    <MudDivider DividerType="DividerType.Inset" />
+
+    <MudNavLink Href="" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Home">Home</MudNavLink>
+    <MudNavLink Href="orders" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Edit">Orders</MudNavLink>
+    <MudNavLink Href="dashboard" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Dashboard">Dashboard</MudNavLink>
 </MudNavMenu>
 
 
