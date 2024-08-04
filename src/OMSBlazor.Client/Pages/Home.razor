@@ -1,23 +1,28 @@
 ﻿@page "/"
 
-<MudGrid Style="--tw-bg-opacity: 1; background-color: rgb(250 250 250 / var(--tw-bg-opacity));">
-    <MudItem xs="12" md="6">
-        <MudText Class="mt-10 ml-6 mr-6" Style="font-family: 'Space Grotesk'; font-style: normal; font-weight: 700; text-transform: none;" Typo="Typo.h3">
-            Create, analyze and store your
+<MudThemeProvider IsDarkMode="@IsDarkMode" Theme="MyCustomTheme" />
+
+<MudGrid Class="pa-15 background">
+    <MudItem xs="12">
+        <MudIconButton Icon="@(DarkLightModeButtonIcon)" Color="MudBlazor.Color.Inherit" OnClick="@DarkModeSwitched" />
+    </MudItem>
+    <MudItem xs="12" md="6" Class="mb-5">
+        <MudText Class="mt-10" Style="font-style: normal; text-transform: none;" Typo="Typo.h3">
+            Create, store, analyze, track, and complete your
         </MudText>
-        <MudText Class="ml-6 mr-6" Typo="Typo.h3" Style="-webkit-background-clip: text !important; -webkit-text-fill-color: transparent; background: linear-gradient(128.87deg,#d600aa 14.05%,#cb4150 89.3%);font-family: 'Space Grotesk'; font-style: normal; font-weight: 700; text-transform: none;">
+        <MudText Typo="Typo.h3" Style="-webkit-background-clip: text !important; -webkit-text-fill-color: transparent; background: linear-gradient(128.87deg,#d600aa 14.05%,#cb4150 89.3%);font-family: 'Space Grotesk'; font-style: normal; font-weight: 700; text-transform: none;">
             Orders
         </MudText>
-        <MudText Class="ml-6 mr-6" Style="font-family: 'Space Grotesk'; font-style: normal; font-weight: 700; text-transform: none;" Typo="Typo.h3">
+        <MudText Style="font-family: 'Space Grotesk'; font-style: normal; font-weight: 700; text-transform: none;" Typo="Typo.h3">
             better with
         </MudText>
-        <MudText Class="ml-6 mr-6" Typo="Typo.h3" Style="font-family: 'Space Grotesk'; font-style: normal; font-weight: 700; text-transform: none">
+        <MudText Typo="Typo.h3" Style="font-family: 'Space Grotesk'; font-style: normal; font-weight: 700; text-transform: none">
             Order Managment System
         </MudText>
-        <MudText Class="mt-4 ml-6 mr-6" Style="font-family: 'Open Sans'; font-style: normal; font-weight: 600; text-transform: none;">
-            Our application is good for your if you want to know in what state your buisiness is at the current second
+        <MudText Class="mt-4" Style="font-family: 'Open Sans'; font-style: normal; font-weight: 600; text-transform: none;">
+            This site does not claim to be a model of a real system. This is a sample of our development, With your requirements, this will turn into it
         </MudText>
-        <div class="d-flex flex-row mt-4 ml-6 gap-2 mr-6">
+        <div class="d-flex flex-row mt-4 gap-2">
             <MudButton Href="/orders"
                        Variant="Variant.Filled"
                        Color="MudBlazor.Color.Primary"
@@ -33,11 +38,11 @@
             </MudButton>
         </div>
     </MudItem>
-    <MudItem xs="12" md="6" Class="d-flex justify-center align-center">
-        <MudImage Src="Images/order-management.jpeg" Width="400" Height="400" Elevation="25" Class="rounded-lg mt-10" />
+    <MudItem xs="12" md="6" Class="d-flex justify-center align-center mb-5">
+        <MudImage Src="Images/CoverPageImage.svg" Fluid="true" Class="rounded-lg ma-10" />
     </MudItem>
-    <MudItem xs="12" md="4" Class="mud-theme-secondary mt-5 pb-6">
-        <div class="ml-6" style="height:100%">
+    <MudItem xs="12" md="4" Class="mud-theme-secondary pb-6">
+        <div class="mr-6" style="height:100%">
             <MudCard Elevation="3" Style="height: 100%">
                 <MudCardHeader>
                     <CardHeaderContent>
@@ -50,14 +55,14 @@
                 <MudCardContent>
                     <MudText Align="MudBlazor.Align.Center" Style="font-family: 'Open Sans'; font-style: normal; font-weight: 600; text-transform: none;">
                         This application works in real-time. That means that all the changes that occur on another instance of this application
-                        make changes on your application. 
+                        make changes on your application.
                     </MudText>
                 </MudCardContent>
             </MudCard>
         </div>
     </MudItem>
-    <MudItem xs="12" md="4" Class="mud-theme-secondary mt-5 pb-6">
-        <div class="ml-6" style="height:100%">
+    <MudItem xs="12" md="4" Class="mud-theme-secondary pb-6">
+        <div class="mr-6" style="height:100%">
             <MudCard Elevation="3" Style="height: 100%">
                 <MudCardHeader>
                     <CardHeaderContent>
@@ -75,8 +80,8 @@
             </MudCard>
         </div>
     </MudItem>
-    <MudItem xs="12" md="4" Class="mud-theme-secondary mt-5 pb-6">
-        <div class="ml-6 mr-6" style="height:100%">
+    <MudItem xs="12" md="4" Class="mud-theme-secondary pb-6">
+        <div class="mr-6" style="height:100%">
             <MudCard Style="height:100%" Elevation="3">
                 <MudCardHeader>
                     <CardHeaderContent>
@@ -156,3 +161,48 @@
         </MudPaper>
     </MudItem>
 </MudGrid>
+
+<style>
+    .background {
+        background-image: url(../Images/Background-gradient.svg), url(../Images/Background-waves.svg);
+        background-repeat: no-repeat, no-repeat;
+        background-position: top,bottom;
+        background-size: cover, auto;
+    }
+</style>
+
+@code {
+    MudTheme MyCustomTheme = new MudTheme()
+        {
+            Typography = new Typography()
+            {
+                H3 = new H3()
+                {
+                    FontFamily = new[] { "Space Grotesk" },
+                    FontWeight = 700,
+                    FontSize = "2.25rem",
+                }
+                // H6 = new H6()
+                // {
+                //     FontFamily = new[] { "Roboto", "Helvetica", "Arial", "sans-serif" },
+                //     FontSize = "1.25rem",
+                //     FontWeight = 500,
+                //     LineHeight = 1.6,
+                //     LetterSpacing = ".0075em",
+                // }
+            }
+        };
+
+    public string DarkLightModeButtonIcon => IsDarkMode switch
+    {
+        true => Icons.Material.Rounded.DarkMode,
+        false => Icons.Material.Outlined.LightMode,
+    };
+
+    private bool IsDarkMode { get; set; }
+
+    private void DarkModeSwitched(MouseEventArgs args)
+    {
+        IsDarkMode = !IsDarkMode;
+    }
+}

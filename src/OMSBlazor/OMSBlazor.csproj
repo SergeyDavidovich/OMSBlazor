@@ -37,9 +37,6 @@
 			<CopyToPublishDirectory>Never</CopyToPublishDirectory>
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</Content>
-		<Content Update="wwwroot\Images\order-management.jpeg">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</Content>
 	</ItemGroup>
 
 </Project>

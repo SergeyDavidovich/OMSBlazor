@@ -2,7 +2,7 @@
 
 @inject NavigationManager NavigationManager
 
-<MudNavMenu Class="z-10">
+<MudNavMenu>
 
     <AuthorizeView>
         <Authorized>
@@ -21,7 +21,7 @@
                 <form action="Account/Logout" method="post">
                     <AntiforgeryToken />
                     <input type="hidden" name="ReturnUrl" value="@currentUrl" />
-                    <MudButton FullWidth="true" ButtonType="ButtonType.Submit" StartIcon="@Icons.Material.Filled.Logout">Logout</MudButton>
+                    <MudButton FullWidth="true" ButtonType="ButtonType.Submit" Style="@($"color:{Theme.PaletteDark.White};")" StartIcon="@Icons.Material.Filled.Logout">Logout</MudButton>
                 </form>
             </MudMenuItem>
         </Authorized>
@@ -31,7 +31,7 @@
         </NotAuthorized>
     </AuthorizeView>
 
-    <MudDivider DividerType="DividerType.Inset" />
+    <MudDivider DividerType="DividerType.Middle" />
 
     <MudNavLink Href="" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Home">Home</MudNavLink>
     <MudNavLink Href="orders" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Edit">Orders</MudNavLink>
@@ -40,6 +40,7 @@
 
 
 @code {
+    private MudTheme Theme = new MudTheme();
     private string? currentUrl;
 
     protected override void OnInitialized()
