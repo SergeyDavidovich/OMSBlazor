@@ -1,0 +1,52 @@
+﻿<MudCarousel TData="object" Style="@Style" Class="@Class" ShowBullets="false" EnableSwipeGesture="true" ShowArrows="false" AutoCycle="true">
+    <MudCarouselItem Style="height:100%" Transition="Transition.Fade">
+        <div class="d-flex flex-row gap-9 ma-5 justify-center align-center">
+            <MudImage Src="Images/abp.svg" Height="100" Width="100" />
+            <div class="d-flex flex-column">
+                <MudText Typo="Typo.h6" Style="font-family: 'Space Grotesk'; font-style: normal; font-weight: 700; text-transform: none">ABP</MudText>
+                <MudText Typo="Typo.body1">
+                    ABP Framework is a complete infrastructure for creating software solutions with modern architectures based on the ASP.NET Core platform.
+                </MudText>
+            </div>
+        </div>
+    </MudCarouselItem>
+    <MudCarouselItem Style="height: 100%" Transition="Transition.Fade">
+        <div class="d-flex flex-row gap-9 ma-5 align-center justify-center align-center">
+            <MudImage Src="Images/reactiveui.png" Height="100" Width="100" />
+            <div class="d-flex flex-column">
+                <MudText Typo="Typo.h6" Style="font-family: 'Space Grotesk'; font-style: normal; font-weight: 700; text-transform: none">ReactiveUI</MudText>
+                <MudText Typo="Typo.body1">An advanced, composable, functional reactive model-view-viewmodel framework for all .NET platforms!</MudText>
+            </div>
+        </div>
+    </MudCarouselItem>
+    <MudCarouselItem Style="height: 100%" Transition="Transition.Fade">
+        <div class="d-flex flex-row gap-9 ma-5 align-center justify-center align-center">
+            <MudImage Src="Images/apexcharts.png" Height="100" Width="100" />
+            <div class="d-flex flex-column">
+                <MudText Typo="Typo.h6" Style="font-family: 'Space Grotesk'; font-style: normal; font-weight: 700; text-transform: none">Apex Charts</MudText>
+                <MudText Typo="Typo.body1">
+                    ApexCharts is a modern charting library that helps developers to create beautiful and interactive visualizations for web pages.
+                </MudText>
+            </div>
+        </div>
+    </MudCarouselItem>
+    <MudCarouselItem Style="height: 100%" Transition="Transition.Fade">
+        <div class="d-flex flex-row gap-9 ma-5 align-center justify-center align-center">
+            <MudImage Src="Images/MudBlazor.png" Height="100" Width="100" />
+            <div class="d-flex flex-column">
+                <MudText Typo="Typo.h6" Style="font-family: 'Space Grotesk'; font-style: normal; font-weight: 700; text-transform: none">MudBlazor</MudText>
+                <MudText Typo="Typo.body1">
+                    MudBlazor is an ambitious Material Design component framework for Blazor with an emphasis on ease of use and clear structure.
+                </MudText>
+            </div>
+        </div>
+    </MudCarouselItem>
+</MudCarousel>
+
+@code {
+    [Parameter]
+    public string? Style { get; set; }
+
+    [Parameter]
+    public string? Class { get; set; }
+}

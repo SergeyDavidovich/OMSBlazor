@@ -7,6 +7,18 @@
 		<UserSecretsId>aspnet-OMSBlazor-6595ceab-52e5-42b6-b920-40eb595ae728</UserSecretsId>
 	</PropertyGroup>
 
+	<ItemGroup>
+	  <Content Remove="wwwroot\Images\abp.svg" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <_ContentIncludedByDefault Remove="wwwroot\Images\abp.svg" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Include="wwwroot\Images\abp.svg" />
+	</ItemGroup>
+
 
 	<ItemGroup>
 		<ProjectReference Include="..\OMSBlazor.Client\OMSBlazor.Client.csproj" />
