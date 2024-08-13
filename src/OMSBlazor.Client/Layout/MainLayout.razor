@@ -1,6 +1,8 @@
 ﻿@using OMSBlazor.Client.Services
 @inherits LayoutComponentBase
+@implements IDisposable
 @inject IDarkModeService DarkModeService
+@inject PersistentComponentState ApplicationState
 
 <MudThemeProvider @bind-IsDarkMode="_isDarkMode" />
 <MudPopoverProvider />
@@ -29,11 +31,11 @@
             </ChildContent>
             <ErrorContent>
                 <p>Exception occured on the client side</p>
-                @if(context.InnerException is not null)
+                @if (context.InnerException is not null)
                 {
                     @* Here we are interested in exceptions that are re-thrown from catch block *@
                     @* Exception message contains the class and method names where exception occured *@
-                    <p>Exception message: @context.Message</p> 
+                    <p>Exception message: @context.Message</p>
                     @* Inner exception message contains message of the exception that breaked application *@
                     <p>Inner exception message: @context.InnerException.Message</p>
                 }
@@ -62,6 +64,7 @@
 </style>
 
 @code {
+    private PersistingComponentStateSubscription persistingSubscription;
     private MudTheme Theme = new MudTheme();
     private bool _isDarkMode = false;
     private bool _drawerOpen = false;
@@ -85,7 +88,29 @@
 
     protected override async Task OnInitializedAsync()
     {
-        _isDarkMode = await DarkModeService.GetIsDarkMode();
+        persistingSubscription = ApplicationState.RegisterOnPersisting(PersistIsDarkMode);
+
+        if (!ApplicationState.TryTakeFromJson<bool>("IsDarkMode", out var isDarkMode))
+        {
+            _isDarkMode = await DarkModeService.GetIsDarkMode();
+        }
+        else
+        {
+            _isDarkMode = isDarkMode;
+        }
+
         await base.OnInitializedAsync();
+    }
+
+    private Task PersistIsDarkMode()
+    {
+        ApplicationState.PersistAsJson("IsDarkMode", _isDarkMode);
+
+        return Task.CompletedTask;
+    }
+
+    public void Dispose()
+    {
+        persistingSubscription.Dispose();
     }
 }

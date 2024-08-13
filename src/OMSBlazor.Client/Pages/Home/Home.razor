@@ -1,6 +1,8 @@
 ﻿@page "/"
 @using OMSBlazor.Client.Services
 @inject IDarkModeService DarkModeService
+@implements IDisposable
+@inject PersistentComponentState ApplicationState
 
 <MudThemeProvider IsDarkMode="@IsDarkMode" />
 
@@ -164,10 +166,30 @@
 </style>
 
 @code {
+    private PersistingComponentStateSubscription persistingSubscription;
+
     protected async override Task OnInitializedAsync()
     {
+        persistingSubscription = ApplicationState.RegisterOnPersisting(PersistIsDarkMode);
+
+        if (!ApplicationState.TryTakeFromJson<bool>("IsDarkMode", out var isDarkMode))
+        {
+            IsDarkMode = await DarkModeService.GetIsDarkMode();
+        }
+        else
+        {
+           IsDarkMode = isDarkMode;
+        }
+
         IsDarkMode = await DarkModeService.GetIsDarkMode();
         await base.OnInitializedAsync();
+    }
+
+    private Task PersistIsDarkMode()
+    {
+        ApplicationState.PersistAsJson("IsDarkMode", IsDarkMode);
+
+        return Task.CompletedTask;
     }
 
     public string DarkLightModeButtonIcon => IsDarkMode switch
@@ -182,5 +204,10 @@
     {
         IsDarkMode = !IsDarkMode;
         await DarkModeService.SetIsDarkMode(IsDarkMode);
+    }
+
+    public void Dispose()
+    {
+        persistingSubscription.Dispose();
     }
 }
