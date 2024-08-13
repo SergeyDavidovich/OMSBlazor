@@ -8,6 +8,7 @@ using OMSBlazor.Client.Pages.Dashboard.OrderStastics;
 using OMSBlazor.Client.Pages.Dashboard.ProductStastics;
 using OMSBlazor.Client.Pages.Order.Create;
 using OMSBlazor.Client.Pages.Order.Journal;
+using OMSBlazor.Client.Services;
 using ReactiveUI;
 using Splat;
 
@@ -44,6 +45,8 @@ namespace OMSBlazor.Client
             builder.Services.AddScoped<ProductStasticsViewModel>();
             builder.Services.AddScoped<JournalViewModel>();
             builder.Services.AddScoped<CreateViewModel>();
+
+            builder.Services.AddSingleton<IDarkModeService, ClientDarkModeService>();
 
             await builder.Build().RunAsync();
         }

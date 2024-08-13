@@ -8,9 +8,12 @@ using OMSBlazor.Client.Pages.Dashboard.OrderStastics;
 using OMSBlazor.Client.Pages.Dashboard.ProductStastics;
 using OMSBlazor.Client.Pages.Order.Create;
 using OMSBlazor.Client.Pages.Order.Journal;
+using OMSBlazor.Client.Services;
 using OMSBlazor.Components;
 using OMSBlazor.Components.Account;
 using OMSBlazor.Data;
+using OMSBlazor.Endpoints;
+using OMSBlazor.Services;
 
 namespace OMSBlazor
 {
@@ -60,6 +63,8 @@ namespace OMSBlazor
             builder.Services.AddScoped<JournalViewModel>();
             builder.Services.AddScoped<CreateViewModel>();
 
+            builder.Services.AddSingleton<IDarkModeService, ServerDarkModeService>();
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -87,6 +92,8 @@ namespace OMSBlazor
 
             // Add additional endpoints required by the Identity /Account Razor components.
             app.MapAdditionalIdentityEndpoints();
+
+            //app.MapDarkModeEndpoints();
 
             app.Run();
         }

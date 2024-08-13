@@ -18,7 +18,7 @@
         <ChildContent>
             @if (HttpContext.Request.Path.StartsWithSegments("/"))
             {
-                <OMSBlazor.Client.Pages.Home.Home @rendermode="InteractiveServer"></OMSBlazor.Client.Pages.Home.Home>
+                <OMSBlazor.Client.Pages.Home.Home @rendermode="RenderModeForPage"></OMSBlazor.Client.Pages.Home.Home>
             }
             else
             {
@@ -52,9 +52,7 @@
     [CascadingParameter]
     private HttpContext HttpContext { get; set; } = default!;
 
-    private bool IsDarkMode { get; set; }
-
     private IComponentRenderMode? RenderModeForPage => HttpContext.Request.Path.StartsWithSegments("/Account")
         ? null
-        : InteractiveAuto;
+        : new InteractiveAutoRenderMode(prerender: true);
 }

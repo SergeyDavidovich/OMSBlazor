@@ -1,4 +1,6 @@
 ﻿@page "/"
+@using OMSBlazor.Client.Services
+@inject IDarkModeService DarkModeService
 
 <MudThemeProvider IsDarkMode="@IsDarkMode" />
 
@@ -8,62 +10,26 @@
 
     <div class="d-flex flex-column mx-10 mb-10 gap-5">
 
-        @* Title on smartphones *@
-        <div class="d-flex d-sm-none flex-column">
-            <div class="d-flex flex-column">
-                <MudText Style="font-weight: 700; font-family: 'Space Grotesk'; font-size: 2.25rem; font-style: normal; text-transform: none;" Typo="Typo.h1">
-                    Create, store, analyze, track, and complete your
-                </MudText>
-                <MudText Typo="Typo.h1" Style="font-size: 2.25rem; -webkit-background-clip: text !important; -webkit-text-fill-color: transparent; background: linear-gradient(128.87deg,#d600aa 14.05%,#cb4150 89.3%);font-family: 'Space Grotesk'; font-style: normal; font-weight: 700; text-transform: none;">
-                    Orders
-                </MudText>
-                <MudText Style="font-size: 2.25rem; font-family: 'Space Grotesk'; font-style: normal; font-weight: 700; text-transform: none;" Typo="Typo.h1">
-                    better with
-                </MudText>
-                <MudText Typo="Typo.h1" Style="font-size: 2.25rem; font-family: 'Space Grotesk'; font-style: normal; font-weight: 700; text-transform: none">
-                    Order Managment System
-                </MudText>
-                <MudText Class="mt-4" Style="font-family: 'Open Sans'; font-style: normal; font-weight: 600; text-transform: none;">
-                    This site does not claim to be a model of a real system. This is a sample of our development, With your requirements, this will turn into it
-                </MudText>
-                <div class="d-flex flex-row mt-4 gap-2">
-                    <MudButton Href="/orders"
-                               Variant="Variant.Filled"
-                               Color="MudBlazor.Color.Primary"
-                               Size="MudBlazor.Size.Large">
-                        Create your first order
-                    </MudButton>
-                    <MudButton Href="https://github.com/SergeyDavidovich/OMSBlazor"
-                               Target="_blank"
-                               Variant="Variant.Outlined"
-                               Size="MudBlazor.Size.Large"
-                               EndIcon="@Icons.Custom.Brands.GitHub">
-                        GitHub Link
-                    </MudButton>
-                </div>
-            </div>
-            <div>
-                <MudImage Src="Images/CoverPageImage.svg" Fluid="true" Class="rounded-lg" />
-            </div>
-        </div>
-
-        @* Title on other screens *@
-        <div class="d-none d-sm-flex">
+        <div class="d-flex flex-column flex-md-row">
             <div class="d-flex flex-column justify-center flex-grow-1">
-                <MudText Style="font-weight: 700; font-family: 'Space Grotesk'; font-size: 3.25rem; font-style: normal; text-transform: none;" Typo="Typo.h1">
-                    Create, store, analyze, track, and complete your
+                <MudText Class="titel-text " Typo="Typo.h1">
+                    <p class="d-flex d-sm-none" style="font-size: 2.25rem">Create, store, analyze, track, and complete your</p>
+                    <p class="d-none d-sm-flex" style="font-size: 3.25rem">Create, store, analyze, track, and complete your</p>
                 </MudText>
-                <MudText Typo="Typo.h1" Style="font-size: 3.25rem; -webkit-background-clip: text !important; -webkit-text-fill-color: transparent; background: linear-gradient(128.87deg,#d600aa 14.05%,#cb4150 89.3%);font-family: 'Space Grotesk'; font-style: normal; font-weight: 700; text-transform: none;">
-                    Orders
+                <MudText Class="titel-text" Typo="Typo.h1" Style="-webkit-background-clip: text !important; -webkit-text-fill-color: transparent; background: linear-gradient(128.87deg,#d600aa 14.05%,#cb4150 89.3%);">
+                    <p class="d-flex d-sm-none" style="font-size: 2.25rem">Orders</p>
+                    <p class="d-none d-sm-flex" style="font-size: 3.25rem">Orders</p>
                 </MudText>
-                <MudText Style="font-size: 3.25rem; font-family: 'Space Grotesk'; font-style: normal; font-weight: 700; text-transform: none;" Typo="Typo.h1">
-                    better with
+                <MudText Class="titel-text" Typo="Typo.h1">
+                    <p class="d-flex d-sm-none" style="font-size: 2.25rem">better with</p>
+                    <p class="d-none d-sm-flex" style="font-size: 3.25rem">better with</p>
                 </MudText>
-                <MudText Typo="Typo.h1" Style="font-size: 3.25rem; font-family: 'Space Grotesk'; font-style: normal; font-weight: 700; text-transform: none">
-                    Order Managment System
+                <MudText Class="titel-text" Typo="Typo.h1">
+                    <p class="d-flex d-sm-none" style="font-size: 2.25rem">Order Managment System</p>
+                    <p class="d-none d-sm-flex" style="font-size: 3.25rem">Order Managment System</p>
                 </MudText>
-                <MudText Class="mt-4" Style="font-family: 'Open Sans'; font-style: normal; font-weight: 600; text-transform: none;">
-                    This site does not claim to be a model of a real system. This is a sample of our development, With your requirements, this will turn into it
+                <MudText Class="mt-4 content-text">
+                    This site does not claim to be a model of a real system. This is a sample of our development with your requirements, this will turn into it
                 </MudText>
                 <div class="d-flex flex-row mt-4 gap-2">
                     <MudButton Href="/orders"
@@ -86,21 +52,20 @@
             </div>
         </div>
 
-        @* Cards on smartphones *@
-        <div class="d-flex d-sm-none flex-column gap-2">
-            <div>
+        <div class="d-flex flex-column flex-md-row gap-2">
+            <div class="flex-md-grow-1">
                 <div style="height:100%">
                     <MudCard Elevation="3" Style="height: 100%">
                         <MudCardHeader>
                             <CardHeaderContent>
                                 <div class="d-flex flex-column align-center">
                                     <MudIcon Icon="@Icons.Material.Rounded.Timeline" Color="MudBlazor.Color.Info" Size="MudBlazor.Size.Large"></MudIcon>
-                                    <MudText Typo="Typo.h6" Style="font-family: 'Space Grotesk'; font-style: normal; font-weight: 700; text-transform: none">Real-time</MudText>
+                                    <MudText Typo="Typo.h6" Class="titel-text">Real-time</MudText>
                                 </div>
                             </CardHeaderContent>
                         </MudCardHeader>
                         <MudCardContent>
-                            <MudText Align="MudBlazor.Align.Center" Style="font-family: 'Open Sans'; font-style: normal; font-weight: 600; text-transform: none;">
+                            <MudText Align="MudBlazor.Align.Center" Class="content-text">
                                 This application works in real-time. That means that all the changes that occur on another instance of this application
                                 make changes on your application.
                             </MudText>
@@ -108,100 +73,38 @@
                     </MudCard>
                 </div>
             </div>
-            <div>
+            <div class="flex-md-grow-1">
                 <div style="height:100%">
                     <MudCard Elevation="3" Style="height: 100%">
                         <MudCardHeader>
                             <CardHeaderContent>
                                 <div class="d-flex flex-column align-center">
                                     <MudIcon Icon="@Icons.Material.Rounded.DesktopWindows" Color="MudBlazor.Color.Primary" Size="MudBlazor.Size.Large"></MudIcon>
-                                    <MudText Typo="Typo.h6" Style="font-family: 'Space Grotesk'; font-style: normal; font-weight: 700; text-transform: none">Run anywhere</MudText>
+                                    <MudText Typo="Typo.h6" Class="titel-text">Run anywhere</MudText>
                                 </div>
                             </CardHeaderContent>
                         </MudCardHeader>
                         <MudCardContent>
-                            <MudText Align="MudBlazor.Align.Center" Style="font-family: 'Open Sans'; font-style: normal; font-weight: 600; text-transform: none;">
+                            <MudText Align="MudBlazor.Align.Center" Class="content-text">
                                 This application is adapted to work on desktop as well as on mobile phone. So fill free to open this app on smartphone too
                             </MudText>
                         </MudCardContent>
                     </MudCard>
                 </div>
             </div>
-            <div>
+            <div class="flex-md-grow-1">
                 <div style="height:100%">
                     <MudCard Style="height:100%" Elevation="3">
                         <MudCardHeader>
                             <CardHeaderContent>
                                 <div class="d-flex flex-column align-center">
                                     <MudIcon Icon="@Icons.Material.Rounded.Login" Color="MudBlazor.Color.Secondary" Size="MudBlazor.Size.Large"></MudIcon>
-                                    <MudText Typo="Typo.h6" Style="font-family: 'Space Grotesk'; font-style: normal; font-weight: 700; text-transform: none">Protect your data</MudText>
+                                    <MudText Typo="Typo.h6" Class="titel-text">Protect your data</MudText>
                                 </div>
                             </CardHeaderContent>
                         </MudCardHeader>
                         <MudCardContent>
-                            <MudText Align="MudBlazor.Align.Center" Style="font-family: 'Open Sans'; font-style: normal; font-weight: 600; text-transform: none;">
-                                Your data and your progress is under protection of the authentication system. Be sure that only you are able to have access to your progress
-                            </MudText>
-                        </MudCardContent>
-                    </MudCard>
-                </div>
-            </div>
-        </div>
-
-        @* Cards on other screens *@
-        <div class="d-none d-sm-flex gap-3">
-            <div class="flex-grow-1">
-                <div style="height:100%">
-                    <MudCard Elevation="3" Style="height: 100%">
-                        <MudCardHeader>
-                            <CardHeaderContent>
-                                <div class="d-flex flex-column align-center">
-                                    <MudIcon Icon="@Icons.Material.Rounded.Timeline" Color="MudBlazor.Color.Info" Size="MudBlazor.Size.Large"></MudIcon>
-                                    <MudText Typo="Typo.h6" Style="font-family: 'Space Grotesk'; font-style: normal; font-weight: 700; text-transform: none">Real-time</MudText>
-                                </div>
-                            </CardHeaderContent>
-                        </MudCardHeader>
-                        <MudCardContent>
-                            <MudText Align="MudBlazor.Align.Center" Style="font-family: 'Open Sans'; font-style: normal; font-weight: 600; text-transform: none;">
-                                This application works in real-time. That means that all the changes that occur on another instance of this application
-                                make changes on your application.
-                            </MudText>
-                        </MudCardContent>
-                    </MudCard>
-                </div>
-            </div>
-            <div class="flex-grow-1">
-                <div style="height:100%">
-                    <MudCard Elevation="3" Style="height: 100%">
-                        <MudCardHeader>
-                            <CardHeaderContent>
-                                <div class="d-flex flex-column align-center">
-                                    <MudIcon Icon="@Icons.Material.Rounded.DesktopWindows" Color="MudBlazor.Color.Primary" Size="MudBlazor.Size.Large"></MudIcon>
-                                    <MudText Typo="Typo.h6" Style="font-family: 'Space Grotesk'; font-style: normal; font-weight: 700; text-transform: none">Run anywhere</MudText>
-                                </div>
-                            </CardHeaderContent>
-                        </MudCardHeader>
-                        <MudCardContent>
-                            <MudText Align="MudBlazor.Align.Center" Style="font-family: 'Open Sans'; font-style: normal; font-weight: 600; text-transform: none;">
-                                This application is adapted to work on desktop as well as on mobile phone. So fill free to open this app on smartphone too
-                            </MudText>
-                        </MudCardContent>
-                    </MudCard>
-                </div>
-            </div>
-            <div class="flex-grow-1">
-                <div style="height:100%">
-                    <MudCard Style="height:100%" Elevation="3">
-                        <MudCardHeader>
-                            <CardHeaderContent>
-                                <div class="d-flex flex-column align-center">
-                                    <MudIcon Icon="@Icons.Material.Rounded.Login" Color="MudBlazor.Color.Secondary" Size="MudBlazor.Size.Large"></MudIcon>
-                                    <MudText Typo="Typo.h6" Style="font-family: 'Space Grotesk'; font-style: normal; font-weight: 700; text-transform: none">Protect your data</MudText>
-                                </div>
-                            </CardHeaderContent>
-                        </MudCardHeader>
-                        <MudCardContent>
-                            <MudText Align="MudBlazor.Align.Center" Style="font-family: 'Open Sans'; font-style: normal; font-weight: 600; text-transform: none;">
+                            <MudText Align="MudBlazor.Align.Center" Class="content-text">
                                 Your data and your progress is under protection of the authentication system. Be sure that only you are able to have access to your progress
                             </MudText>
                         </MudCardContent>
@@ -218,29 +121,18 @@
             <HomeCarousel Class="d-flex d-sm-none justify-center mr-6 mt-5 mud-width-full" Style="height: 290px"></HomeCarousel>
         </div>
 
-        @*Contact us on smartphone*@
-        <div class="d-flex d-sm-none">
-            <MudPaper Class="pa-2" Width="100%" Style="background: linear-gradient(128.87deg,#d600aa 14.05%,#cb4150 89.3%);">
+        <div>
+            <MudPaper Class="pa-md-5 mx-md-5 pa-2" Width="100%" Style="background: linear-gradient(128.87deg,#d600aa 14.05%,#cb4150 89.3%);">
                 <div class="d-flex flex-row justify-space-around">
-                    <MudText Typo="Typo.h4" Style="color:white; font-size:1.25rem; font-family: 'Space Grotesk'; font-style: normal; font-weight: 700; text-transform: none;">
-                        Want to contact us?
+                    <MudText Typo="Typo.h4" Class="titel-text" Style="color:white;">
+                        <p class="d-flex d-sm-none" style="font-size: 1.25rem">Want to contact us?</p>
+                        <p class="d-none d-sm-flex">Want to contact us?</p>
                     </MudText>
-                    <div class="d-flex gap-1 justify-center flex-column">
-                        <MudText Style="color:white; font-family: 'Open Sans'; font-style: normal; font-weight: 600; text-transform: none;">writesd@hotmail.com</MudText>
-                    </div>
-                </div>
-            </MudPaper>
-        </div>
-
-        @*Contact us on other screens*@
-        <div class="d-none d-sm-flex">
-            <MudPaper Class="pa-5 mx-5" Width="100%" Style="background: linear-gradient(128.87deg,#d600aa 14.05%,#cb4150 89.3%);">
-                <div class="d-flex flex-row justify-space-around">
-                    <MudText Typo="Typo.h4" Style="color:white; font-family: 'Space Grotesk'; font-style: normal; font-weight: 700; text-transform: none;">
-                        Want to contact us?
-                    </MudText>
-                    <div class="d-flex gap-1 flex-column">
-                        <MudText Style="color:white; font-family: 'Open Sans'; font-style: normal; font-weight: 600; text-transform: none;">writesd@hotmail.com</MudText>
+                    <div class="d-flex gap-1 flex-column justify-center">
+                        <MudText Class="content-text" Style="color:white;">
+                            <p class="d-flex d-sm-none">writesd@hotmail.com</p>
+                            <p class="d-none d-sm-flex">writesd@hotmail.com</p>
+                        </MudText>
                     </div>
                 </div>
             </MudPaper>
@@ -255,9 +147,29 @@
         background-position: top,bottom;
         background-size: cover, auto;
     }
+
+    .titel-text {
+        font-weight: 700;
+        font-family: 'Space Grotesk';
+        font-style: normal;
+        text-transform: none;
+    }
+
+    .content-text {
+        font-family: 'Open Sans';
+        font-style: normal;
+        font-weight: 600;
+        text-transform: none;
+    }
 </style>
 
 @code {
+    protected async override Task OnInitializedAsync()
+    {
+        IsDarkMode = await DarkModeService.GetIsDarkMode();
+        await base.OnInitializedAsync();
+    }
+
     public string DarkLightModeButtonIcon => IsDarkMode switch
     {
         true => Icons.Material.Rounded.DarkMode,
@@ -266,8 +178,9 @@
 
     private bool IsDarkMode { get; set; }
 
-    private void DarkModeSwitched(MouseEventArgs args)
+    private async Task DarkModeSwitched(MouseEventArgs args)
     {
         IsDarkMode = !IsDarkMode;
+        await DarkModeService.SetIsDarkMode(IsDarkMode);
     }
 }

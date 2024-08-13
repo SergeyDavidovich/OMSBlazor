@@ -1,4 +1,6 @@
-﻿@inherits LayoutComponentBase
+﻿@using OMSBlazor.Client.Services
+@inherits LayoutComponentBase
+@inject IDarkModeService DarkModeService
 
 <MudThemeProvider @bind-IsDarkMode="_isDarkMode" />
 <MudPopoverProvider />
@@ -44,7 +46,6 @@
     </MudMainContent>
 </MudLayout>
 
-
 <div id="blazor-error-ui">
     An unhandled error has occurred.
     <a href="" class="reload">Reload</a>
@@ -70,9 +71,10 @@
         _drawerOpen = !_drawerOpen;
     }
 
-    private void DarkModeToggle()
+    private async Task DarkModeToggle()
     {
         _isDarkMode = !_isDarkMode;
+        await DarkModeService.SetIsDarkMode(_isDarkMode);
     }
 
     public string DarkLightModeButtonIcon => _isDarkMode switch
@@ -80,6 +82,10 @@
         true => Icons.Material.Rounded.DarkMode,
         false => Icons.Material.Outlined.LightMode,
     };
+
+    protected override async Task OnInitializedAsync()
+    {
+        _isDarkMode = await DarkModeService.GetIsDarkMode();
+        await base.OnInitializedAsync();
+    }
 }
-
-
