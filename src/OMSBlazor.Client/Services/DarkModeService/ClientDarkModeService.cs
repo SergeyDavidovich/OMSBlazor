@@ -2,6 +2,7 @@
 using System.Net.Http.Json;
 using System.Text.Json;
 using System.Text;
+using Microsoft.AspNetCore.Components;
 
 namespace OMSBlazor.Client.Services.DarkModeService
 {
@@ -9,10 +10,10 @@ namespace OMSBlazor.Client.Services.DarkModeService
     {
         private readonly HttpClient _httpClient;
 
-        public ClientDarkModeService()
+        public ClientDarkModeService(NavigationManager navigationManager, IConfiguration configuration)
         {
             _httpClient = new HttpClient();
-            _httpClient.BaseAddress = new Uri("https://localhost:7061");
+            _httpClient.BaseAddress = new Uri(navigationManager.BaseUri);
         }
 
         public async Task SetIsDarkMode(bool isDarkMode)
