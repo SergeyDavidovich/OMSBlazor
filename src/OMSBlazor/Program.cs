@@ -8,12 +8,13 @@ using OMSBlazor.Client.Pages.Dashboard.OrderStastics;
 using OMSBlazor.Client.Pages.Dashboard.ProductStastics;
 using OMSBlazor.Client.Pages.Order.Create;
 using OMSBlazor.Client.Pages.Order.Journal;
-using OMSBlazor.Client.Services;
+using OMSBlazor.Client.Services.DarkModeService;
+using OMSBlazor.Client.Services.HubConnectionsService;
 using OMSBlazor.Components;
 using OMSBlazor.Components.Account;
 using OMSBlazor.Data;
 using OMSBlazor.Endpoints;
-using OMSBlazor.Services;
+using OMSBlazor.Services.DarkModeService;
 
 namespace OMSBlazor
 {
@@ -55,6 +56,8 @@ namespace OMSBlazor
                 .AddDefaultTokenProviders();
 
             builder.Services.AddSingleton<IEmailSender<ApplicationUser>, IdentityNoOpEmailSender>();
+
+            builder.Services.AddSingleton<IHubConnectionsService, HubConnectionsService>();
 
             builder.Services.AddScoped<CustomerStasticsViewModel>();
             builder.Services.AddScoped<EmployeeStasticsViewModel>();

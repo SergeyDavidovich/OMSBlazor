@@ -1,4 +1,4 @@
-﻿namespace OMSBlazor.Client.Services
+﻿namespace OMSBlazor.Client.Services.DarkModeService
 {
     public interface IDarkModeService
     {

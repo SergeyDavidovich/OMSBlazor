@@ -5,7 +5,7 @@ using System.Reactive.Linq;
 
 namespace OMSBlazor.Client.Pages.Order.Create
 {
-    public partial class CreateView : IAsyncDisposable
+    public partial class CreateView
     {
         //https://stackoverflow.com/questions/77159834/missingmethodexception-cannot-dynamically-create-an-instance-of-type-with-blazo
         [Inject]
@@ -40,11 +40,6 @@ namespace OMSBlazor.Client.Pages.Order.Create
                 await DialogService.ShowAsync<ErrorMessageBox>("Order not created", parameters);
             });
             await ViewModel!.OnNavigatedTo();
-        }
-
-        public async ValueTask DisposeAsync()
-        {
-            await ViewModel!.DisposeAsync();
         }
     }
 }

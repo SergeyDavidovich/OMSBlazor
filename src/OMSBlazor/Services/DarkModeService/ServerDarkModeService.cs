@@ -1,6 +1,6 @@
-﻿using OMSBlazor.Client.Services;
+﻿using OMSBlazor.Client.Services.DarkModeService;
 
-namespace OMSBlazor.Services
+namespace OMSBlazor.Services.DarkModeService
 {
     public class ServerDarkModeService : IDarkModeService
     {

@@ -5,9 +5,9 @@
 @using OMSBlazor.Client.Pages.Dashboard.OrderStastics
 @using OMSBlazor.Client.Pages.Dashboard.CustomerStastics
 @using OMSBlazor.Client.Pages.Dashboard.ProductStastics
-@implements IAsyncDisposable 
+@using OMSBlazor.Client.Services.HubConnectionsService
 @attribute [Authorize]
-@inject IConfiguration Configuration
+@inject IHubConnectionsService HubConnectionsService
 <MudGrid>
     <MudItem xs="12">
         <OrderStasticsView @ref="orderStasticsView"></OrderStasticsView>
@@ -29,33 +29,25 @@
     private ProductStasticsView productStasticsView;
     private EmployeeStasticsView employeeStasticsView;
 
-    private HubConnection hubConnection;
-
     protected override async Task OnInitializedAsync()
     {
         try
         {
-            hubConnection = new HubConnectionBuilder()
-                        .WithUrl($"{Configuration["BackendUrl"]}signalr-hubs/dashboard")
-                        .Build();
-
-            hubConnection.On("UpdateDashboard", async () =>
+            HubConnectionsService.DashboardHubConnection.On("UpdateDashboard", async () =>
                 {
                     await orderStasticsView.UpdateStastics();
                     await customerStasticsView.UpdateStastics();
                     await employeeStasticsView.UpdateStastics();
                 });
 
-            await hubConnection.StartAsync();
+            if (HubConnectionsService.DashboardHubConnection.State is HubConnectionState.Disconnected)
+            {   
+                await HubConnectionsService.DashboardHubConnection.StartAsync();
+            }
         }
         catch (Exception e)
         {
             throw new Exception($"Exception is thrown in the {nameof(this.OnInitializedAsync)} method of the {nameof(Dashboard)}", e);
         }
-    }
-
-    public async ValueTask DisposeAsync()
-    {
-        await hubConnection.DisposeAsync();
     }
 }

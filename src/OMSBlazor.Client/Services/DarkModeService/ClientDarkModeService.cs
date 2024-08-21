@@ -3,7 +3,7 @@ using System.Net.Http.Json;
 using System.Text.Json;
 using System.Text;
 
-namespace OMSBlazor.Client.Services
+namespace OMSBlazor.Client.Services.DarkModeService
 {
     public class ClientDarkModeService : IDarkModeService
     {
@@ -20,7 +20,7 @@ namespace OMSBlazor.Client.Services
             using StringContent jsonContent = new(
                 JsonSerializer.Serialize(new
                 {
-                    isDarkMode = isDarkMode
+                    isDarkMode
                 }),
                 Encoding.UTF8,
                 "application/json");

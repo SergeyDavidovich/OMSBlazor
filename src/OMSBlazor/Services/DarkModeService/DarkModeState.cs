@@ -1,4 +1,4 @@
-﻿namespace OMSBlazor.Services
+﻿namespace OMSBlazor.Services.DarkModeService
 {
     public static class DarkModeState
     {

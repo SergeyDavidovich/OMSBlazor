@@ -14,10 +14,11 @@ using OMSBlazor.Dto.Order;
 using System.Text;
 using MudBlazor;
 using OMSBlazor.Client.Pages.Dashboard.OrderStastics;
+using OMSBlazor.Client.Services.HubConnectionsService;
 
 namespace OMSBlazor.Client.Pages.Order.Create
 {
-    public class CreateViewModel : ReactiveObject, IAsyncDisposable
+    public class CreateViewModel : ReactiveObject
     {
         #region Declarations
         private readonly HttpClient _httpClient;
@@ -33,20 +34,13 @@ namespace OMSBlazor.Client.Pages.Order.Create
         private readonly SourceList<CustomerDto> customers;
         private List<ProductDto> productsList;
 
-        private readonly HubConnection productHubConnection;
-        private readonly HubConnection dashboardHubConnection;
+        private readonly IHubConnectionsService _hubConnectionsService;
         #endregion
-
-        public CreateViewModel(HttpClient httpClient, IConfiguration configuration)
+        
+        public CreateViewModel(HttpClient httpClient, IHubConnectionsService hubConnectionsService)
         {
             _httpClient = httpClient;
-
-            productHubConnection = new HubConnectionBuilder()
-                .WithUrl($"{configuration["BackendUrl"]}signalr-hubs/product")
-                .Build();
-            dashboardHubConnection = new HubConnectionBuilder()
-                .WithUrl($"{configuration["BackendUrl"]}signalr-hubs/dashboard")
-                .Build();
+            _hubConnectionsService = hubConnectionsService;
 
             products = new SourceCache<ProductOnStore, int>(p => p.ProductID);
             productsInOrder = new SourceCache<ProductInOrder, int>(p => p.ProductID);
@@ -169,7 +163,7 @@ namespace OMSBlazor.Client.Pages.Order.Create
             SelectedEmployee = null;
 
             await _httpClient.PostAsync($"{BackEndEnpointURLs.StasticsRecalculator.RecalculateStatistics}/{orderDto.OrderId}", null);
-            await dashboardHubConnection.SendAsync("UpdateDashboard");
+            await _hubConnectionsService.DashboardHubConnection.SendAsync("UpdateDashboard");
 
             var getInvoiceResponse = await _httpClient.GetAsync(BackEndEnpointURLs.OrderEndpoints.GetUrlForInvoice(orderDto.OrderId));
             var arr = await getInvoiceResponse.Content.ReadFromJsonAsync<byte[]>();
@@ -270,7 +264,7 @@ namespace OMSBlazor.Client.Pages.Order.Create
                     var product = productsList.First(x => x.ProductId == newProductInOrder.ProductID);
 
                     product.UnitsInStock -= (short)newValue;
-                    await productHubConnection.SendAsync("UpdateProductUnitsInStock", productHubConnection.ConnectionId, newProductInOrder.ProductID, newValue);
+                    await _hubConnectionsService.ProductHubConnection.SendAsync("UpdateProductUnitsInStock", _hubConnectionsService.ProductHubConnection.ConnectionId, newProductInOrder.ProductID, newValue);
                 });
         }
         #endregion
@@ -311,26 +305,26 @@ namespace OMSBlazor.Client.Pages.Order.Create
                     customers.AddRange(customerList);
                 }
 
-                productHubConnection.On<int, int>("UpdateQuantity", (productId, quantity) =>
+                _hubConnectionsService.ProductHubConnection.On<int, int>("UpdateQuantity", (productId, quantity) =>
                 {
                     var product = ProductsInStore.Single(x => x.ProductID == productId);
                     product.UnitsInStock -= quantity;
                     this.RaisePropertyChanged(nameof(ProductsInStore));
                 });
 
-                await productHubConnection.StartAsync();
-                await dashboardHubConnection.StartAsync();
+                if (_hubConnectionsService.ProductHubConnection.State is HubConnectionState.Disconnected)
+                {
+                    await _hubConnectionsService.ProductHubConnection.StartAsync();
+                }
+                if (_hubConnectionsService.DashboardHubConnection.State is HubConnectionState.Disconnected)
+                {
+                    await _hubConnectionsService.DashboardHubConnection.StartAsync();
+                }
             }
             catch (Exception e)
             {
                 throw new Exception($"Exception is thrown in the {nameof(this.OnNavigatedTo)} method of the {nameof(CreateViewModel)}", e);
             }
-        }
-
-        public async ValueTask DisposeAsync()
-        {
-            await productHubConnection.DisposeAsync();
-            await dashboardHubConnection.DisposeAsync();
         }
 
         #region Properties
