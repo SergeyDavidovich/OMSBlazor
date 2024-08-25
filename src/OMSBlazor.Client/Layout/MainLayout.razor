@@ -14,8 +14,8 @@
         <MudText Typo="Typo.h5" Class="ml-3">Order Management System</MudText>
         <MudSpacer />
         @* <MudIconButton Icon="@Icons.Material.Filled.MoreVert" Color="MudBlazor.Color.Inherit" Edge="Edge.End" /> *@
-        <MudIconButton Icon="@(DarkLightModeButtonIcon)" Color="MudBlazor.Color.Inherit" OnClick="@DarkModeToggle" />
-    </MudAppBar>
+@*         <MudIconButton Icon="@(DarkLightModeButtonIcon)" Color="MudBlazor.Color.Inherit" OnClick="@DarkModeToggle" />
+ *@    </MudAppBar>
     <MudDrawer @bind-Open="_drawerOpen" Breakpoint="Breakpoint.Lg" ClipMode="DrawerClipMode.Docked" Style="@($"color:{Theme.PaletteDark.White}; background:{Theme.PaletteDark.Dark};")" Elevation="1" Variant="DrawerVariant.Responsive">
         <MudDrawerHeader>
             <MudText Typo="Typo.h6" Align="MudBlazor.Align.Center" Class="text-gradient">Order managment system</MudText>
