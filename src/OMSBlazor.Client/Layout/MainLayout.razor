@@ -1,8 +1,8 @@
-﻿@using OMSBlazor.Client.Services.DarkModeService
+﻿@using BitzArt.Blazor.Cookies
 @inherits LayoutComponentBase
 @implements IDisposable
-@inject IDarkModeService DarkModeService
 @inject PersistentComponentState ApplicationState
+@inject ICookieService CookieService
 
 <MudThemeProvider @bind-IsDarkMode="_isDarkMode" />
 <MudPopoverProvider />
@@ -13,9 +13,8 @@
         <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="MudBlazor.Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
         <MudText Typo="Typo.h5" Class="ml-3">Order Management System</MudText>
         <MudSpacer />
-        @* <MudIconButton Icon="@Icons.Material.Filled.MoreVert" Color="MudBlazor.Color.Inherit" Edge="Edge.End" /> *@
-@*         <MudIconButton Icon="@(DarkLightModeButtonIcon)" Color="MudBlazor.Color.Inherit" OnClick="@DarkModeToggle" />
- *@    </MudAppBar>
+        <MudIconButton Icon="@(DarkLightModeButtonIcon)" Color="MudBlazor.Color.Inherit" OnClick="@DarkModeToggle" />
+    </MudAppBar>
     <MudDrawer @bind-Open="_drawerOpen" Breakpoint="Breakpoint.Lg" ClipMode="DrawerClipMode.Docked" Style="@($"color:{Theme.PaletteDark.White}; background:{Theme.PaletteDark.Dark};")" Elevation="1" Variant="DrawerVariant.Responsive">
         <MudDrawerHeader>
             <MudText Typo="Typo.h6" Align="MudBlazor.Align.Center" Class="text-gradient">Order managment system</MudText>
@@ -77,7 +76,7 @@
     private async Task DarkModeToggle()
     {
         _isDarkMode = !_isDarkMode;
-        await DarkModeService.SetIsDarkMode(_isDarkMode);
+        await CookieService.SetAsync("IsDarkMode", _isDarkMode.ToString(), new DateTimeOffset().AddYears(1));
     }
 
     public string DarkLightModeButtonIcon => _isDarkMode switch
@@ -92,14 +91,20 @@
 
         if (!ApplicationState.TryTakeFromJson<bool>("IsDarkMode", out var isDarkMode))
         {
-            _isDarkMode = await DarkModeService.GetIsDarkMode();
+            var cookie = await CookieService.GetAsync("IsDarkMode");
+            if (cookie is null)
+            {
+                _isDarkMode = false;
+            }
+            else
+            {
+                _isDarkMode = bool.Parse(cookie.Value);
+            }
         }
         else
         {
             _isDarkMode = isDarkMode;
         }
-
-        await base.OnInitializedAsync();
     }
 
     private Task PersistIsDarkMode()

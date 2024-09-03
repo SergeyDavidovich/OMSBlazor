@@ -1,15 +1,29 @@
-﻿@inherits LayoutComponentBase
-@layout OMSBlazor.Client.Layout.MainLayout
+﻿@using BitzArt.Blazor.Cookies
+@inherits LayoutComponentBase
 @inject NavigationManager NavigationManager
+@inject PersistentComponentState ApplicationState
+@inject ICookieService CookieService
 
-@if (HttpContext is null)
-{
-    <p>Loading...</p>
-}
-else
-{
-    @Body
-}
+<MudThemeProvider IsDarkMode="_isDarkMode" />
+<MudPopoverProvider />
+<MudDialogProvider />
+<MudSnackbarProvider />
+<MudLayout>
+    <MudAppBar Elevation="1">
+        <MudIconButton Icon="@Icons.Material.Filled.Home" Href="/" Color="MudBlazor.Color.Inherit" Edge="Edge.Start"/>
+        <MudText Typo="Typo.h5" Class="ml-3">Order managment system</MudText>
+    </MudAppBar>
+    <MudMainContent Class="mt-16 pa-4">
+        @if (HttpContext is null)
+        {
+            <p>Loading...</p>
+        }
+        else
+        {
+            @Body
+        }
+    </MudMainContent>
+</MudLayout>
 
 @code {
     [CascadingParameter]
@@ -24,5 +38,48 @@ else
             // must transition back from interactive mode to a server-rendered page.
             NavigationManager.Refresh(forceReload: true);
         }
+    }
+
+    private PersistingComponentStateSubscription persistingSubscription;
+    private bool _isDarkMode = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+        persistingSubscription = ApplicationState.RegisterOnPersisting(PersistIsDarkMode);
+
+        if (!ApplicationState.TryTakeFromJson<bool>("IsDarkMode", out var isDarkMode))
+        {
+            var cookie = await CookieService.GetAsync("IsDarkMode");
+            if (cookie is null)
+            {
+                _isDarkMode = false;
+            }
+            else
+            {
+                _isDarkMode = bool.Parse(cookie.Value);
+            }
+        }
+        else
+        {
+            _isDarkMode = isDarkMode;
+        }
+    }
+
+    private Task PersistIsDarkMode()
+    {
+        ApplicationState.PersistAsJson("IsDarkMode", _isDarkMode);
+
+        return Task.CompletedTask;
+    }
+
+    public string DarkLightModeButtonIcon => _isDarkMode switch
+    {
+        true => Icons.Material.Rounded.DarkMode,
+        false => Icons.Material.Outlined.LightMode,
+    };
+
+    public void Dispose()
+    {
+        persistingSubscription.Dispose();
     }
 }

@@ -1,3 +1,4 @@
+using BitzArt.Blazor.Cookies;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using MudBlazor.Services;
@@ -8,7 +9,6 @@ using OMSBlazor.Client.Pages.Dashboard.OrderStastics;
 using OMSBlazor.Client.Pages.Dashboard.ProductStastics;
 using OMSBlazor.Client.Pages.Order.Create;
 using OMSBlazor.Client.Pages.Order.Journal;
-using OMSBlazor.Client.Services.DarkModeService;
 using OMSBlazor.Client.Services.HubConnectionsService;
 using ReactiveUI;
 using Splat;
@@ -49,7 +49,7 @@ namespace OMSBlazor.Client
             builder.Services.AddScoped<JournalViewModel>();
             builder.Services.AddScoped<CreateViewModel>();
 
-            builder.Services.AddSingleton<IDarkModeService, ClientDarkModeService>();
+            builder.AddBlazorCookies();
 
             await builder.Build().RunAsync();
         }

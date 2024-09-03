@@ -22,6 +22,7 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\OMSBlazor.Client\OMSBlazor.Client.csproj" />
+		<PackageReference Include="BitzArt.Blazor.Cookies.Server" Version="1.0.4" />
 		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="8.*" />
 		<PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="8.*" />
 		<PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.*" />
