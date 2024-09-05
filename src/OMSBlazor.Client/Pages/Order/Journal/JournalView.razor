@@ -2,7 +2,7 @@
 @inherits ReactiveComponentBase<JournalViewModel>
 
 <StupeniCard Title="Orders journal" Icon="@Icons.Material.Filled.List" IsWithButton="false">
-    <MudDataGrid T="SelectableOrderDto" Items="@ViewModel.Orders" RowStyleFunc="RowStyleFunc" RowClick="e=>ChangeSelectedOrder(e.Item.SourceOrderDto.OrderId)" Hover="true" Striped="true" Bordered="true">
+    <MudDataGrid T="SelectableOrderDto" Items="@ViewModel.Orders" RowStyleFunc="RowStyleFunc" RowClass="cursor-pointer" RowClick="e=>ChangeSelectedOrder(e.Item.SourceOrderDto.OrderId)" Hover="true" Striped="true" Bordered="true">
 @*         <ToolBarContent>
             <MudSpacer />
             <MudTextField @bind-Value="@ViewModel.SearchTerm" Placeholder="Search by customer id" Adornment="Adornment.Start" Immediate="true"
