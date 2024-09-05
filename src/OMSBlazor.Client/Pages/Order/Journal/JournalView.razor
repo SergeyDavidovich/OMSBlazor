@@ -2,18 +2,13 @@
 @inherits ReactiveComponentBase<JournalViewModel>
 
 <StupeniCard Title="Orders journal" Icon="@Icons.Material.Filled.List" IsWithButton="false">
-    <MudDataGrid T="SelectableOrderDto" Items="@ViewModel.Orders" RowClick="e=>ChangeSelectedOrder(e.Item.SourceOrderDto.OrderId)" Hover="true">
-        <ToolBarContent>
+    <MudDataGrid T="SelectableOrderDto" Items="@ViewModel.Orders" RowStyleFunc="RowStyleFunc" RowClick="e=>ChangeSelectedOrder(e.Item.SourceOrderDto.OrderId)" Hover="true" Striped="true" Bordered="true">
+@*         <ToolBarContent>
             <MudSpacer />
             <MudTextField @bind-Value="@ViewModel.SearchTerm" Placeholder="Search by customer id" Adornment="Adornment.Start" Immediate="true"
                           AdornmentIcon="@Icons.Material.Filled.Search" IconSize="MudBlazor.Size.Medium" Class="mt-0"></MudTextField>
         </ToolBarContent>
-        <Columns>
-            <TemplateColumn Editable="true">
-                <CellTemplate>
-                    <MudCheckBox T="bool" Value="context.Item.IsSelcted" ValueChanged="()=>ChangeSelectedOrder(context.Item.SourceOrderDto.OrderId)"></MudCheckBox>
-                </CellTemplate>
-            </TemplateColumn>
+ *@        <Columns>
             <PropertyColumn Property="x => x.SourceOrderDto.OrderId" Title="Id" />
             <TemplateColumn Title="Customer">
                 <CellTemplate>
@@ -40,6 +35,18 @@
 @code {
     [Parameter]
     public EventCallback<byte[]> OnSelectedOrderChanged { get; set; }
+
+    private string RowStyleFunc(SelectableOrderDto selectableOrder, int index)
+    {
+        if (selectableOrder.IsSelcted)
+        {
+            return "background-color: #EDE7F6";
+        }
+        else
+        {
+            return string.Empty;
+        }
+    }
 
     private async Task ChangeSelectedOrder(int orderId)
     {
