@@ -35,12 +35,34 @@
                 <MudText Class="mt-4 content-text">
                     This site does not claim to be a model of a real system. This is a sample of our development with your requirements, this will turn into it
                 </MudText>
-                <div class="d-flex flex-row mt-4 gap-2">
+                <div class="d-flex d-sm-none justify-center flex-wrap flex-row mt-4 gap-2">
+                    <MudButton Href="/orders"
+                               Variant="Variant.Filled"
+                               Color="MudBlazor.Color.Primary"
+                               Size="MudBlazor.Size.Medium">
+                        Get started
+                    </MudButton>
+                    <MudButton Href="https://github.com/SergeyDavidovich/OMSBlazor"
+                               Target="_blank"
+                               Variant="Variant.Outlined"
+                               Size="MudBlazor.Size.Medium"
+                               EndIcon="@Icons.Custom.Brands.GitHub">
+                        GitHub Link
+                    </MudButton>
+                    <MudButton Href="https://dotnet.microsoft.com/en-us/apps/aspnet/web-apps/blazor"
+                               Target="_blank"
+                               Variant="Variant.Outlined"
+                               Size="MudBlazor.Size.Medium"
+                               EndIcon="@Icons.Custom.Brands.Microsoft">
+                        Blazor
+                    </MudButton>
+                </div>
+                <div class="d-none d-sm-flex flex-row mt-4 gap-2">
                     <MudButton Href="/orders"
                                Variant="Variant.Filled"
                                Color="MudBlazor.Color.Primary"
                                Size="MudBlazor.Size.Large">
-                        Create your first order
+                        Get started
                     </MudButton>
                     <MudButton Href="https://github.com/SergeyDavidovich/OMSBlazor"
                                Target="_blank"
@@ -48,6 +70,13 @@
                                Size="MudBlazor.Size.Large"
                                EndIcon="@Icons.Custom.Brands.GitHub">
                         GitHub Link
+                    </MudButton>
+                    <MudButton Href="https://dotnet.microsoft.com/en-us/apps/aspnet/web-apps/blazor"
+                               Target="_blank"
+                               Variant="Variant.Outlined"
+                               Size="MudBlazor.Size.Large"
+                               EndIcon="@Icons.Custom.Brands.Microsoft">
+                        Blazor
                     </MudButton>
                 </div>
             </div>
