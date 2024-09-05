@@ -6,7 +6,7 @@
 @using OMSBlazor.Client.Pages.Order.Journal
 
 <MudGrid>
-    <MudItem xs="12" md="8" lg="9">
+    <MudItem xs="12" md="7" lg="7">
         <StupeniFlipFlopCard MainContentTitle="Orders managment" AlternativeContentTitle="Orders managment" Icon="@Icons.Material.Filled.Edit" ButtonColor="MudBlazor.Color.Secondary" MainContentButtonText="To journal" AlternativeContentButtonText="To creation">
             <MainChildContent>
                 <CreateView PdfGenerated="@invoiceView.ShowPdf"></CreateView>
@@ -16,7 +16,7 @@
             </AlternativeChildContent>
         </StupeniFlipFlopCard>
     </MudItem>
-    <MudItem xs="12" md="4" lg="3">
+    <MudItem xs="12" md="5" lg="5">
         <InvoiceView @ref="invoiceView">
         </InvoiceView>
     </MudItem>
