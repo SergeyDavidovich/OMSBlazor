@@ -11,7 +11,8 @@
 <MudLayout>
     <MudAppBar Elevation="1">
         <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="MudBlazor.Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
-        <MudText Typo="Typo.h5" Class="ml-3">Order Management System</MudText>
+        <MudText Typo="Typo.h5" Class="d-none d-sm-flex ml-3">Order Management System</MudText>
+        <MudText Typo="Typo.h5" Class="d-flex d-sm-none ml-3" Style="font-size: 1.25rem">Order Management System</MudText>
         <MudSpacer />
         <MudIconButton Icon="@(DarkLightModeButtonIcon)" Color="MudBlazor.Color.Inherit" OnClick="@DarkModeToggle" />
     </MudAppBar>
