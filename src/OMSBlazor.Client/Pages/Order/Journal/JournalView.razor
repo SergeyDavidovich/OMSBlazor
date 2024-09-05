@@ -17,7 +17,7 @@
             <PropertyColumn Property="x => x.SourceOrderDto.OrderId" Title="Id" />
             <PropertyColumn Property="x => x.SourceOrderDto.CustomerId" Title="Customer id" />
             <PropertyColumn Property="x => x.SourceOrderDto.EmployeeId" Title="Employee id" />
-            <PropertyColumn Property="x => x.SourceOrderDto.OrderDate" Title="Order date" />
+            <PropertyColumn Property="x => x.SourceOrderDto.OrderDate" Format="dd/MM/yyyy" Title="Order date" />
         </Columns>
         <PagerContent>
             <MudDataGridPager T="SelectableOrderDto" />
