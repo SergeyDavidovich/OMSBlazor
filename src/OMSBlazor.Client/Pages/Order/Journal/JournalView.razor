@@ -15,8 +15,20 @@
                 </CellTemplate>
             </TemplateColumn>
             <PropertyColumn Property="x => x.SourceOrderDto.OrderId" Title="Id" />
-            <PropertyColumn Property="x => x.SourceOrderDto.CustomerId" Title="Customer id" />
-            <PropertyColumn Property="x => x.SourceOrderDto.EmployeeId" Title="Employee id" />
+            <TemplateColumn Title="Customer">
+                <CellTemplate>
+                    <MudText>
+                        @ViewModel.Customers.Single(x=>x.CustomerId==context.Item.SourceOrderDto.CustomerId).CompanyName
+                    </MudText>
+                </CellTemplate>
+            </TemplateColumn>
+            <TemplateColumn Title="Employee">
+                <CellTemplate>
+                    <MudText>
+                        @ViewModel.Employees.Single(x => x.EmployeeId == context.Item.SourceOrderDto.EmployeeId).FirstName @ViewModel.Employees.Single(x => x.EmployeeId == context.Item.SourceOrderDto.EmployeeId).LastName
+                    </MudText>
+                </CellTemplate>
+            </TemplateColumn>
             <PropertyColumn Property="x => x.SourceOrderDto.OrderDate" Format="dd/MM/yyyy" Title="Order date" />
         </Columns>
         <PagerContent>

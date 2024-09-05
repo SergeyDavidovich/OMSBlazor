@@ -7,6 +7,8 @@ using OMSBlazor.Client.Constants;
 using OMSBlazor.Dto.Order;
 using System.Net.Http.Json;
 using OMSBlazor.Client.Pages.Order.Create;
+using OMSBlazor.Dto.Employee;
+using OMSBlazor.Dto.Customer;
 
 namespace OMSBlazor.Client.Pages.Order.Journal
 {
@@ -64,6 +66,10 @@ namespace OMSBlazor.Client.Pages.Order.Journal
             set { this.RaiseAndSetIfChanged(ref _orders, value); }
         }
 
+        public List<EmployeeDto> Employees { get; set; }
+
+        public List<CustomerDto> Customers { get; set; }
+
         string _searchTerm;
         public string SearchTerm
         {
@@ -83,6 +89,12 @@ namespace OMSBlazor.Client.Pages.Order.Journal
 
                 var ordersJson = await _httpClient.GetStringAsync(BackEndEnpointURLs.OrderEndpoints.GetOrders);
                 var orders = JsonSerializer.Deserialize<List<OrderDto>>(ordersJson, options);
+
+                var employeesJson = await _httpClient.GetStringAsync(BackEndEnpointURLs.EmployeeEndpoints.GetEmployees);
+                Employees = JsonSerializer.Deserialize<List<EmployeeDto>>(employeesJson, options);
+
+                var customersJson = await _httpClient.GetStringAsync(BackEndEnpointURLs.CustomersEndpoints.GetCustomers);
+                Customers = JsonSerializer.Deserialize<List<CustomerDto>>(customersJson, options);
 
                 var selectablesOrders = orders.Select(x => new SelectableOrderDto(x)).ToList();
                 _cachedCollection = selectablesOrders;
