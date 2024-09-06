@@ -82,7 +82,7 @@
     private async Task DarkModeToggle()
     {
         _isDarkMode = !_isDarkMode;
-        await CookieService.SetAsync("IsDarkMode", _isDarkMode.ToString(), new DateTimeOffset().AddYears(1));
+        await CookieService.SetAsync("IsDarkMode", _isDarkMode.ToString(), new DateTimeOffset(DateTime.MaxValue));
     }
 
     public string DarkLightModeButtonIcon => _isDarkMode switch
