@@ -17,6 +17,13 @@
         <div class="ma-10">
             <MudText Typo="Typo.h3" GutterBottom="true">Log in</MudText>
 
+            <MudAlert Severity="Severity.Info">
+                Default user credentials. <br />
+                Login: admin@email.com <br />
+                Password: 1q2w3E* <br />
+                Fields are filled you can just press Log in
+            </MudAlert>
+
             <StatusMessage Message="@errorMessage" />
             <EditForm Model="Input" method="post" OnValidSubmit="LoginUser" FormName="login">
                 <DataAnnotationsValidator />
@@ -26,12 +33,12 @@
                 <div class="d-flex flex-column gap-5">
                     <div>
                         <MudStaticTextField For="@(() => Input.Email)" @bind-Value="Input.Email"
-                                            Label="Email" Placeholder="name@example.com"
+                                            Label="Email" 
                                             UserAttributes="@(new() { { "autocomplete", "true" }, { "aria-required", "true" } } )" />
                     </div>
                     <div>
                         <MudStaticTextField For="@(() => Input.Password)" @bind-Value="Input.Password"
-                                            Label="Password" InputType="InputType.Password" Placeholder="password"
+                                            Label="Password" InputType="InputType.Password" 
                                             UserAttributes="@(new() { { "autocomplete", "current-password" }, { "aria-required", "true" } } )" />
                     </div>
                     <div class="d-flex flex-row justify-space-between align-center">
@@ -61,7 +68,11 @@
     private HttpContext HttpContext { get; set; } = default!;
 
     [SupplyParameterFromForm]
-    private InputModel Input { get; set; } = new();
+    private InputModel Input { get; set; } = new()
+        {
+            Email = "admin@email.com",
+            Password = "1q2w3E*"
+        };
 
     [SupplyParameterFromQuery]
     private string? ReturnUrl { get; set; }
