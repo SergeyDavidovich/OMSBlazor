@@ -1,0 +1,32 @@
+﻿@using System.IO
+@using System.Reflection
+@inject IJSRuntime JsRuntime
+
+<MudDialog>
+    <DialogContent>
+        <StupeniCard Title="Invoice" Icon="@Icons.Material.Filled.Pages" IsWithButton="false">
+            <embed src="@GetPdf()" width="100%" height="100%" />
+        </StupeniCard>
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="Cancel">Cancel</MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code {
+    [CascadingParameter]
+    private MudDialogInstance MudDialog { get; set; }
+
+    [Parameter]
+    public byte[] InvoiceData{ get; set; }
+
+    private string GetPdf()
+    {
+        return "data:application/pdf;base64," + Convert.ToBase64String(InvoiceData);
+    }
+
+    private void Cancel()
+    {
+        MudDialog.Cancel();
+    }
+}

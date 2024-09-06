@@ -1,12 +1,14 @@
 ﻿@using System.Reactive.Linq
+@using OMSBlazor.Client.Pages.Order.Invoice
 @inherits ReactiveComponentBase<JournalViewModel>
+@inject IDialogService DialogService
 
 <StupeniCard Title="Orders journal" Icon="@Icons.Material.Filled.List" IsWithButton="false">
     @* This grid contain "show invoice" button and thus it is hidden on small screens(smartphones) *@
     <div class="d-none d-sm-flex justify-center align-center">
-        <MudDataGrid T="SelectableOrderDto" Style="width:100%" Items="@ViewModel.Orders" RowStyleFunc="RowStyleFunc" RowClick="e=>ChangeSelectedOrder(e.Item.SourceOrderDto.OrderId)" Hover="true" Striped="true" Bordered="true">
+        <MudDataGrid T="SelectableOrderDto" Style="width:100%" Items="@ViewModel.Orders" RowStyleFunc="RowStyleFunc" Hover="true" Striped="true" Bordered="true">
             <Columns>
-                <PropertyColumn Property="x => x.SourceOrderDto.OrderId" Title="Id" Class="" />
+                <PropertyColumn Property="x => x.SourceOrderDto.OrderId" Title="Id" />
                 <TemplateColumn Title="Customer">
                     <CellTemplate>
                         <MudText>
@@ -24,7 +26,7 @@
                 <PropertyColumn Property="x => x.SourceOrderDto.OrderDate" Format="dd/MM/yyyy" Title="Order date" />
                 <TemplateColumn CellClass="d-flex justify-center">
                     <CellTemplate>
-                        <MudButton Size="@MudBlazor.Size.Small" Variant="@Variant.Filled" Color="@MudBlazor.Color.Primary">Show invoice in modal</MudButton>
+                        <MudButton Size="@MudBlazor.Size.Small" Variant="@Variant.Filled" Color="@MudBlazor.Color.Primary" OnClick="()=>ShowInvoice(context.Item.SourceOrderDto.OrderId)">Show invoice</MudButton>
                     </CellTemplate>
                 </TemplateColumn>
             </Columns>
@@ -36,7 +38,7 @@
 
     @* This grid does not contain "show invoice" button and thus it is showen on small screens (smartphones)*@
     <div class="d-flex d-sm-none">
-        <MudDataGrid T="SelectableOrderDto" Items="@ViewModel.Orders" RowStyleFunc="RowStyleFunc" sRowClick="e=>ChangeSelectedOrder(e.Item.SourceOrderDto.OrderId)" Hover="true" Striped="true" Bordered="true">
+        <MudDataGrid T="SelectableOrderDto" Items="@ViewModel.Orders" RowStyleFunc="RowStyleFunc" Hover="true" Striped="true" Bordered="true">
             <Columns>
                 <PropertyColumn Property="x => x.SourceOrderDto.OrderId" Title="Id" Class="" />
                 <TemplateColumn Title="Customer">
@@ -63,8 +65,16 @@
 </StupeniCard>
 
 @code {
-    [Parameter]
-    public EventCallback<byte[]> OnSelectedOrderChanged { get; set; }
+    public async Task ShowInvoice(int orderId)
+    {
+        var arr = await ViewModel.ChangeSelectedOrderCommand.Execute(orderId);
+        var parameters = new DialogParameters<InvoiceDialog>()
+        {
+            { x=>x.InvoiceData, arr }
+        };
+        var options = new DialogOptions() { FullScreen = true };
+        await DialogService.ShowAsync<InvoiceDialog>("Invoice", parameters, options);
+    }
 
     private string RowStyleFunc(SelectableOrderDto selectableOrder, int index)
     {
@@ -76,11 +86,5 @@
         {
             return string.Empty;
         }
-    }
-
-    private async Task ChangeSelectedOrder(int orderId)
-    {
-        var arr = await ViewModel.ChangeSelectedOrderCommand.Execute(orderId);
-        await OnSelectedOrderChanged.InvokeAsync(arr);
     }
 }
