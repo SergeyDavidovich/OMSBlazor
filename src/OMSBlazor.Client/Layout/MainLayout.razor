@@ -1,10 +1,11 @@
 ﻿@using BitzArt.Blazor.Cookies
+@using OMSBlazor.Client.Themes
 @inherits LayoutComponentBase
 @implements IDisposable
 @inject PersistentComponentState ApplicationState
 @inject ICookieService CookieService
 
-<MudThemeProvider @bind-IsDarkMode="_isDarkMode" />
+<MudThemeProvider Theme="Theme" @bind-IsDarkMode="_isDarkMode" />
 <MudPopoverProvider />
 <MudDialogProvider 
     FullWidth="true"
@@ -69,7 +70,7 @@
 
 @code {
     private PersistingComponentStateSubscription persistingSubscription;
-    private MudTheme Theme = new MudTheme();
+    private MudTheme Theme = MyCustomTheme.MudTheme;
     private bool _isDarkMode = false;
     private bool _drawerOpen = false;
 

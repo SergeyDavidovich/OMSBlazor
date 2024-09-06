@@ -1,12 +1,13 @@
 ﻿@page "/"
 @using BitzArt.Blazor.Cookies
 @using Layout
+@using OMSBlazor.Client.Themes
 @layout HomeLayout
 @implements IDisposable
 @inject PersistentComponentState ApplicationState
 @inject ICookieService CookieService
 
-<MudThemeProvider IsDarkMode="@IsDarkMode" />
+<MudThemeProvider Theme="Theme" IsDarkMode="@IsDarkMode" />
 
 <div class="d-flex flex-column background">
 
@@ -204,6 +205,7 @@
 
 @code {
     private PersistingComponentStateSubscription persistingSubscription;
+    private MudTheme Theme = MyCustomTheme.MudTheme;
 
     protected async override Task OnInitializedAsync()
     {

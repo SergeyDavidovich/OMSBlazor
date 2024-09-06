@@ -1,16 +1,17 @@
 ﻿@using BitzArt.Blazor.Cookies
+@using OMSBlazor.Client.Themes
 @inherits LayoutComponentBase
 @inject NavigationManager NavigationManager
 @inject PersistentComponentState ApplicationState
 @inject ICookieService CookieService
 
-<MudThemeProvider IsDarkMode="_isDarkMode" />
+<MudThemeProvider Theme="Theme" IsDarkMode="_isDarkMode" />
 <MudPopoverProvider />
 <MudDialogProvider />
 <MudSnackbarProvider />
 <MudLayout>
     <MudAppBar Elevation="1">
-        <MudIconButton Icon="@Icons.Material.Filled.Home" Href="/" Color="MudBlazor.Color.Inherit" Edge="Edge.Start"/>
+        <MudIconButton Icon="@Icons.Material.Filled.Home" Href="/" Color="MudBlazor.Color.Inherit" Edge="Edge.Start" />
         <MudText Typo="Typo.h5" Class="ml-3">Order managment system</MudText>
     </MudAppBar>
     <MudMainContent Class="mt-16 pa-4">
@@ -28,6 +29,7 @@
 @code {
     [CascadingParameter]
     private HttpContext? HttpContext { get; set; }
+    MudTheme Theme = MyCustomTheme.MudTheme;
 
     protected override void OnParametersSet()
     {

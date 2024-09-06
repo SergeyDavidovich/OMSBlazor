@@ -2,19 +2,23 @@
 
 namespace OMSBlazor.Client.Themes
 {
-    public class CustomTheme : MudTheme
+    public static class MyCustomTheme
     {
-        public CustomTheme()
+        public static MudTheme MudTheme = new MudTheme()
         {
-            LayoutProperties = new LayoutProperties()
+            PaletteLight = new PaletteLight()
             {
-                DefaultBorderRadius = "3px"
-            };
-
-            PaletteDark = new PaletteDark() 
-            { 
-                
-            };
-        }
+                Primary = "#78c2ad",
+                Secondary = "#f3969a",
+                TableHover = "#f3969a", // Also applied to data grids
+                AppbarBackground = "#78c2ad",
+            },
+            PaletteDark = new PaletteDark()
+            {
+                Primary = "#78c2ad",
+                TableHover = "#f3969a", // Also applied to data grids
+                Secondary = "#f3969a",
+            },
+        };
     }
 }

@@ -1,5 +1,6 @@
 ﻿@using System.Reactive.Linq
 @using OMSBlazor.Client.Pages.Order.Invoice
+@using OMSBlazor.Client.Themes
 @inherits ReactiveComponentBase<JournalViewModel>
 @inject IDialogService DialogService
 
@@ -80,7 +81,7 @@
     {
         if (selectableOrder.IsSelcted)
         {
-            return "background-color: #EDE7F6";
+            return $"background-color: {MudBlazor.Colors.DeepOrange.Lighten1}";
         }
         else
         {
