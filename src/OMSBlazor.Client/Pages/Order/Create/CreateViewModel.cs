@@ -115,9 +115,9 @@ namespace OMSBlazor.Client.Pages.Order.Create
         #endregion
 
         #region Create
-        public ReactiveCommand<System.Reactive.Unit, byte[]> CreateOrderCommand { get; }
+        public ReactiveCommand<System.Reactive.Unit, int> CreateOrderCommand { get; }
 
-        private async Task<byte[]> CreateOrderExecute()
+        private async Task<int> CreateOrderExecute()
         {
             // When user clicks on "create order" button this function is runed
             // And if exception occurs, this exception will be pushed to the ThrowException observable
@@ -165,10 +165,7 @@ namespace OMSBlazor.Client.Pages.Order.Create
             await _httpClient.PostAsync($"{BackEndEnpointURLs.StasticsRecalculator.RecalculateStatistics}/{orderDto.OrderId}", null);
             await _hubConnectionsService.DashboardHubConnection.SendAsync("UpdateDashboard");
 
-            var getInvoiceResponse = await _httpClient.GetAsync(BackEndEnpointURLs.OrderEndpoints.GetUrlForInvoice(orderDto.OrderId));
-            var arr = await getInvoiceResponse.Content.ReadFromJsonAsync<byte[]>();
-
-            return arr;
+            return orderDto.OrderId;
         }
         #endregion
 

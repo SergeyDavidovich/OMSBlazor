@@ -19,11 +19,9 @@ namespace OMSBlazor.Client.Pages.Order.Create
 
         private async Task CreateOrderButtonClicked()
         {
-            var result = await ViewModel!.CreateOrderCommand.Execute();
+            var orderId = await ViewModel!.CreateOrderCommand.Execute();
 
-            Snackbar.Add("Order created successfully", Severity.Success);
-
-            await PdfGenerated.InvokeAsync(result);
+            Snackbar.Add($"Order with id - {orderId}, created successfully", Severity.Success);
         }
 
         private async Task RemoveAllButtonClicked()
