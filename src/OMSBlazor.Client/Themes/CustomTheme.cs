@@ -13,8 +13,6 @@ namespace OMSBlazor.Client.Themes
                 SecondaryContrastText = "#000000",
                 TableHover = "#EEEEEE", // Also applied to data grids
                 AppbarBackground = "#3459e6",
-                Info = "#d4e5f0",
-                InfoContrastText= "#103148"
             },
             PaletteDark = new PaletteDark()
             {
@@ -23,8 +21,6 @@ namespace OMSBlazor.Client.Themes
                 Secondary = "#ffffff",
                 SecondaryContrastText = "#000000",
                 AppbarBackground = "#3459e6",
-                Info= "#081924",
-                InfoContrastText= "#7eb0d3",
                 AppbarText = "#FFFFFF"
             }
         };
