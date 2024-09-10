@@ -7,26 +7,36 @@
 @* This grid contain "show invoice" button and thus it is hidden on small screens(smartphones) *@
 <div class="d-none d-sm-flex justify-center align-center">
     <MudDataGrid T="SelectableOrderDto" Dense="true" Elevation="3" RowsPerPage="25" Style="width:100%" Items="@ViewModel.Orders" RowStyleFunc="RowStyleFunc" Hover="true" Striped="true" Bordered="true">
+        <ColGroup>
+            <col />
+            <col />
+            <col />
+            <col />
+            <col />
+            <col />
+            <col />
+            <col style="width: 100%"/>
+        </ColGroup>
         <Columns>
-            <PropertyColumn Property="x => x.SourceOrderDto.OrderId" Title="Id" Sortable="false"/>
-            <TemplateColumn Title="Customer">
+            <PropertyColumn Property="x => x.SourceOrderDto.OrderId" Title="Id" Sortable="false" />
+            <TemplateColumn Title="Customer" CellClass="cell-style">
                 <CellTemplate>
                     <MudText>
                         @ViewModel.Customers.Single(x => x.CustomerId == context.Item.SourceOrderDto.CustomerId).CompanyName
                     </MudText>
                 </CellTemplate>
             </TemplateColumn>
-            <TemplateColumn Title="Employee">
+            <TemplateColumn Title="Employee" CellClass="cell-style">
                 <CellTemplate>
                     <MudText>
                         @ViewModel.Employees.Single(x => x.EmployeeId == context.Item.SourceOrderDto.EmployeeId).FirstName @ViewModel.Employees.Single(x => x.EmployeeId == context.Item.SourceOrderDto.EmployeeId).LastName
                     </MudText>
                 </CellTemplate>
             </TemplateColumn>
-            <PropertyColumn Property="x => x.SourceOrderDto.OrderDate" Format="dd/MM/yyyy" Title="Order date"/>
-            <PropertyColumn Property="x=>x.SourceOrderDto.ShipName" Title="Ship name"/>
-            <PropertyColumn Property="x=>x.SourceOrderDto.ShipCity" Title="Ship city"/>
-            <PropertyColumn Property="x=>x.SourceOrderDto.ShipCountry" Title="Ship country"  />
+            <PropertyColumn Property="x => x.SourceOrderDto.OrderDate" Format="dd/MM/yyyy" Title="Order date" />
+            <PropertyColumn Property="x=>x.SourceOrderDto.ShipName" Title="Ship name" CellClass="cell-style"/>
+            <PropertyColumn Property="x=>x.SourceOrderDto.ShipCity" Title="Ship city" />
+            <PropertyColumn Property="x=>x.SourceOrderDto.ShipCountry" Title="Ship country" />
             <TemplateColumn CellClass="d-flex justify-center">
                 <CellTemplate>
                     <MudButton Size="@MudBlazor.Size.Small" Variant="@Variant.Filled" Color="@MudBlazor.Color.Primary" OnClick="()=>ShowInvoice(context.Item.SourceOrderDto.OrderId)">Show invoice</MudButton>
@@ -67,8 +77,7 @@
 </div>
 
 <style>
-    .cell-style{
-        max-width: auto;
+    .cell-style {
         overflow-x: hidden;
         white-space: nowrap;
     }
