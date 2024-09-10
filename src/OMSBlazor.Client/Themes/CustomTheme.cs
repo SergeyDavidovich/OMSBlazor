@@ -8,17 +8,21 @@ namespace OMSBlazor.Client.Themes
         {
             PaletteLight = new PaletteLight()
             {
-                Primary = "#78c2ad",
-                Secondary = "#f3969a",
-                TableHover = "#f3969a", // Also applied to data grids
-                AppbarBackground = "#78c2ad",
+                Primary = "#3459e6",
+                Secondary = "#ffffff",
+                SecondaryContrastText = "#000000",
+                TableHover = "#EEEEEE", // Also applied to data grids
+                AppbarBackground = "#3459e6",
             },
             PaletteDark = new PaletteDark()
             {
-                Primary = "#78c2ad",
-                TableHover = "#f3969a", // Also applied to data grids
-                Secondary = "#f3969a",
-            },
+                Primary = "#3459e6",
+                TableHover = "#9E9E9E", // Also applied to data grids
+                Secondary = "#ffffff",
+                SecondaryContrastText = "#000000",
+                AppbarBackground = "#3459e6",
+                AppbarText = "#FFFFFF"
+            }
         };
     }
 }
