@@ -5,7 +5,7 @@
 <MudGrid>
     <MudItem xs="12" lg="6" md="6">
         <StupeniCard Title="Products on Store" Icon="@Icons.Material.Filled.Home" ButtonColor="MudBlazor.Color.Secondary" ButtonText="Remove all" OnClickCallBack="RemoveAllButtonClicked">
-            <MudDataGrid Items="@ViewModel!.ProductsInStore" Dense="true" Virtualize="true" Hover="true" Striped="true" Bordered="true" FixedHeader="true" Height="600px">
+            <MudDataGrid Items="@ViewModel!.ProductsInStore" Elevation="3" Dense="true" Virtualize="true" Hover="true" Striped="true" Bordered="true" FixedHeader="true" Height="600px">
                 <ColGroup>
                     <col />
                     <col />
@@ -52,7 +52,7 @@
                         </MudSelect>
                     </MudItem>
                     <MudItem xs="12">
-                        <MudDataGrid Items="@ViewModel!.ProductsInOrder" Virtualize="true" FixedHeader="true" Hover="true" Striped="true" Bordered="true" Height="400px">
+                        <MudDataGrid Items="@ViewModel!.ProductsInOrder" Dense="true" Elevation="3" Virtualize="true" FixedHeader="true" Hover="true" Striped="true" Bordered="true" Height="400px">
                             <Columns>
                                 <PropertyColumn Title="Product name" Property="x => x.ProductName" />
                                 <PropertyColumn Title="Unit price" Property="x=>x.UnitPrice" />
