@@ -6,9 +6,9 @@
 
 @* This grid contain "show invoice" button and thus it is hidden on small screens(smartphones) *@
 <div class="d-none d-sm-flex justify-center align-center">
-    <MudDataGrid T="SelectableOrderDto" Style="width:100%" Class="border" Items="@ViewModel.Orders" RowStyleFunc="RowStyleFunc" Hover="true" Striped="true" Bordered="true">
+    <MudDataGrid T="SelectableOrderDto" Dense="true" Elevation="3" RowsPerPage="25" Style="width:100%" Items="@ViewModel.Orders" RowStyleFunc="RowStyleFunc" Hover="true" Striped="true" Bordered="true">
         <Columns>
-            <PropertyColumn Property="x => x.SourceOrderDto.OrderId" Title="Id" />
+            <PropertyColumn Property="x => x.SourceOrderDto.OrderId" Title="Id" Sortable="false"/>
             <TemplateColumn Title="Customer">
                 <CellTemplate>
                     <MudText>
@@ -23,7 +23,10 @@
                     </MudText>
                 </CellTemplate>
             </TemplateColumn>
-            <PropertyColumn Property="x => x.SourceOrderDto.OrderDate" Format="dd/MM/yyyy" Title="Order date" />
+            <PropertyColumn Property="x => x.SourceOrderDto.OrderDate" Format="dd/MM/yyyy" Title="Order date"/>
+            <PropertyColumn Property="x=>x.SourceOrderDto.ShipName" Title="Ship name"/>
+            <PropertyColumn Property="x=>x.SourceOrderDto.ShipCity" Title="Ship city"/>
+            <PropertyColumn Property="x=>x.SourceOrderDto.ShipCountry" Title="Ship country"  />
             <TemplateColumn CellClass="d-flex justify-center">
                 <CellTemplate>
                     <MudButton Size="@MudBlazor.Size.Small" Variant="@Variant.Filled" Color="@MudBlazor.Color.Primary" OnClick="()=>ShowInvoice(context.Item.SourceOrderDto.OrderId)">Show invoice</MudButton>
@@ -63,6 +66,14 @@
     </MudDataGrid>
 </div>
 
+<style>
+    .cell-style{
+        max-width: auto;
+        overflow-x: hidden;
+        white-space: nowrap;
+    }
+</style>
+
 @code {
     public async Task ShowInvoice(int orderId)
     {
@@ -71,7 +82,8 @@
         {
             { x=>x.InvoiceData, arr }
         };
-        await DialogService.ShowAsync<InvoiceDialog>("Invoice", parameters);
+        var options = new DialogOptions { NoHeader = true };
+        await DialogService.ShowAsync<InvoiceDialog>("Invoice", parameters, options);
     }
 
     private string RowStyleFunc(SelectableOrderDto selectableOrder, int index)
