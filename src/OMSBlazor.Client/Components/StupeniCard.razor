@@ -1,11 +1,20 @@
 ﻿<MudPaper Class="d-flex flex-column rounded-lg" Style="height: 100%" Elevation="3">
-    <div id="bar" class="d-flex gap-4 justify-space-between mud-theme-primary flex-grow-2 rounded-t-lg">
+    <div class="d-none d-sm-flex gap-4 justify-space-between mud-theme-primary flex-grow-2 rounded-t-lg">
         <div id="title" class="d-flex gap-2 align-center">
             <MudIcon Icon="@Icon" />
             <span id="title-text">@Title</span>
         </div>
         <MudButton id="card-button" Class="@buttonVisibility" Style="height:39px; width:auto" Variant="Variant.Filled" Color="@ButtonColor" Disabled="@IsButtonDisabled" OnClick="@OnClickCallBack">
             <MudText Typo="Typo.button">@ButtonText</MudText>
+        </MudButton>
+    </div>
+    <div class="d-flex d-sm-none justify-space-between mud-theme-primary flex-grow-2 rounded-t-lg">
+        <div id="title" class="d-flex gap-2 align-center">
+            <MudIcon Icon="@Icon" />
+            <span id="title-text" style="font-size: 0.9rem">@Title</span>
+        </div>
+        <MudButton id="card-button" Class="@buttonVisibility" Style="height:39px; width:auto; padding-right: 6px; padding-left: 6px" Variant="Variant.Filled" Color="@ButtonColor" Disabled="@IsButtonDisabled" OnClick="@OnClickCallBack">
+            <MudText Style="font-size: 0.8rem" Typo="Typo.button">@ButtonText</MudText>
         </MudButton>
     </div>
     <div id="content" class="d-flex flex-column justify-center flex-grow-10">
