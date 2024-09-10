@@ -5,24 +5,41 @@
 <MudGrid>
     <MudItem xs="12" lg="6" md="6">
         <StupeniCard Title="Products on Store" Icon="@Icons.Material.Filled.Home" ButtonColor="MudBlazor.Color.Secondary" ButtonText="Remove all" OnClickCallBack="RemoveAllButtonClicked">
-            <MudDataGrid Items="@ViewModel!.ProductsInStore" Elevation="3" Dense="true" Virtualize="true" Hover="true" Striped="true" Bordered="true" FixedHeader="true" Height="600px">
-                <ColGroup>
-                    <col />
-                    <col />
-                    <col />
-                    <col style="width: 100%" />
-                </ColGroup>
-                <Columns>
-                    <PropertyColumn Title="Product name" Property="x => x.ProductName" CellStyle="white-space: nowrap;" />
-                    <PropertyColumn Title="Unit price" Property="x => x.UnitPrice" Sortable="false" HeaderStyle="white-space: nowrap;" />
-                    <PropertyColumn Title="Unit in stock" Property="x=>x.UnitsInStock" Sortable="false" HeaderStyle="white-space: nowrap;" />
-                    <TemplateColumn Title="Added" Editable="true">
-                        <CellTemplate>
-                            <MudCheckBox @bind-Value="context.Item.Added" />
-                        </CellTemplate>
-                    </TemplateColumn>
-                </Columns>
-            </MudDataGrid>
+            <div class="d-none d-sm-flex justify-center align-center">
+                @* hidden on small screen and visible on all other*@
+                <MudDataGrid Items="@ViewModel!.ProductsInStore" Style="width:100%" Elevation="3" Dense="true" Virtualize="true" Hover="true" Striped="true" Bordered="true" FixedHeader="true" Height="600px">
+                    <ColGroup>
+                        <col />
+                        <col />
+                        <col />
+                        <col style="width: 100%" />
+                    </ColGroup>
+                    <Columns>
+                        <PropertyColumn Title="Product name" Property="x => x.ProductName" CellStyle="white-space: nowrap;" />
+                        <PropertyColumn Title="Unit price" Property="x => x.UnitPrice" Sortable="false" HeaderStyle="white-space: nowrap;" />
+                        <PropertyColumn Title="Unit in stock" Property="x=>x.UnitsInStock" Sortable="false" HeaderStyle="white-space: nowrap;" />
+                        <TemplateColumn Title="Added" Editable="true">
+                            <CellTemplate>
+                                <MudCheckBox @bind-Value="context.Item.Added" />
+                            </CellTemplate>
+                        </TemplateColumn>
+                    </Columns>
+                </MudDataGrid>
+            </div>
+            <div class="d-flex d-sm-none"> @* hidden on all screens except small one*@
+                <MudDataGrid Items="@ViewModel!.ProductsInStore" Elevation="3" Dense="true" Virtualize="true" Hover="true" Striped="true" Bordered="true" FixedHeader="true" Height="600px">
+                    <Columns>
+                        <PropertyColumn Title="Product name" Property="x => x.ProductName" />
+                        <PropertyColumn Title="Unit price" Property="x => x.UnitPrice" Sortable="false" />
+                        <PropertyColumn Title="Unit in stock" Property="x=>x.UnitsInStock" Sortable="false" />
+                        <TemplateColumn Title="Added" Editable="true">
+                            <CellTemplate>
+                                <MudCheckBox @bind-Value="context.Item.Added" />
+                            </CellTemplate>
+                        </TemplateColumn>
+                    </Columns>
+                </MudDataGrid>
+            </div>
         </StupeniCard>
     </MudItem>
     <MudItem xs="12" lg="6" md="6">
