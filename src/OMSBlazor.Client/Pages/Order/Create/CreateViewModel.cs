@@ -48,12 +48,13 @@ namespace OMSBlazor.Client.Pages.Order.Create
             employees = new SourceList<EmployeeDto>();
             customers = new SourceList<CustomerDto>();
 
-            var canRemoveAllExecute = productsInOrder.CountChanged.
+            canRemoveProductFromOrderAll = productsInOrder.CountChanged.
                 Select(currentCountOfItems =>
                 {
                     if (currentCountOfItems == 0) return false;
                     else return true;
-                });
+                })
+                .ToProperty(this, x => x.CanRemoveProductFromOrderAll);
 
             productsInOrder.CountChanged.Subscribe(currentCount => { CountOfProductsInOrder = currentCount; });
 
@@ -94,7 +95,7 @@ namespace OMSBlazor.Client.Pages.Order.Create
                 Bind(out _customers).
                 Subscribe();
 
-            RemoveAllCommand = ReactiveCommand.Create(RemoveAllCommandExecute, canRemoveAllExecute);
+            RemoveAllCommand = ReactiveCommand.Create(RemoveAllCommandExecute);
             CreateOrderCommand = ReactiveCommand.CreateFromTask(CreateOrderExecute);
             AddProductToOrderCommand = ReactiveCommand.Create<int>(AddProductToOrderExecute);
             RemoveProductFromOrderCommand = ReactiveCommand.Create<int>(RemoveProductFromOrderExecute);
@@ -395,6 +396,12 @@ namespace OMSBlazor.Client.Pages.Order.Create
         {
             set { this.RaiseAndSetIfChanged(ref _totalSumString, value); }
             get { return _totalSumString; }
+        }
+
+        private readonly ObservableAsPropertyHelper<bool> canRemoveProductFromOrderAll;
+        public bool CanRemoveProductFromOrderAll
+        {
+            get { return canRemoveProductFromOrderAll.Value; }
         }
 
         private readonly ObservableAsPropertyHelper<bool> createOrderButtonDisabled;

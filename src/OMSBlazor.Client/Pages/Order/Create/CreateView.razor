@@ -5,7 +5,7 @@
 
 <MudGrid>
     <MudItem xs="12" lg="6" md="6">
-        <StupeniCard Title="Products on Store" Icon="@Icons.Material.Filled.Home" ButtonColor="MudBlazor.Color.Secondary" ButtonText="Remove all" OnClickCallBack="RemoveAllButtonClicked">
+        <StupeniCard Title="Products on Store" Icon="@Icons.Material.Filled.Home" ButtonColor="MudBlazor.Color.Secondary" IsButtonDisabled="!ViewModel.CanRemoveProductFromOrderAll" ButtonText="Remove all" OnClickCallBack="RemoveAllButtonClicked">
             @if (!ViewModel.ProductsInStore.Any())
             {
                 <MudProgressCircular Class="align-self-center" Color="MudBlazor.Color.Primary" Size="MudBlazor.Size.Large" Indeterminate="true" />
