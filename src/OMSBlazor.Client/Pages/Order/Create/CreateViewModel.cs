@@ -15,6 +15,7 @@ using System.Text;
 using MudBlazor;
 using OMSBlazor.Client.Pages.Dashboard.OrderStastics;
 using OMSBlazor.Client.Services.HubConnectionsService;
+using System.Reactive;
 
 namespace OMSBlazor.Client.Pages.Order.Create
 {
@@ -95,6 +96,8 @@ namespace OMSBlazor.Client.Pages.Order.Create
 
             RemoveAllCommand = ReactiveCommand.Create(RemoveAllCommandExecute, canRemoveAllExecute);
             CreateOrderCommand = ReactiveCommand.CreateFromTask(CreateOrderExecute);
+            AddProductToOrderCommand = ReactiveCommand.Create<int>(AddProductToOrderExecute);
+            RemoveProductFromOrderCommand = ReactiveCommand.Create<int>(RemoveProductFromOrderExecute);
         }
 
         #region Commands
@@ -166,6 +169,28 @@ namespace OMSBlazor.Client.Pages.Order.Create
             await _hubConnectionsService.DashboardHubConnection.SendAsync("UpdateDashboard");
 
             return orderDto.OrderId;
+        }
+        #endregion
+
+        #region Add product to order
+        public ReactiveCommand<int, Unit> AddProductToOrderCommand { get; }
+
+        private void AddProductToOrderExecute(int productId)
+        {
+            var product = products.Items.Single(x => x.ProductID == productId);
+
+            product.Added = true;
+        }
+        #endregion
+
+        #region Remove product from order
+        public ReactiveCommand<int, Unit> RemoveProductFromOrderCommand { get; }  
+
+        private void RemoveProductFromOrderExecute(int productId)
+        {
+            var product = products.Items.Single(x=> x.ProductID == productId);
+
+            product.Added = false;
         }
         #endregion
 

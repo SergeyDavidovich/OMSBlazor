@@ -1,5 +1,6 @@
 ﻿@using OMSBlazor.Dto.Customer
 @using OMSBlazor.Dto.Employee
+@using System.Reactive.Linq
 @inherits ReactiveComponentBase<CreateViewModel>
 
 <MudGrid>
@@ -8,7 +9,7 @@
             @if (!ViewModel.ProductsInStore.Any())
             {
                 <MudProgressCircular Class="align-self-center" Color="MudBlazor.Color.Primary" Size="MudBlazor.Size.Large" Indeterminate="true" />
-            } 
+            }
             else
             {
                 <div class="d-none d-sm-flex justify-center align-center">
@@ -24,9 +25,16 @@
                             <PropertyColumn Title="Product name" Property="x => x.ProductName" CellStyle="white-space: nowrap;" />
                             <PropertyColumn Title="Unit price" Property="x => x.UnitPrice" Sortable="false" HeaderStyle="white-space: nowrap;" />
                             <PropertyColumn Title="Unit in stock" Property="x=>x.UnitsInStock" Sortable="false" HeaderStyle="white-space: nowrap;" />
-                            <TemplateColumn Title="Added" Editable="true">
+                            <TemplateColumn CellClass="d-flex justify-center">
                                 <CellTemplate>
-                                    <MudCheckBox @bind-Value="context.Item.Added" />
+                                    @if (context.Item.Added)
+                                    {
+                                        <MudButton Color="MudBlazor.Color.Error" Variant="Variant.Filled" OnClick="e=>OnRemoveProductFromOrderClick(context.Item.ProductID)">Remove from order</MudButton>
+                                    }
+                                    else
+                                    {
+                                        <MudButton Color="MudBlazor.Color.Success" Variant="Variant.Filled" OnClick="e=>OnAddProductToOrderClick(context.Item.ProductID)">Add to order</MudButton>
+                                    }
                                 </CellTemplate>
                             </TemplateColumn>
                         </Columns>
@@ -109,4 +117,14 @@
 
     [Parameter]
     public EventCallback<byte[]> PdfGenerated { get; set; }
+
+    private async Task OnRemoveProductFromOrderClick(int productId)
+    {
+        await ViewModel.RemoveProductFromOrderCommand.Execute(productId);
+    }
+
+    private async Task OnAddProductToOrderClick(int productId)
+    {
+        await ViewModel.AddProductToOrderCommand.Execute(productId);
+    }
 }
