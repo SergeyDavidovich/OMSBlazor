@@ -1,9 +1,7 @@
 ﻿using OMSBlazor.Dto.Order;
 using OMSBlazor.Northwind.OrderAggregate;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Volo.Abp.Application.Services;
 using Volo.Abp.Domain.Repositories;
@@ -13,12 +11,15 @@ using QuestPDF.Fluent;
 using OMSBlazor.Dto.Order.Stastics;
 using OMSBlazor.Northwind.Stastics;
 using OMSBlazor.Interfaces.ApplicationServices;
+using Volo.Abp.Caching;
+using Microsoft.Extensions.Caching.Distributed;
 
 namespace OMSBlazor.Application.ApplicationServices
 {
     public class OrderApplicationService : ApplicationService, IOrderApplicationService
     {
         private readonly IRepository<Order, int> _orderRepository;
+        private readonly IReadOnlyRepository<Order, int> _orderReadOnlyRepository; // AsNoTracking behind the scenes for Get requests 
         private readonly IRepository<Employee, int> _employeeRepository;
         private readonly IRepository<Customer, string> _customerRepository;
         private readonly IRepository<OrderDetail> _orderDetailsRepository;
@@ -28,9 +29,11 @@ namespace OMSBlazor.Application.ApplicationServices
         private readonly IRepository<SalesByCountry, int> _salesByCountryRepository;
         private readonly IRepository<Summary, int> _summaryRepository;
         private readonly IOrderManager _orderManager;
+        private readonly IDistributedCache<IQueryable<Order>> _orderCache; // added InMemory cache for orders
 
         public OrderApplicationService(
             IRepository<Order, int> orderRepository,
+            IReadOnlyRepository<Order, int> orderReadOnlyRepository,
             IRepository<Employee, int> employeeRepository,
             IRepository<Customer, string> customerRepository,
             IRepository<Product, int> productRepository,
@@ -39,9 +42,13 @@ namespace OMSBlazor.Application.ApplicationServices
             IRepository<OrdersByCountry, int> ordersByCountryRepository,
             IRepository<SalesByCategory, int> salesByCategoryRepository,
             IRepository<SalesByCountry, int> salesByCountryRepository,
-            IRepository<Summary, int> summaryRepository)
+            IRepository<Summary, int> summaryRepository,
+            IDistributedCache<IQueryable<Order>> orderCache
+            )
         {
             _orderRepository = orderRepository;
+            _orderReadOnlyRepository = orderReadOnlyRepository;
+            _productRepository = productRepository;
             _customerRepository = customerRepository;
             _employeeRepository = employeeRepository;
             _productRepository = productRepository;
@@ -51,6 +58,7 @@ namespace OMSBlazor.Application.ApplicationServices
             _salesByCategoryRepository = salesByCategoryRepository;
             _salesByCountryRepository = salesByCountryRepository;
             _summaryRepository = summaryRepository;
+            _orderCache = orderCache;
         }
 
         public async Task<OrderDto> SaveOrderAsync(CreateOrderDto createOrderDto)
@@ -78,11 +86,16 @@ namespace OMSBlazor.Application.ApplicationServices
 
         public async Task<List<OrderDto>> GetOrdersAsync()
         {
-            var orders = (await _orderRepository.WithDetailsAsync(x => x.OrderDetails)).ToList();
+            // InMemory cache for orders
+            var ordersQuery = await _orderCache.GetOrAddAsync(
+                "ordersQuery",
+                async () => await _orderReadOnlyRepository.WithDetailsAsync(x => x.OrderDetails),
+                () => new DistributedCacheEntryOptions
+                {
+                    AbsoluteExpiration = System.DateTimeOffset.Now.AddHours(1)
+                }, null, false);
 
-            var orderDtos = ObjectMapper.Map<List<Order>, List<OrderDto>>(orders);
-
-            return orderDtos;
+            return ObjectMapper.Map<List<Order>, List<OrderDto>>(ordersQuery.ToList());
         }
 
         public async Task<OrderDto> GetOrderAsync(int id)
