@@ -5,11 +5,23 @@
 @using OMSBlazor.Client.Pages.Order.Invoice
 @using OMSBlazor.Client.Pages.Order.Journal
 
-<StupeniFlipFlopCard MainContentTitle="Orders managment - creation" AlternativeContentTitle="Orders managment - journal" Icon="@Icons.Material.Filled.Edit" ButtonColor="MudBlazor.Color.Secondary" MainContentButtonText="To journal" AlternativeContentButtonText="To creation">
-    <MainChildContent>
-        <CreateView></CreateView>
-    </MainChildContent>
-    <AlternativeChildContent>
-        <JournalView></JournalView>
-    </AlternativeChildContent>
-</StupeniFlipFlopCard>
+<div class="d-none d-sm-flex justify-center align-center">
+    <StupeniFlipFlopCard MainContentTitle="Orders managment - creation" AlternativeContentTitle="Orders managment - journal" Icon="@Icons.Material.Filled.Edit" ButtonColor="MudBlazor.Color.Secondary" MainContentButtonText="To journal" AlternativeContentButtonText="To creation">
+        <MainChildContent>
+            <CreateView></CreateView>
+        </MainChildContent>
+        <AlternativeChildContent>
+            <JournalView></JournalView>
+        </AlternativeChildContent>
+    </StupeniFlipFlopCard>
+</div>
+<div class="d-flex d-sm-none">
+    <StupeniFlipFlopCardWithFAB MainContentButtonText="To journal" AlternativeContentButtonText="To creation" ButtonColor="MudBlazor.Color.Secondary">
+        <MainChildContent>
+            <CreateView></CreateView>
+        </MainChildContent>
+        <AlternativeChildContent>
+            <JournalView></JournalView>
+        </AlternativeChildContent>
+    </StupeniFlipFlopCardWithFAB>
+</div>
