@@ -3,35 +3,57 @@
 @using System.Reactive.Linq
 @inherits ReactiveComponentBase<CreateViewModel>
 
-<MudGrid>
+<MudGrid Spacing="2">
     <MudItem xs="12" lg="6" md="6">
         <StupeniCard Title="Order"
                      Icon="@Icons.Material.Filled.Timer"
                      ButtonColor="MudBlazor.Color.Success"
                      ButtonText="Create" IsButtonDisabled="@ViewModel!.CreateOrderButtonDisabled" OnClickCallBack="CreateOrderButtonClicked">
             <div class="d-flex flex-column justify-space-between" style="height: 100%;">
-                <MudGrid>
-                    <MudItem xs="12">
+                <div class="d-flex flex-column gap-md-3 gap-1">
+                    <div>
                         <MudDatePicker @bind-Date="@ViewModel!.OrderDate" Label="Order date" ReadOnly="true" ShowToolbar="true" />
-                    </MudItem>
-                    <MudItem xs="6">
-                        <MudSelect T="EmployeeDto" ToStringFunc="GetFullName" @bind-Value="@ViewModel!.SelectedEmployee" Label="Employee" AnchorOrigin="Origin.BottomCenter">
-                            @foreach (var employee in ViewModel!.Employees)
-                            {
-                                <MudSelectItem Value="employee" />
-                            }
-                        </MudSelect>
-                    </MudItem>
-                    <MudItem xs="6">
-                        <MudSelect T="CustomerDto" ToStringFunc="GetCustomerName" @bind-Value="@ViewModel!.SelectedCustomer" Label="Customer" AnchorOrigin="Origin.BottomCenter">
-                            @foreach (var customer in ViewModel!.Customers)
-                            {
-                                <MudSelectItem Value="customer" />
-                            }
-                        </MudSelect>
-                    </MudItem>
-                    <MudItem xs="12">
-                        <MudDataGrid Items="@ViewModel!.ProductsInOrder" Dense="true" Elevation="3" Virtualize="true" FixedHeader="true" Hover="true" Striped="true" Bordered="true" Height="400px">
+                    </div>
+                    <div class="d-flex flex-row gap-2">
+                        <div class="flex-grow-1">
+                            <MudSelect T="EmployeeDto" ToStringFunc="GetFullName" @bind-Value="@ViewModel!.SelectedEmployee" Label="Employee" AnchorOrigin="Origin.BottomCenter">
+                                @foreach (var employee in ViewModel!.Employees)
+                                {
+                                    <MudSelectItem Value="employee" />
+                                }
+                            </MudSelect>
+                        </div>
+                        <div class="flex-grow-1">
+                            <MudSelect T="CustomerDto" ToStringFunc="GetCustomerName" @bind-Value="@ViewModel!.SelectedCustomer" Label="Customer" AnchorOrigin="Origin.BottomCenter">
+                                @foreach (var customer in ViewModel!.Customers)
+                                {
+                                    <MudSelectItem Value="customer" />
+                                }
+                            </MudSelect>
+                        </div>
+                    </div>
+
+                    <div class="d-none d-sm-flex justify-center align-center">
+                        <MudDataGrid Items="@ViewModel!.ProductsInOrder" Style="width:100%" Dense="true" Elevation="3" Virtualize="true" FixedHeader="true" Hover="true" Striped="true" Bordered="true" Height="450px">
+                            <Columns>
+                                <PropertyColumn Title="Product name" Property="x => x.ProductName" />
+                                <PropertyColumn Title="Unit price" Property="x=>x.UnitPrice" />
+                                <TemplateColumn Title="Quantity">
+                                    <CellTemplate>
+                                        <MudNumericField T="short" @bind-Value="context.Item.SelectedQuantity" Variant="Variant.Text" Min="0" Max="(short)context.Item.QunatityInStoke" />
+                                    </CellTemplate>
+                                </TemplateColumn>
+                                <TemplateColumn Title="Discount">
+                                    <CellTemplate>
+                                        <MudNumericField T="float" @bind-Value="context.Item.SelectedDiscount" Variant="Variant.Text" Min="0" Max="100" />
+                                    </CellTemplate>
+                                </TemplateColumn>
+                            </Columns>
+                        </MudDataGrid>
+                    </div>
+
+                    <div class="d-flex d-sm-none justify-center align-center">
+                        <MudDataGrid Items="@ViewModel!.ProductsInOrder" Style="width: 100%" Dense="true" Elevation="3" Virtualize="true" FixedHeader="true" Hover="true" Striped="true" Bordered="true" Height="200px">
                             <Columns>
                                 <PropertyColumn Title="Product name" Property="x => x.ProductName" />
                                 <PropertyColumn Title="Unit price" Property="x=>x.UnitPrice" />
@@ -47,11 +69,12 @@
                                 </TemplateColumn>
                             </Columns>
                         </MudDataGrid>
-                    </MudItem>
-                </MudGrid>
-                <MudItem Class="align-self-end">
+                    </div>
+
+                </div>
+                <div class="align-self-end">
                     <MudText Typo="Typo.h6">@($"Total price: {ViewModel!.TotalSumString}")</MudText>
-                </MudItem>
+                </div>
             </div>
         </StupeniCard>
     </MudItem>
@@ -60,7 +83,7 @@
             @if (!ViewModel.ProductsInStore.Any())
             {
                 <MudProgressCircular Class="align-self-center" Color="MudBlazor.Color.Primary" Size="MudBlazor.Size.Large" Indeterminate="true" />
-            }
+            } 
             else
             {
                 <div class="d-none d-sm-flex justify-center align-center">

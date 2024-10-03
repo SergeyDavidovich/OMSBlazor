@@ -5,7 +5,7 @@
 @using OMSBlazor.Client.Pages.Order.Invoice
 @using OMSBlazor.Client.Pages.Order.Journal
 
-<div class="d-none d-sm-flex justify-center align-center">
+<MudHidden Breakpoint="Breakpoint.Xs">
     <StupeniFlipFlopCard MainContentTitle="Orders managment - creation" AlternativeContentTitle="Orders managment - journal" Icon="@Icons.Material.Filled.Edit" ButtonColor="MudBlazor.Color.Secondary" MainContentButtonText="To journal" AlternativeContentButtonText="To creation">
         <MainChildContent>
             <CreateView></CreateView>
@@ -14,8 +14,9 @@
             <JournalView></JournalView>
         </AlternativeChildContent>
     </StupeniFlipFlopCard>
-</div>
-<div class="d-flex d-sm-none">
+</MudHidden>
+
+<MudHidden Breakpoint="Breakpoint.Xs" Invert="true">
     <StupeniFlipFlopCardWithFAB MainContentButtonText="To journal" AlternativeContentButtonText="To creation" ButtonColor="MudBlazor.Color.Secondary">
         <MainChildContent>
             <CreateView></CreateView>
@@ -24,4 +25,4 @@
             <JournalView></JournalView>
         </AlternativeChildContent>
     </StupeniFlipFlopCardWithFAB>
-</div>
+</MudHidden>

@@ -37,7 +37,7 @@ namespace OMSBlazor.Client.Pages.Order.Create
 
         private readonly IHubConnectionsService _hubConnectionsService;
         #endregion
-        
+
         public CreateViewModel(HttpClient httpClient, IHubConnectionsService hubConnectionsService)
         {
             _httpClient = httpClient;
@@ -185,11 +185,11 @@ namespace OMSBlazor.Client.Pages.Order.Create
         #endregion
 
         #region Remove product from order
-        public ReactiveCommand<int, Unit> RemoveProductFromOrderCommand { get; }  
+        public ReactiveCommand<int, Unit> RemoveProductFromOrderCommand { get; }
 
         private void RemoveProductFromOrderExecute(int productId)
         {
-            var product = products.Items.Single(x=> x.ProductID == productId);
+            var product = products.Items.Single(x => x.ProductID == productId);
 
             product.Added = false;
         }
@@ -230,47 +230,49 @@ namespace OMSBlazor.Client.Pages.Order.Create
         {
             int previousSelectedQuantity = 0;
 
-            newProductInOrder.WhenAnyValue(x => x.SelectedDiscount, x => x.SelectedQuantity)
-            .Subscribe(a =>
-            {
-                float newSelectedDiscount = a.Item1;
-                int newSelectedQuantity = a.Item2;
-
-                //Value(price) that will be added(or removed) to(from) TotalPrice
-                decimal newValue = (decimal)newProductInOrder.UnitPrice * (newSelectedQuantity - previousSelectedQuantity);
-
-                //-1% or +1% discount
-                decimal percentageOff = (decimal)(newSelectedDiscount - newProductInOrder.PreviousSelectedDiscount) / 100;
-
-                //Executing when the SelectedDiscount has changed
-                if (percentageOff != 0)
+            newProductInOrder
+                .WhenAnyValue(x => x.SelectedDiscount, x => x.SelectedQuantity)
+                .Subscribe(a =>
                 {
-                    newProductInOrder.Sum -= newProductInOrder.SelectedQuantity * (decimal)newProductInOrder.UnitPrice * percentageOff;
-                    TotalSum -= newProductInOrder.SelectedQuantity * (decimal)newProductInOrder.UnitPrice * percentageOff;
-                }
-                //Executing when the SelectedQuantity has changed and the SelectedDiscount is greater than zero.
-                else if (newSelectedDiscount != 0)
-                {
-                    decimal sumOff = (decimal)newProductInOrder.PreviousSelectedDiscount / 100 * newProductInOrder.SelectedQuantity * (decimal)newProductInOrder.UnitPrice;
-                    decimal sumToAdd = sumOff - newProductInOrder.Sum;
+                    float newSelectedDiscount = a.Item1;
+                    int newSelectedQuantity = a.Item2;
 
-                    newProductInOrder.Sum = sumOff;
-                    TotalSum += sumToAdd;
+                    //Value(price) that will be added(or removed) to(from) TotalPrice
+                    decimal newValue = (decimal)newProductInOrder.UnitPrice * (newSelectedQuantity - previousSelectedQuantity);
+
+                    //-1% or +1% discount
+                    decimal percentageOff = (decimal)(newSelectedDiscount - newProductInOrder.PreviousSelectedDiscount) / 100;
+
+                    //Executing when the SelectedDiscount has changed
+                    if (percentageOff != 0)
+                    {
+                        newProductInOrder.Sum -= newProductInOrder.SelectedQuantity * (decimal)newProductInOrder.UnitPrice * percentageOff;
+                        TotalSum -= newProductInOrder.SelectedQuantity * (decimal)newProductInOrder.UnitPrice * percentageOff;
+                    }
+                    //Executing when the SelectedQuantity has changed and the SelectedDiscount is greater than zero.
+                    else if (newSelectedDiscount != 0)
+                    {
+                        decimal sumOff = (decimal)newProductInOrder.PreviousSelectedDiscount / 100 * newProductInOrder.SelectedQuantity * (decimal)newProductInOrder.UnitPrice;
+                        decimal sumToAdd = sumOff - newProductInOrder.Sum;
+
+                        newProductInOrder.Sum = sumOff;
+                        TotalSum += sumToAdd;
+
+                        TotalSumString = TotalSum.ToString(OMSBlazorConstants.MoneyFormat);
+
+                        return;
+                    }
+
+                    newProductInOrder.PreviousSelectedDiscount = newSelectedDiscount;
+
+                    newProductInOrder.Sum += newValue;
+                    TotalSum += newValue;
 
                     TotalSumString = TotalSum.ToString(OMSBlazorConstants.MoneyFormat);
+                });
 
-                    return;
-                }
-
-                newProductInOrder.PreviousSelectedDiscount = newSelectedDiscount;
-
-                newProductInOrder.Sum += newValue;
-                TotalSum += newValue;
-
-                TotalSumString = TotalSum.ToString(OMSBlazorConstants.MoneyFormat);
-            });
-
-            newProductInOrder.WhenAnyValue(x => x.SelectedQuantity)
+            newProductInOrder
+                .WhenAnyValue(x => x.SelectedQuantity)
                 .Select(newSelectedQuantity =>
                 {
                     if (newSelectedQuantity == 0) return 0;
