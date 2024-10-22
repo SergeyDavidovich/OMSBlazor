@@ -3,6 +3,7 @@
 @using OMSBlazor.Client.Themes
 @inherits ReactiveComponentBase<JournalViewModel>
 @inject IDialogService DialogService
+@inject NavigationManager NavigationManager
 
 <div class="d-flex flex-column justify-center">
     @if (!ViewModel.Orders.Any())
@@ -93,6 +94,31 @@
 </style>
 
 @code {
+    IDisposable registerLocationChangingHanlderDisposable = default!;
+
+    private bool invoicePresent;
+
+    protected override void Dispose(bool disposing)
+    {
+        registerLocationChangingHanlderDisposable?.Dispose();
+    }
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        if (firstRender)
+        {
+            registerLocationChangingHanlderDisposable = this.NavigationManager.RegisterLocationChangingHandler(context =>
+            {
+                if (invoicePresent)
+                {
+                    context.PreventNavigation();
+                }
+                return ValueTask.CompletedTask;
+            });
+        }
+        base.OnAfterRender(firstRender);
+    }
+
     public async Task ShowInvoice(int orderId)
     {
         var arr = await ViewModel.ChangeSelectedOrderCommand.Execute(orderId);
@@ -100,8 +126,13 @@
         {
             { x=>x.InvoiceData, arr }
         };
-        var options = new DialogOptions { NoHeader = true, BackdropClick=false };
-        await DialogService.ShowAsync<InvoiceDialog>("Invoice", parameters, options);
+        var options = new DialogOptions { NoHeader = true, BackdropClick = false };
+        invoicePresent = true;
+        var dialog = DialogService.Show<InvoiceDialog>("Invoice", parameters, options);
+
+        await dialog.Result;
+
+        invoicePresent = false;
     }
 
     private async Task ChangeSelectedOrder(int orderId)
