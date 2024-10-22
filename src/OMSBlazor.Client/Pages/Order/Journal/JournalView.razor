@@ -100,7 +100,7 @@
         {
             { x=>x.InvoiceData, arr }
         };
-        var options = new DialogOptions { NoHeader = true };
+        var options = new DialogOptions { NoHeader = true, BackdropClick=false };
         await DialogService.ShowAsync<InvoiceDialog>("Invoice", parameters, options);
     }
 
