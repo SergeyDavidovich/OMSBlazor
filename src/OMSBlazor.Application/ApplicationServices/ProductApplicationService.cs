@@ -1,46 +1,53 @@
 ﻿using OMSBlazor.Dto.Product;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Volo.Abp.Domain.Repositories;
-using AutoMapper.Internal.Mappers;
 using Volo.Abp.Application.Services;
 using OMSBlazor.Northwind.OrderAggregate;
-using OMSBlazor.Dto.Category;
 using OMSBlazor.DomainManagers.Product;
-using Microsoft.AspNetCore.SignalR.Client;
-using OMSBlazor.NotificationSender.Signalr;
 using OMSBlazor.Dto.Product.Stastics;
 using OMSBlazor.Northwind.Stastics;
 using OMSBlazor.Interfaces.ApplicationServices;
+using System.Linq;
+using Volo.Abp.Caching;
+using Microsoft.Extensions.Caching.Distributed;
 
 namespace OMSBlazor.Application.ApplicationServices
 {
     public class ProductApplicationService : ApplicationService, IProductApplicationService
     {
         private readonly IRepository<Product, int> _productRepository;
+        private readonly IReadOnlyRepository<Product, int> _productReadOnlyRepository; // AsNoTracking behind the scenes for Get requests 
         private readonly IRepository<ProductsByCategory, int> _productsByCategoryRepository;
         private readonly IProductManager _productManager;
+        private readonly IDistributedCache<IQueryable<Product>> _productCache; // added InMemory cache for products
 
         public ProductApplicationService(
             IRepository<Product, int> productRepository,
+            IReadOnlyRepository<Product, int> productReadOnlyRepository,
             IProductManager productManager,
-            IRepository<ProductsByCategory, int> productsByCategoryRepository)
+            IRepository<ProductsByCategory, int> productsByCategoryRepository,
+            IDistributedCache<IQueryable<Product>> productCache)
         {
             _productRepository = productRepository;
+            _productReadOnlyRepository = productReadOnlyRepository;
             _productManager = productManager;
             _productsByCategoryRepository = productsByCategoryRepository;
+            _productCache = productCache;
         }
 
         public async Task<List<ProductDto>> GetProductsAsync()
         {
-            var products = await _productRepository.GetListAsync();
+            // InMemory cache for products
+            var productQuery = await _productCache.GetOrAddAsync(
+                "productQuery",
+                async () => await _productReadOnlyRepository.GetQueryableAsync(),
+                () => new DistributedCacheEntryOptions
+                {
+                    AbsoluteExpiration = System.DateTimeOffset.Now.AddHours(1)
+                }, null, false);
 
-            var productsDto = ObjectMapper.Map<List<Product>, List<ProductDto>>(products);
-
-            return productsDto;
+            return ObjectMapper.Map<List<Product>, List<ProductDto>>(productQuery.ToList());
         }
 
         public async Task<ProductDto> GetProductAsync(int id)
