@@ -1,0 +1,56 @@
+﻿<div>
+    @if (showMainChildContent)
+    {
+        @MainChildContent
+    }
+    else
+    {
+        @AlternativeChildContent
+    }
+    <MudFab Color="MudBlazor.Color.Secondary" Style="position:fixed; bottom:20px;right:20px" Label="@currentButtonText" OnClick="ChangeCard" />
+</div>
+
+@code {
+    [Parameter]
+    public MudBlazor.Color ButtonColor { get; set; }
+
+    [Parameter]
+    public string MainContentButtonText { get; set; }
+
+    [Parameter]
+    public string AlternativeContentButtonText { get; set; }
+
+    [Parameter]
+    public RenderFragment MainChildContent { get; set; }
+
+    [Parameter]
+    public RenderFragment AlternativeChildContent { get; set; }
+
+    [Parameter]
+    public bool IsButtonDisabled { get; set; } = false;
+
+    private bool showMainChildContent { get; set; } = true;
+
+    private string currentButtonText { get; set; }
+
+    protected override void OnParametersSet()
+    {
+        currentButtonText = MainContentButtonText;
+    }
+
+    private void ChangeCard()
+    {
+        if (showMainChildContent)
+        {
+            showMainChildContent = false;
+            currentButtonText = AlternativeContentButtonText;
+        }
+        else
+        {
+            showMainChildContent = true;
+            currentButtonText = MainContentButtonText;
+        }
+
+        StateHasChanged();
+    }
+}

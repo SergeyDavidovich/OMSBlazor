@@ -10,10 +10,10 @@
     </div>
     <div class="d-flex d-sm-none justify-space-between mud-theme-primary flex-grow-2 rounded-t-lg">
         <div id="title" class="d-flex gap-2 align-center">
-            <MudIcon Icon="@Icon" />
+            <MudIcon Icon="@Icon" Size="MudBlazor.Size.Small"/>
             <span id="title-text" style="font-size: 0.9rem">@Title</span>
         </div>
-        <MudButton id="card-button" Class="@buttonVisibility" Style="height:39px; width:auto; padding-right: 6px; padding-left: 6px" Variant="Variant.Filled" Color="@ButtonColor" Disabled="@IsButtonDisabled" OnClick="@OnClickCallBack">
+        <MudButton id="card-button" Class="@buttonVisibility" Style="height:35px; width:auto; padding-top: 0px; padding-bottom: 0px; padding-right: 1px; padding-left:1px" Variant="Variant.Filled" Color="@ButtonColor" Disabled="@IsButtonDisabled" OnClick="@OnClickCallBack">
             <MudText Style="font-size: 0.8rem" Typo="Typo.button">@ButtonText</MudText>
         </MudButton>
     </div>
@@ -39,8 +39,6 @@
 </style>
 
 @code {
-    public string Class{ get; set; }
-
     [Parameter]
     public string? Icon { get; set; }
 

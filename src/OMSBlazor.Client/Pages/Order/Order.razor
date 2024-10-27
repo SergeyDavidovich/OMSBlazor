@@ -1,15 +1,28 @@
 ﻿@page "/orders"
-@attribute [Authorize]
+@* @attribute [Authorize] *@
 @using Microsoft.AspNetCore.Authorization
 @using OMSBlazor.Client.Pages.Order.Create
 @using OMSBlazor.Client.Pages.Order.Invoice
 @using OMSBlazor.Client.Pages.Order.Journal
 
-<StupeniFlipFlopCard MainContentTitle="Orders managment - creation" AlternativeContentTitle="Orders managment - journal" Icon="@Icons.Material.Filled.Edit" ButtonColor="MudBlazor.Color.Secondary" MainContentButtonText="To journal" AlternativeContentButtonText="To creation">
-    <MainChildContent>
-        <CreateView></CreateView>
-    </MainChildContent>
-    <AlternativeChildContent>
-        <JournalView></JournalView>
-    </AlternativeChildContent>
-</StupeniFlipFlopCard>
+<MudHidden Breakpoint="Breakpoint.Xs">
+    <StupeniFlipFlopCard MainContentTitle="Orders managment - creation" AlternativeContentTitle="Orders managment - journal" Icon="@Icons.Material.Filled.Edit" ButtonColor="MudBlazor.Color.Secondary" MainContentButtonText="To journal" AlternativeContentButtonText="To creation">
+        <MainChildContent>
+            <CreateView></CreateView>
+        </MainChildContent>
+        <AlternativeChildContent>
+            <JournalView></JournalView>
+        </AlternativeChildContent>
+    </StupeniFlipFlopCard>
+</MudHidden>
+
+<MudHidden Breakpoint="Breakpoint.Xs" Invert="true">
+    <StupeniFlipFlopCardWithFAB MainContentButtonText="To journal" AlternativeContentButtonText="To creation" ButtonColor="MudBlazor.Color.Secondary">
+        <MainChildContent>
+            <CreateView></CreateView>
+        </MainChildContent>
+        <AlternativeChildContent>
+            <JournalView></JournalView>
+        </AlternativeChildContent>
+    </StupeniFlipFlopCardWithFAB>
+</MudHidden>
