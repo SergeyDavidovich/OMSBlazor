@@ -49,6 +49,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OMSBlazor", "src\OMSBlazor\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OMSBlazor.Client", "src\OMSBlazor.Client\OMSBlazor.Client.csproj", "{4E01FC3E-B919-4AED-AE32-E06D4675CE2C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StripeModule.Backend", "src\StripeModule.Backend\StripeModule.Backend.csproj", "{813E1F61-3A7D-46F0-BFC9-65B3524CE358}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StripeModule.Frontend", "src\StripeModule.Frontend\StripeModule.Frontend.csproj", "{A5966669-C812-43A5-A845-044FA81354E7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -123,6 +127,14 @@ Global
 		{4E01FC3E-B919-4AED-AE32-E06D4675CE2C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4E01FC3E-B919-4AED-AE32-E06D4675CE2C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4E01FC3E-B919-4AED-AE32-E06D4675CE2C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{813E1F61-3A7D-46F0-BFC9-65B3524CE358}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{813E1F61-3A7D-46F0-BFC9-65B3524CE358}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{813E1F61-3A7D-46F0-BFC9-65B3524CE358}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{813E1F61-3A7D-46F0-BFC9-65B3524CE358}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A5966669-C812-43A5-A845-044FA81354E7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A5966669-C812-43A5-A845-044FA81354E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A5966669-C812-43A5-A845-044FA81354E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A5966669-C812-43A5-A845-044FA81354E7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -145,6 +157,8 @@ Global
 		{53F1858A-8B02-489D-9708-E9D6D18E439D} = {CA9AC87F-097E-4F15-8393-4BC07735A5B0}
 		{1C1972D7-52AF-46F7-9454-7EC4C443BF15} = {CA9AC87F-097E-4F15-8393-4BC07735A5B0}
 		{4E01FC3E-B919-4AED-AE32-E06D4675CE2C} = {CA9AC87F-097E-4F15-8393-4BC07735A5B0}
+		{813E1F61-3A7D-46F0-BFC9-65B3524CE358} = {CA9AC87F-097E-4F15-8393-4BC07735A5B0}
+		{A5966669-C812-43A5-A845-044FA81354E7} = {CA9AC87F-097E-4F15-8393-4BC07735A5B0}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {28315BFD-90E7-4E14-A2EA-F3D23AF4126F}
