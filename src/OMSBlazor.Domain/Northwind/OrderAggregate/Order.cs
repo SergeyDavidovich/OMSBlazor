@@ -49,6 +49,8 @@ namespace OMSBlazor.Northwind.OrderAggregate
 
         public virtual List<OrderDetail> OrderDetails { get; private set; } = new List<OrderDetail>();
 
+        public Guid? PaymentId { get; internal set; }
+
         public Guid? TenantId { get; set; }
 
         public void AddOrderDetail(int productId, int quantity, double unitPrice, float discount)

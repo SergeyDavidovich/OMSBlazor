@@ -1,0 +1,111 @@
+{
+  "folders": {
+    "items": {
+      "src": {},
+      "test": {},
+      "host": {}
+    }
+  },
+  "packages": {
+    "StripeModule.Domain.Shared": {
+      "path": "src/StripeModule.Domain.Shared/StripeModule.Domain.Shared.abppkg",
+      "folder": "src"
+    },
+    "StripeModule.Domain": {
+      "path": "src/StripeModule.Domain/StripeModule.Domain.abppkg",
+      "folder": "src"
+    },
+    "StripeModule.Application.Contracts": {
+      "path": "src/StripeModule.Application.Contracts/StripeModule.Application.Contracts.abppkg",
+      "folder": "src"
+    },
+    "StripeModule.Application": {
+      "path": "src/StripeModule.Application/StripeModule.Application.abppkg",
+      "folder": "src"
+    },
+    "StripeModule.EntityFrameworkCore": {
+      "path": "src/StripeModule.EntityFrameworkCore/StripeModule.EntityFrameworkCore.abppkg",
+      "folder": "src"
+    },
+    "StripeModule.MongoDB": {
+      "path": "src/StripeModule.MongoDB/StripeModule.MongoDB.abppkg",
+      "folder": "src"
+    },
+    "StripeModule.HttpApi": {
+      "path": "src/StripeModule.HttpApi/StripeModule.HttpApi.abppkg",
+      "folder": "src"
+    },
+    "StripeModule.HttpApi.Client": {
+      "path": "src/StripeModule.HttpApi.Client/StripeModule.HttpApi.Client.abppkg",
+      "folder": "src"
+    },
+    "StripeModule.TestBase": {
+      "path": "test/StripeModule.TestBase/StripeModule.TestBase.abppkg",
+      "folder": "test"
+    },
+    "StripeModule.EntityFrameworkCore.Tests": {
+      "path": "test/StripeModule.EntityFrameworkCore.Tests/StripeModule.EntityFrameworkCore.Tests.abppkg",
+      "folder": "test"
+    },
+    "StripeModule.MongoDB.Tests": {
+      "path": "test/StripeModule.MongoDB.Tests/StripeModule.MongoDB.Tests.abppkg",
+      "folder": "test"
+    },
+    "StripeModule.Domain.Tests": {
+      "path": "test/StripeModule.Domain.Tests/StripeModule.Domain.Tests.abppkg",
+      "folder": "test"
+    },
+    "StripeModule.Application.Tests": {
+      "path": "test/StripeModule.Application.Tests/StripeModule.Application.Tests.abppkg",
+      "folder": "test"
+    },
+    "StripeModule.HttpApi.Host": {
+      "path": "host/StripeModule.HttpApi.Host/StripeModule.HttpApi.Host.abppkg",
+      "folder": "host"
+    },
+    "StripeModule.Web": {
+      "path": "src/StripeModule.Web/StripeModule.Web.abppkg",
+      "folder": "src"
+    },
+    "StripeModule.HttpApi.Client.ConsoleTestApp": {
+      "path": "test/StripeModule.HttpApi.Client.ConsoleTestApp/StripeModule.HttpApi.Client.ConsoleTestApp.abppkg",
+      "folder": "test"
+    },
+    "StripeModule.Web.Host": {
+      "path": "host/StripeModule.Web.Host/StripeModule.Web.Host.abppkg",
+      "folder": "host"
+    },
+    "StripeModule.AuthServer": {
+      "path": "host/StripeModule.AuthServer/StripeModule.AuthServer.abppkg",
+      "folder": "host"
+    },
+    "StripeModule.Host.Shared": {
+      "path": "host/StripeModule.Host.Shared/StripeModule.Host.Shared.abppkg",
+      "folder": "host"
+    },
+    "StripeModule.Web.Unified": {
+      "path": "host/StripeModule.Web.Unified/StripeModule.Web.Unified.abppkg",
+      "folder": "host"
+    },
+    "StripeModule.Blazor": {
+      "path": "src/StripeModule.Blazor/StripeModule.Blazor.abppkg",
+      "folder": "src"
+    },
+    "StripeModule.Blazor.Host": {
+      "path": "host/StripeModule.Blazor.Host/StripeModule.Blazor.Host.abppkg",
+      "folder": "host"
+    },
+    "StripeModule.Blazor.Server": {
+      "path": "src/StripeModule.Blazor.Server/StripeModule.Blazor.Server.abppkg",
+      "folder": "src"
+    },
+    "StripeModule.Blazor.WebAssembly": {
+      "path": "src/StripeModule.Blazor.WebAssembly/StripeModule.Blazor.WebAssembly.abppkg",
+      "folder": "src"
+    },
+    "StripeModule.Blazor.Server.Host": {
+      "path": "host/StripeModule.Blazor.Server.Host/StripeModule.Blazor.Server.Host.abppkg",
+      "folder": "host"
+    }
+  }
+}

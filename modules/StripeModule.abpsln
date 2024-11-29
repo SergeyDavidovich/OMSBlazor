@@ -1,0 +1,7 @@
+{
+  "modules": {
+    "StripeModule": {
+      "path": "StripeModule.abpmdl"
+    }
+  }
+}
