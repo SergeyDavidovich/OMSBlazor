@@ -1,5 +1,5 @@
 ﻿using OMSBlazor.Northwind.OrderAggregate;
-using StripeModule.Backend.Model;
+using StripeModule.Payment;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +12,6 @@ namespace OMSBlazor.DomainManagers.Order
     {
         public Task<Northwind.OrderAggregate.Order> CreateAsync(int employeeId, string customerId);
 
-        public Task<Payment> PayAsync(int orderId);
+        public Task PayAsync(int orderId);
     }
 }

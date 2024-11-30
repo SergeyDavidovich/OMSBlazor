@@ -13,6 +13,7 @@ using Volo.Abp.PermissionManagement.EntityFrameworkCore;
 using Volo.Abp.SettingManagement.EntityFrameworkCore;
 using Volo.Abp.TenantManagement.EntityFrameworkCore;
 using Volo.Abp.EntityFrameworkCore.Sqlite;
+using StripeModule.EntityFrameworkCore;
 
 namespace OMSBlazor.EntityFrameworkCore;
 
@@ -26,7 +27,8 @@ namespace OMSBlazor.EntityFrameworkCore;
     typeof(AbpBackgroundJobsEntityFrameworkCoreModule),
     typeof(AbpAuditLoggingEntityFrameworkCoreModule),
     typeof(AbpTenantManagementEntityFrameworkCoreModule),
-    typeof(AbpFeatureManagementEntityFrameworkCoreModule)
+    typeof(AbpFeatureManagementEntityFrameworkCoreModule),
+    typeof(StripeModuleEntityFrameworkCoreModule)
     )]
 public class OMSBlazorEntityFrameworkCoreModule : AbpModule
 {

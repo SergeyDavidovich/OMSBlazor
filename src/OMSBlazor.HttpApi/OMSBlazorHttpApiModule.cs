@@ -1,5 +1,6 @@
 ﻿using Localization.Resources.AbpUi;
 using OMSBlazor.Localization;
+using StripeModule;
 using Volo.Abp.Account;
 using Volo.Abp.FeatureManagement;
 using Volo.Abp.Identity;
@@ -18,7 +19,8 @@ namespace OMSBlazor;
     typeof(AbpPermissionManagementHttpApiModule),
     typeof(AbpTenantManagementHttpApiModule),
     typeof(AbpFeatureManagementHttpApiModule),
-    typeof(AbpSettingManagementHttpApiModule)
+    typeof(AbpSettingManagementHttpApiModule),
+    typeof(StripeModuleHttpApiModule)
     )]
 public class OMSBlazorHttpApiModule : AbpModule
 {

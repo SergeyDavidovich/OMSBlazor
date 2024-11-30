@@ -7,6 +7,7 @@ using Volo.Abp.PermissionManagement;
 using Volo.Abp.TenantManagement;
 using Volo.Abp.SettingManagement;
 using Volo.Abp.VirtualFileSystem;
+using StripeModule;
 
 namespace OMSBlazor;
 
@@ -17,7 +18,8 @@ namespace OMSBlazor;
     typeof(AbpPermissionManagementHttpApiClientModule),
     typeof(AbpTenantManagementHttpApiClientModule),
     typeof(AbpFeatureManagementHttpApiClientModule),
-    typeof(AbpSettingManagementHttpApiClientModule)
+    typeof(AbpSettingManagementHttpApiClientModule),
+    typeof(StripeModuleHttpApiClientModule)
 )]
 public class OMSBlazorHttpApiClientModule : AbpModule
 {

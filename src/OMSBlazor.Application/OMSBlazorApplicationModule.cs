@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using OMSBlazor.Interfaces.Services;
 using OMSBlazor.Services;
 using QuestPDF.Infrastructure;
+using StripeModule;
 using Volo.Abp.Account;
 using Volo.Abp.AutoMapper;
 using Volo.Abp.FeatureManagement;
@@ -23,7 +24,8 @@ namespace OMSBlazor;
     typeof(AbpTenantManagementApplicationModule),
     typeof(AbpFeatureManagementApplicationModule),
     typeof(AbpSettingManagementApplicationModule),
-    typeof(AbpAutoMapperModule)
+    typeof(AbpAutoMapperModule),
+    typeof(StripeModuleApplicationModule)
     )]
 public class OMSBlazorApplicationModule : AbpModule
 {

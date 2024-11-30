@@ -1,6 +1,6 @@
 ﻿using OMSBlazor.Northwind.OrderAggregate;
 using OMSBlazor.Northwind.OrderAggregate.Exceptions;
-using StripeModule.Backend.Model;
+using StripeModule.Payment;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,7 +34,7 @@ namespace OMSBlazor.DomainManagers.Order
             return order;
         }
 
-        public async Task<Payment> PayAsync(int orderId)
+        public async Task PayAsync(int orderId)
         {
             var order = await _orderRepository.GetAsync(orderId);
 
@@ -45,10 +45,8 @@ namespace OMSBlazor.DomainManagers.Order
 
             var orderPrice = order.OrderDetails.Sum(x => x.Quantity * x.UnitPrice);
 
-            var payment = new Payment(_guidGenerator.Create(), order.Id, StripeModule.Backend.Currency.USD, (decimal)orderPrice);
+            var payment = new Payment(_guidGenerator.Create(), order.Id, StripeModule.Currency.USD, (decimal)orderPrice);
             order.PaymentId = payment.Id;
-
-            return payment;
         }
     }
 }
