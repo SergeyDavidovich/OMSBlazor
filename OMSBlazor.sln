@@ -67,6 +67,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StripeModule.HttpApi", "mod
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StripeModule.Pages", "modules\src\StripeModule.Pages\StripeModule.Pages.csproj", "{097E459D-F47B-4570-A2EC-EB8B3BDBA1FF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StripeModule.HttpApi.Client", "modules\src\StripeModule.HttpApi.Client\StripeModule.HttpApi.Client.csproj", "{5DEF4D60-0DCA-4725-B619-E2DB462DDC2F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -169,6 +171,10 @@ Global
 		{097E459D-F47B-4570-A2EC-EB8B3BDBA1FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{097E459D-F47B-4570-A2EC-EB8B3BDBA1FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{097E459D-F47B-4570-A2EC-EB8B3BDBA1FF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5DEF4D60-0DCA-4725-B619-E2DB462DDC2F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5DEF4D60-0DCA-4725-B619-E2DB462DDC2F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5DEF4D60-0DCA-4725-B619-E2DB462DDC2F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5DEF4D60-0DCA-4725-B619-E2DB462DDC2F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -199,6 +205,7 @@ Global
 		{137E1175-C086-4EDC-A193-AD4F2170F35A} = {A6EC4490-7A1E-44FF-9898-D6950F160C07}
 		{85E79BFA-D3B8-47A8-8339-64384C9FA2FE} = {A6EC4490-7A1E-44FF-9898-D6950F160C07}
 		{097E459D-F47B-4570-A2EC-EB8B3BDBA1FF} = {A6EC4490-7A1E-44FF-9898-D6950F160C07}
+		{5DEF4D60-0DCA-4725-B619-E2DB462DDC2F} = {A6EC4490-7A1E-44FF-9898-D6950F160C07}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {28315BFD-90E7-4E14-A2EA-F3D23AF4126F}
