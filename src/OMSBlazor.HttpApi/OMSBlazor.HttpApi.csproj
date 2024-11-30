@@ -9,6 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\modules\src\StripeModule.HttpApi\StripeModule.HttpApi.csproj" />
     <ProjectReference Include="..\OMSBlazor.Application.Contracts\OMSBlazor.Application.Contracts.csproj" />
   </ItemGroup>
 

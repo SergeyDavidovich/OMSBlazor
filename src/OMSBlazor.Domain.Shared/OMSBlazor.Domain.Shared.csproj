@@ -29,4 +29,8 @@
     <PackageReference Include="Microsoft.Extensions.FileProviders.Embedded" Version="8.0.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\modules\src\StripeModule.Domain.Shared\StripeModule.Domain.Shared.csproj" />
+  </ItemGroup>
+
 </Project>
