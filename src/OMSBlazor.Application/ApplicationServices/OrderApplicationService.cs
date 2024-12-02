@@ -13,6 +13,7 @@ using OMSBlazor.Northwind.Stastics;
 using OMSBlazor.Interfaces.ApplicationServices;
 using Volo.Abp.Caching;
 using Microsoft.Extensions.Caching.Distributed;
+using System;
 
 namespace OMSBlazor.Application.ApplicationServices
 {
@@ -182,6 +183,14 @@ namespace OMSBlazor.Application.ApplicationServices
             var queryable = await _orderRepository.GetQueryableAsync();
 
             return queryable.Select(x => ObjectMapper.Map<Order, OrderDto>(x));
+        }
+
+        public async Task SetPaymentId(int orderId, Guid paymentId)
+        {
+            var order = await _orderRepository.GetAsync(orderId);
+            order.SetPaymentId(paymentId);
+
+            await _orderRepository.UpdateAsync(order);
         }
     }
 }

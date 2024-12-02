@@ -13,6 +13,8 @@ namespace OMSBlazor.Interfaces.ApplicationServices
     {
         public Task<OrderDto> SaveOrderAsync(CreateOrderDto createOrderDto);
 
+        public Task SetPaymentId(int orderId, Guid paymentId);
+
         public Task<List<OrderDto>> GetOrdersAsync();
 
         public Task<OrderDto> GetOrderAsync(int id);

@@ -33,20 +33,5 @@ namespace OMSBlazor.DomainManagers.Order
 
             return order;
         }
-
-        public async Task PayAsync(int orderId)
-        {
-            var order = await _orderRepository.GetAsync(orderId);
-
-            if (order.PaymentId is not null)
-            {
-                throw new OrderPaidException();
-            }
-
-            var orderPrice = order.OrderDetails.Sum(x => x.Quantity * x.UnitPrice);
-
-            var payment = new Payment(_guidGenerator.Create(), order.Id, StripeModule.Currency.USD, (decimal)orderPrice);
-            order.PaymentId = payment.Id;
-        }
     }
 }
