@@ -134,6 +134,16 @@ namespace OMSBlazor.Client.Pages.Order.Journal
             }
         }
         #endregion
+
+        #region Utilities
+        public async Task<string> GetCheckoutUrl(int orderId, string domain, string currency = "usd")
+        {
+            var order = _cachedCollection.Single(x => x.SourceOrderDto.OrderId == orderId);
+            var price = order.SourceOrderDto.OrderDetails.Sum(x => x.UnitPrice * x.Quantity);
+            var checkoutUrl = await _httpClient.GetStringAsync($"{StripeModule.Pages.BackEndEndpointURLs.GetCheckoutUrl}/{orderId}?price={price}&domain={domain}&currency={currency}");
+            return checkoutUrl;
+        }
+        #endregion
     }
 
     public class SelectableOrderDto : AbstractNotifyPropertyChanged

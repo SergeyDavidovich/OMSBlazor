@@ -23,7 +23,8 @@
                     <col />
                     <col />
                     <col />
-                    <col style="width: 100%" />
+                    <col />
+                    <col />
                 </ColGroup>
                 <Columns>
                     <PropertyColumn Property="x => x.SourceOrderDto.OrderId" Title="Id" Sortable="false" />
@@ -48,6 +49,18 @@
                     <TemplateColumn CellClass="d-flex justify-center">
                         <CellTemplate>
                             <MudButton Size="@MudBlazor.Size.Small" Variant="@Variant.Filled" Color="@MudBlazor.Color.Primary" OnClick="()=>ShowInvoice(context.Item.SourceOrderDto.OrderId)">Show invoice</MudButton>
+                        </CellTemplate>
+                    </TemplateColumn>
+                    <TemplateColumn >
+                        <CellTemplate>
+                            @if (context.Item.SourceOrderDto.PaymentId is null)
+                            {
+                                <MudButton Size="@MudBlazor.Size.Small" Variant="@Variant.Filled" Color="@MudBlazor.Color.Primary" OnClick="()=>NavigateToCheckoutPage(context.Item.SourceOrderDto.OrderId)">Pay</MudButton>
+                            }
+                            else
+                            {
+                                <MudText Color="MudBlazor.Color.Success">Payed</MudText>
+                            }
                         </CellTemplate>
                     </TemplateColumn>
                 </Columns>
@@ -88,8 +101,8 @@
 
 <style>
     .cell-style {
-        overflow-x: hidden;
-        white-space: nowrap;
+    overflow-x: hidden;
+    white-space: nowrap;
     }
 </style>
 
@@ -117,6 +130,13 @@
             });
         }
         base.OnAfterRender(firstRender);
+    }
+
+    public async Task NavigateToCheckoutPage(int orderId)
+    {
+        var checkoutUrl = await ViewModel?.GetCheckoutUrl(orderId, NavigationManager.BaseUri.TrimEnd('/'));
+
+        NavigationManager.NavigateTo(checkoutUrl);
     }
 
     public async Task ShowInvoice(int orderId)

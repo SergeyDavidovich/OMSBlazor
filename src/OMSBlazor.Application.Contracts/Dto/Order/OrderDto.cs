@@ -12,6 +12,8 @@ namespace OMSBlazor.Dto.Order
 
         public string? CustomerId { get; set; }
 
+        public Guid? PaymentId { get; set; }
+
         /// <summary>
         /// You can treat this as ShipperId. Don't change name of this property it should match with db column name
         /// </summary>

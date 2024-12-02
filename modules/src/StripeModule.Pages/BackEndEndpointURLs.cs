@@ -11,5 +11,7 @@ namespace StripeModule.Pages
         public const string Base = "api/app";
 
         public const string CreatePayment = $"{Base}/payment/";
+
+        public const string GetCheckoutUrl = $"{Base}/payment/checkout-url";
     }
 }
