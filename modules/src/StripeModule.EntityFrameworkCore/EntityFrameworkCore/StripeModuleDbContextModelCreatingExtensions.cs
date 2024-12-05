@@ -33,21 +33,5 @@ public static class StripeModuleDbContextModelCreatingExtensions
 
         builder.Entity<Payment.Payment>()
             .HasKey(x => x.Id);
-        //builder.Entity<Payment.Payment>()
-        //    .Property(x => x.ProductId)
-        //    .IsRequired();
-        //builder.Entity<Payment.Payment>()
-        //    .Property(x => x.Currency)
-        //    .IsRequired();
-        //builder.Entity<Payment.Payment>()
-        //    .Property(x => x.Amount)
-        //    .IsRequired();
-
-        //builder.Entity<Payment.Payment>(entity =>
-        //{
-        //    entity.Property(e => e.ProductId).IsRequired();
-        //    entity.Property(e => e.Currency).IsRequired();
-        //    entity.Property(e => e.Amount).IsRequired();
-        //});
     }
 }

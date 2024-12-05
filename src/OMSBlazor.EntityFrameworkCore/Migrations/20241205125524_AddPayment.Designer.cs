@@ -12,7 +12,7 @@ using Volo.Abp.EntityFrameworkCore;
 namespace OMSBlazor.Migrations
 {
     [DbContext(typeof(OMSBlazorDbContext))]
-    [Migration("20241130230822_AddPayment")]
+    [Migration("20241205125524_AddPayment")]
     partial class AddPayment
     {
         /// <inheritdoc />
@@ -486,6 +486,15 @@ namespace OMSBlazor.Migrations
                 {
                     b.Property<Guid>("Id")
                         .HasColumnType("TEXT");
+
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("Currency")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("OrderId")
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 

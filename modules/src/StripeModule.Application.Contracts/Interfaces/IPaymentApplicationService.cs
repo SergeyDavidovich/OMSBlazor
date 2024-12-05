@@ -8,7 +8,7 @@ namespace StripeModule.Interfaces
 {
     public interface IPaymentApplicationService : IApplicationService
     {
-        Task<PaymentDto> CreateAsync(object productId, decimal amount, Currency currency);
+        Task<PaymentDto> CreateAsync(string orderId, decimal amount, Currency currency);
 
         Task<string> GetCheckoutUrl(double price, string orderId, string domain, string currency = "usd");
     }

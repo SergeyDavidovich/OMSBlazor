@@ -9,23 +9,21 @@ namespace StripeModule.Payment
     {
         private Payment() { }
 
-        public Payment(Guid id, object productId, Currency currency, decimal amount)
+        public Payment(Guid id, int orderId, Currency currency, decimal amount)
             : base(id)
         {
-            ProductId = productId;
+            OrderId = orderId;
             Currency = currency;
             Amount = amount;
         }
 
-        public Guid Id { get; }
-
         /// <summary>
         /// Id of the product/service for which this payment was done
         /// </summary>
-        public object ProductId { get; }
+        public int OrderId { get; private set; }
 
-        public Currency Currency { get; }
+        public Currency Currency { get; private set; }
 
-        public decimal Amount { get; }
+        public decimal Amount { get; private set; }
     }
 }

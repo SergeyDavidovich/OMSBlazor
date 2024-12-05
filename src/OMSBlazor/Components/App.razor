@@ -47,5 +47,5 @@
 
     private IComponentRenderMode? RenderModeForPage => HttpContext.Request.Path.StartsWithSegments("/Account")
         ? null
-        : InteractiveAuto;
+        : new InteractiveAutoRenderMode(prerender: true);
 }

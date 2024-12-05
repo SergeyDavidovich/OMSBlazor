@@ -1,4 +1,4 @@
-﻿@page "/orderComplete/{OrderId:int}/{Currency:int}/{Amount:decimal}"
+﻿@page "/orderComplete/{OrderId}/{Currency}/{Amount}"
 @using System.Text
 @using System.Text.Json
 @using StripeModule.DTOs
@@ -16,7 +16,7 @@
         @if (paymentDto != null)
         {
             <MudText><b>Payment ID:</b> @paymentDto.Id</MudText>
-            <MudText><b>Product ID:</b> @paymentDto.ProductId</MudText>
+            <MudText><b>Product ID:</b> @paymentDto.OrderId</MudText>
             <MudText><b>Currency:</b> @paymentDto.Currency</MudText>
             <MudText><b>Amount:</b> @paymentDto.Amount</MudText>
         }
@@ -27,24 +27,29 @@
     </MudCardContent>
 </MudCard>
 
-@code{
+@code {
     [Parameter]
-    public int OrderId{ get; set; }
+    public string OrderId { get; set; }
 
     [Parameter]
     public string Currency { get; set; }
 
     [Parameter]
-    public decimal Amount { get; set; }
+    public string Amount { get; set; }
 
     private PaymentDto? paymentDto;
 
-    protected override async Task OnInitializedAsync()
+    protected async override Task OnAfterRenderAsync(bool firstRender)
     {
-        using StringContent jsonContent = new(JsonSerializer.Serialize(new { OrderId, Currency, Amount }), Encoding.UTF8, "application/json");
+        if (firstRender)
+        {
+            using StringContent jsonContent = new(JsonSerializer.Serialize(new { }), Encoding.UTF8, "application/json");
 
-        var response = await HttpClient.PostAsync("api/stripe/payment", jsonContent);
-        var jsonResponse = await response.Content.ReadAsStringAsync();
-        paymentDto = JsonSerializer.Deserialize<PaymentDto>(jsonResponse, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+            var response = await HttpClient.PostAsync($"{BackEndEndpointURLs.CreatePayment}?orderId={OrderId}&amount={Amount}&currency={Convert.ToInt16(Currency)}", jsonContent);
+            var jsonResponse = await response.Content.ReadAsStringAsync();
+            paymentDto = JsonSerializer.Deserialize<PaymentDto>(jsonResponse, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+
+            StateHasChanged();
+        }
     }
 }

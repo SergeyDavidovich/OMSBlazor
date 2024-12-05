@@ -20,8 +20,8 @@ namespace StripeModule.ApplicationServices
         private readonly IDistributedEventBus _distributedEventBus;
 
         public PaymentApplicationService(
-            IRepository<Payment.Payment, Guid> repository, 
-            IGuidGenerator guidGenerator, 
+            IRepository<Payment.Payment, Guid> repository,
+            IGuidGenerator guidGenerator,
             IDistributedEventBus distributedEventBus)
         {
             _repository = repository;
@@ -29,9 +29,9 @@ namespace StripeModule.ApplicationServices
             _distributedEventBus = distributedEventBus;
         }
 
-        public async Task<PaymentDto> CreateAsync(object productId, decimal amount, Currency currency)
+        public async Task<PaymentDto> CreateAsync(string orderId, decimal amount, Currency currency)
         {
-            var payment = new Payment.Payment(_guidGenerator.Create(), productId, currency, amount);
+            var payment = new Payment.Payment(_guidGenerator.Create(), Convert.ToInt32(orderId), currency, amount);
 
             var paymentEntity = await _repository.InsertAsync(payment);
 
@@ -40,7 +40,7 @@ namespace StripeModule.ApplicationServices
             await _distributedEventBus.PublishAsync(new PaymentCreatedEto
             {
                 PaymentId = paymentEntity.Id,
-                ProductId = paymentEntity.ProductId
+                ProductId = paymentEntity.OrderId
             });
 
             return ObjectMapper.Map<Payment.Payment, PaymentDto>(paymentEntity);
@@ -67,7 +67,7 @@ namespace StripeModule.ApplicationServices
                     },
                 },
                 Mode = "payment",
-                SuccessUrl = domain + $"/OrderComplete/{orderId}/{currency}/{price}",
+                SuccessUrl = domain + $"/OrderComplete/{orderId}/{ConvertCurrencyToInt(currency)}/{price}",
                 CancelUrl = domain + "/OrderAbandoned"
             };
             var service = new SessionService();
@@ -75,5 +75,11 @@ namespace StripeModule.ApplicationServices
 
             return session.Url;
         }
+
+        private int ConvertCurrencyToInt(string currency) => currency switch
+        {
+            "usd" => (int)Currency.USD,
+            _ => 0
+        };
     }
 }

@@ -42,8 +42,6 @@
     private bool IsDarkMode { get; set; }
     private bool isFirstRender = true;
 
-    private int i = 1;
-
     protected override async Task OnParametersSetAsync()
     {
         customersByCountriesOptions.Theme.Mode = IsDarkMode ? Mode.Dark : Mode.Light;
