@@ -127,11 +127,7 @@ public class OMSBlazorDbContext :
         builder.Entity<Employee>()
             .Property(x => x.Id)
             .HasColumnName("EmployeeId");
-
-        builder.Entity<Order>()
-            .Ignore(x => x.ConcurrencyStamp)
-            .Ignore(x => x.ExtraProperties);
-
+;
         builder.Entity<CustomersByCountry>()
             .HasKey(x => x.Id);
         builder.Entity<CustomersByCountry>()

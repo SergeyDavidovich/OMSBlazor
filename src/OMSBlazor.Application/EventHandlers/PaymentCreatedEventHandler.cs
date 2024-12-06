@@ -5,11 +5,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Volo.Abp.DependencyInjection;
 using Volo.Abp.EventBus.Distributed;
 
 namespace OMSBlazor.EventHandlers
 {
-    public class PaymentCreatedEventHandler : IDistributedEventHandler<PaymentCreatedEto>
+    public class PaymentCreatedEventHandler : IDistributedEventHandler<PaymentCreatedEto>, ITransientDependency
     {
         private readonly IOrderApplicationService _orderApplicationService;
 

@@ -9,7 +9,7 @@ using Volo.Abp.MultiTenancy;
 
 namespace OMSBlazor.Northwind.OrderAggregate
 {
-    public class Order : AggregateRoot<int>, IMultiTenant
+    public class Order : BasicAggregateRoot<int>, IMultiTenant
     {
         private Order() { }
 
