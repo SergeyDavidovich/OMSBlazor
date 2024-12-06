@@ -1,4 +1,5 @@
 ﻿@page "/orders"
+@page "/orders/{IsJournalFirst:bool}"
 @* @attribute [Authorize] *@
 @using Microsoft.AspNetCore.Authorization
 @using OMSBlazor.Client.Pages.Order.Create
@@ -6,7 +7,7 @@
 @using OMSBlazor.Client.Pages.Order.Journal
 
 <MudHidden Breakpoint="Breakpoint.Xs">
-    <StupeniFlipFlopCard MainContentTitle="Orders managment - creation" AlternativeContentTitle="Orders managment - journal" Icon="@Icons.Material.Filled.Edit" ButtonColor="MudBlazor.Color.Secondary" MainContentButtonText="To journal" AlternativeContentButtonText="To creation">
+    <StupeniFlipFlopCard ShowAlternativeContentFirst="IsJournalFirst" MainContentTitle="Orders managment - creation" AlternativeContentTitle="Orders managment - journal" Icon="@Icons.Material.Filled.Edit" ButtonColor="MudBlazor.Color.Secondary" MainContentButtonText="To journal" AlternativeContentButtonText="To creation">
         <MainChildContent>
             <CreateView></CreateView>
         </MainChildContent>
@@ -26,3 +27,8 @@
         </AlternativeChildContent>
     </StupeniFlipFlopCardWithFAB>
 </MudHidden>
+
+@code {
+    [Parameter]
+    public bool IsJournalFirst { get; set; }
+}

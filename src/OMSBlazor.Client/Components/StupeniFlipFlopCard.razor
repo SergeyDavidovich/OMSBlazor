@@ -37,6 +37,9 @@
     [Parameter]
     public bool IsButtonDisabled { get; set; } = false;
 
+    [Parameter]
+    public bool ShowAlternativeContentFirst { get; set; }
+
     private bool showMainChildContent { get; set; } = true;
 
     private string currentButtonText { get; set; }
@@ -47,6 +50,11 @@
     {
         currentTitel = MainContentTitle;
         currentButtonText = MainContentButtonText;
+
+        if (ShowAlternativeContentFirst)
+        {
+            showMainChildContent = false;
+        }
     }
 
     private void ChangeCard()
