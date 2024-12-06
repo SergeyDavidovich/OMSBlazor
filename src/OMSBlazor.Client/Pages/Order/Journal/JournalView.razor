@@ -27,31 +27,31 @@
                     <col />
                 </ColGroup>
                 <Columns>
-                    <PropertyColumn Property="x => x.SourceOrderDto.OrderId" Title="Id" Sortable="false" />
-                    <TemplateColumn Title="Customer" CellClass="cell-style">
+                    <PropertyColumn Property="x => x.SourceOrderDto.OrderId" Title="Id" Sortable="false" HeaderClassFunc="_ => GetHeaderClass()"/>
+                    <TemplateColumn Title="Customer" CellClass="cell-style" HeaderClassFunc="_ => GetHeaderClass()">
                         <CellTemplate>
                             <MudText>
                                 @ViewModel.Customers.Single(x => x.CustomerId == context.Item.SourceOrderDto.CustomerId).CompanyName
                             </MudText>
                         </CellTemplate>
                     </TemplateColumn>
-                    <TemplateColumn Title="Employee" CellClass="cell-style">
+                    <TemplateColumn Title="Employee" CellClass="cell-style" HeaderClassFunc="_ => GetHeaderClass()">
                         <CellTemplate>
                             <MudText>
                                 @ViewModel.Employees.Single(x => x.EmployeeId == context.Item.SourceOrderDto.EmployeeId).FirstName @ViewModel.Employees.Single(x => x.EmployeeId == context.Item.SourceOrderDto.EmployeeId).LastName
                             </MudText>
                         </CellTemplate>
                     </TemplateColumn>
-                    <PropertyColumn Property="x => x.SourceOrderDto.OrderDate" Format="dd/MM/yyyy" Title="Order date" HeaderClass="cell-style" />
-                    <PropertyColumn Property="x=>x.SourceOrderDto.ShipName" Title="Ship name" CellClass="cell-style" />
-                    <PropertyColumn Property="x=>x.SourceOrderDto.ShipCity" Title="Ship city" HeaderClass="cell-style" />
-                    <PropertyColumn Property="x=>x.SourceOrderDto.ShipCountry" Title="Ship country" HeaderClass="cell-style" />
-                    <TemplateColumn CellClass="d-flex justify-center">
+                    <PropertyColumn Property="x => x.SourceOrderDto.OrderDate" Format="dd/MM/yyyy" Title="Order date" HeaderClassFunc="_ => GetHeaderClass()" />
+                    <PropertyColumn Property="x=>x.SourceOrderDto.ShipName" Title="Ship name" CellClass="cell-style" HeaderClassFunc="_ => GetHeaderClass()" />
+                    <PropertyColumn Property="x=>x.SourceOrderDto.ShipCity" Title="Ship city" HeaderClass="cell-style" HeaderClassFunc="_ => GetHeaderClass()" />
+                    <PropertyColumn Property="x=>x.SourceOrderDto.ShipCountry" Title="Ship country" HeaderClass="cell-style" HeaderClassFunc="_ => GetHeaderClass()" />
+                    <TemplateColumn CellClass="d-flex justify-center" HeaderClassFunc="_ => GetHeaderClass()">
                         <CellTemplate>
                             <MudButton Size="@MudBlazor.Size.Small" Variant="@Variant.Filled" Color="@MudBlazor.Color.Primary" OnClick="()=>ShowInvoice(context.Item.SourceOrderDto.OrderId)">Show invoice</MudButton>
                         </CellTemplate>
                     </TemplateColumn>
-                    <TemplateColumn >
+                    <TemplateColumn HeaderClassFunc="_ => GetHeaderClass()">
                         <CellTemplate>
                             @if (context.Item.SourceOrderDto.PaymentId is null)
                             {
@@ -101,12 +101,27 @@
 
 <style>
     .cell-style {
-    overflow-x: hidden;
-    white-space: nowrap;
+        overflow-x: hidden;
+        white-space: nowrap;
+    }
+
+    .dark-mode-header-style {
+        background-color: gray;
+        overflow-x: hidden;
+        white-space: nowrap;
+    }
+
+    .light-mode-header-style {
+        background-color: lightgray;
+        overflow-x: hidden;
+        white-space: nowrap;
     }
 </style>
 
 @code {
+    [CascadingParameter(Name = "IsDarkMode")]
+    public bool IsDarkMode { get; set; }
+
     IDisposable registerLocationChangingHanlderDisposable = default!;
 
     private bool invoicePresent;
@@ -130,6 +145,18 @@
             });
         }
         base.OnAfterRender(firstRender);
+    }
+
+    private string GetHeaderClass()
+    {
+        if (IsDarkMode)
+        {
+            return "dark-mode-header-style"; 
+        }
+        else
+        {
+            return "light-mode-header-style";
+        }
     }
 
     public async Task NavigateToCheckoutPage(int orderId)
