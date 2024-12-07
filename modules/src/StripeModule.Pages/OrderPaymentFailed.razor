@@ -1,4 +1,19 @@
 ﻿@page "/orderAbandoned"
+@using MudBlazor
+@inject NavigationManager NavigationManager
 
 <h2>Order Cancelled</h2>
 <p>You have not been charged</p>
+
+<MudText>
+    You will be redirected to the journal in 10 seconds, if not then press <MudLink Href="orders/true">here</MudLink>
+</MudText>
+
+@code{
+    protected async override Task OnAfterRenderAsync(bool firstRender)
+    {
+        await Task.Delay(10000);
+
+        NavigationManager.NavigateTo("/orders/true");
+    }
+}
