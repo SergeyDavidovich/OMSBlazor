@@ -2,6 +2,10 @@
 
 Real-time Order Management System
 ------------------------
+# Message
+There will be no more commits in this repo. Repo moved [here](https://github.com/BekAllaev/OmsBlazor)
+Thank you, old friend 🙏
+
 #### How start your application
 In order to start application you should start `HttpApi.Host` project first, then start `.Blazor` project
 In order to log in to the system use this default credentials: Login - **admin**, password - **1q2w3E***
